@@ -1,0 +1,12 @@
+{
+  "title": "Wolof LFM2.5",
+  "description": "Gated collection skeleton; populate only after publication approval.",
+  "models": [
+    {"size": "230M", "base": null, "cpt": null, "instruct": null},
+    {"size": "350M", "base": null, "cpt": null, "instruct": null},
+    {"size": "1.2B", "base": null, "cpt": null, "instruct": null},
+    {"size": "2.6B", "base": null, "cpt": null, "instruct": null},
+    {"size": "8B-A1B", "base": null, "cpt": null, "instruct": null}
+  ],
+  "publish_ready": false
+}

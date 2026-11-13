@@ -1,0 +1,783 @@
+#!/usr/bin/env python3
+"""Build FAMILY_EVAL + HF model cards with BPB / SFT eval_loss, then upload to Hub."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import sys
+import tempfile
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+import yaml
+from huggingface_hub import HfApi, hf_hub_download, get_token
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+from common.pipeline import atomic_json_write  # noqa: E402
+
+EVAL_MARKER_START = "<!-- FAMILY_EVAL_START -->"
+EVAL_MARKER_END = "<!-- FAMILY_EVAL_END -->"
+
+SIZE_HUB = {"08b": "08B", "2b": "2B", "4b": "4B", "9b": "9B"}
+SIZE_LABEL = {"08b": "0.8B", "2b": "2B", "4b": "4B", "9b": "9B"}
+STOCK_BASE = {
+    "08b": "Qwen/Qwen3.5-0.8B-Base",
+    "2b": "Qwen/Qwen3.5-2B-Base",
+    "4b": "Qwen/Qwen3.5-4B-Base",
+    "9b": "Qwen/Qwen3.5-9B-Base",
+}
+STOCK_INSTRUCT = {
+    "08b": "Qwen/Qwen3.5-0.8B",
+    "2b": "Qwen/Qwen3.5-2B",
+    "4b": "Qwen/Qwen3.5-4B",
+    "9b": "Qwen/Qwen3.5-9B",
+}
+
+
+def utc_now() -> str:
+    return datetime.now(UTC).isoformat()
+
+
+def load_trackio_env() -> None:
+    env_path = ROOT / ".env.trackio"
+    if not env_path.is_file():
+        return
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        if line.startswith("export "):
+            line = line[len("export ") :]
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip())
+
+
+def bpb_wo(path: Path) -> float | None:
+    if not path.is_file():
+        return None
+    data = json.loads(path.read_text(encoding="utf-8"))
+    block = data.get("bpb") or data
+    if isinstance(block, dict):
+        for key in ("wo", "all", "BPB"):
+            if key in block and block[key] is not None:
+                return float(block[key])
+    if "BPB" in data:
+        return float(data["BPB"])
+    return None
+
+
+def best_pool_eval_loss(path: Path) -> tuple[float | None, str | None]:
+    if not path.is_file():
+        return None, None
+    entries = json.loads(path.read_text(encoding="utf-8")).get("entries") or []
+    if not entries:
+        return None, None
+    top = entries[0]
+    return float(top["score"]), str(top.get("name") or "")
+
+
+def load_clm_eval(kind: str, size: str) -> dict[str, Any] | None:
+    path = ROOT / "results" / "clm_eval" / f"{kind}_{size}.json"
+    if not path.is_file():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def clm_score(blob: dict[str, Any] | None, key: str) -> float | None:
+    if not blob:
+        return None
+    value = blob.get(key)
+    return float(value) if value is not None else None
+
+
+def collect_size_metrics(size: str) -> dict[str, Any]:
+    stock_light = bpb_wo(ROOT / "results" / "bpb" / f"stock_{size}.json")
+    cpt_light = bpb_wo(ROOT / "results" / "bpb" / f"cpt_{size}.json")
+    stock_clm = load_clm_eval("stock", size)
+    cpt_clm = load_clm_eval("cpt", size)
+    instruct_clm = load_clm_eval("instruct", size)
+    cpt_loss, cpt_ckpt = best_pool_eval_loss(
+        ROOT / "runs" / "clm" / size / "v1_ntp70_ortho_lora" / "best_pool" / "index.json"
+    )
+    sft_cpt_loss, sft_cpt_ckpt = best_pool_eval_loss(
+        ROOT / "runs" / "sft" / f"{size}_from_cpt_v1" / "best_pool" / "index.json"
+    )
+    sft_ins_loss, sft_ins_ckpt = best_pool_eval_loss(
+        ROOT / "runs" / "sft" / f"{size}_from_instruct_v1" / "best_pool" / "index.json"
+    )
+    return {
+        "size": size,
+        "size_label": SIZE_LABEL[size],
+        "stock_bpb_wo": clm_score(stock_clm, "BPB") or stock_light,
+        "stock_ppl": clm_score(stock_clm, "perplexity"),
+        "stock_bleu": clm_score(stock_clm, "BLEU"),
+        "stock_chrf": clm_score(stock_clm, "chrF"),
+        "cpt_bpb_wo": clm_score(cpt_clm, "BPB") or cpt_light,
+        "cpt_ppl": clm_score(cpt_clm, "perplexity"),
+        "cpt_bleu": clm_score(cpt_clm, "BLEU"),
+        "cpt_chrf": clm_score(cpt_clm, "chrF"),
+        "instruct_bpb": clm_score(instruct_clm, "BPB"),
+        "instruct_ppl": clm_score(instruct_clm, "perplexity"),
+        "instruct_bleu": clm_score(instruct_clm, "BLEU"),
+        "instruct_chrf": clm_score(instruct_clm, "chrF"),
+        "cpt_eval_loss": cpt_loss,
+        "cpt_best_ckpt": cpt_ckpt,
+        "sft_from_cpt_eval_loss": sft_cpt_loss,
+        "sft_from_cpt_best_ckpt": sft_cpt_ckpt,
+        "sft_from_instruct_eval_loss": sft_ins_loss,
+        "sft_from_instruct_best_ckpt": sft_ins_ckpt,
+        "stock_clm": stock_clm,
+        "cpt_clm": cpt_clm,
+        "instruct_clm": instruct_clm,
+    }
+
+
+def fmt(value: float | None, digits: int = 4) -> str:
+    if value is None:
+        return ""
+    return f"{value:.{digits}f}"
+
+
+def write_family_eval(rows: list[dict[str, Any]]) -> Path:
+    path = ROOT / "docs" / "FAMILY_EVAL.md"
+    lines = [
+        "# Qwen3.5 Wolof Family — eval table",
+        "",
+        "Generated by `55_run_eval_family.py` + `56_publish_hub_metrics.py`. "
+        "BPB is the cross-tokenizer gold metric; PPL is same-tokenizer only.",
+        "",
+        "## HF CLM (`evaluate_clm.py`: BPB / PPL / BLEU / chrF)",
+        "",
+        "| Job | BPB ↓ | BLEU | chrF | PPL |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    for row in rows:
+        jobs = (
+            ("stock", row.get("stock_bpb_wo"), row.get("stock_bleu"), row.get("stock_chrf"), row.get("stock_ppl")),
+            ("cpt", row.get("cpt_bpb_wo"), row.get("cpt_bleu"), row.get("cpt_chrf"), row.get("cpt_ppl")),
+            ("instruct", row.get("instruct_bpb"), row.get("instruct_bleu"), row.get("instruct_chrf"), row.get("instruct_ppl")),
+        )
+        for kind, bpb, bleu, chrf, ppl in jobs:
+            if bpb is None and bleu is None and chrf is None and ppl is None:
+                continue
+            lines.append(
+                "| clm-{kind}:{label} | {bpb} | {bleu} | {chrf} | {ppl} |".format(
+                    kind=kind,
+                    label=row["size_label"],
+                    bpb=fmt(bpb),
+                    bleu=fmt(bleu, 2),
+                    chrf=fmt(chrf, 2),
+                    ppl=fmt(ppl, 2),
+                )
+            )
+    lines.extend(
+        [
+            "",
+            "## Trainer selection (best-pool eval_loss)",
+            "",
+            "| size | stock_bpb_wo | cpt_bpb_wo | sft_from_cpt_eval_loss | sft_from_instruct_eval_loss | notes |",
+            "|------|-------------:|-----------:|-----------------------:|----------------------------:|-------|",
+        ]
+    )
+    for row in rows:
+        notes = []
+        if row.get("cpt_best_ckpt"):
+            notes.append(f"cpt={row['cpt_best_ckpt']}")
+        if row.get("sft_from_cpt_best_ckpt"):
+            notes.append(f"sft_cpt={row['sft_from_cpt_best_ckpt']}")
+        if row.get("sft_from_instruct_best_ckpt"):
+            notes.append(f"sft_ins={row['sft_from_instruct_best_ckpt']}")
+        lines.append(
+            "| {label} | {stock} | {cpt} | {sft_cpt} | {sft_ins} | {notes} |".format(
+                label=row["size_label"],
+                stock=fmt(row["stock_bpb_wo"]),
+                cpt=fmt(row["cpt_bpb_wo"]),
+                sft_cpt=fmt(row["sft_from_cpt_eval_loss"]),
+                sft_ins=fmt(row["sft_from_instruct_eval_loss"]),
+                notes="; ".join(notes),
+            )
+        )
+    lines.extend(
+        [
+            "",
+            "Ortho filter: formal/`standard` dropped. Anchors: `<|lang_wo|>` `<|ortho_ns|>`. "
+            "Epochs: CPT=3, SFT=3.",
+            "",
+            "Full CLM scores live under `results/clm_eval/*.json` and on each Hub repo as "
+            "`metrics.json` + README `model-index`.",
+            "",
+            f"Updated: {utc_now()}",
+            "",
+        ]
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def metric_entry(metric_type: str, value: Any, *, name: str | None = None) -> dict | None:
+    if value is None:
+        return None
+    entry: dict[str, Any] = {"type": metric_type, "value": float(value)}
+    if name:
+        entry["name"] = name
+    return entry
+
+
+def hub_id(namespace: str, size: str, suffix: str) -> str:
+    return f"{namespace}/Qwen3.5-{SIZE_HUB[size]}-Wolof-{suffix}"
+
+
+def discover_targets(namespace: str, sizes: list[str]) -> list[dict[str, Any]]:
+    targets: list[dict[str, Any]] = []
+    for size in sizes:
+        targets.extend(
+            [
+                {
+                    "hub_repo": hub_id(namespace, size, "ext-init-v1"),
+                    "size": size,
+                    "kind": "ext_init",
+                    "base_model": STOCK_BASE[size],
+                },
+                {
+                    "hub_repo": hub_id(namespace, size, "CPT-adapter-v1"),
+                    "size": size,
+                    "kind": "cpt_adapter",
+                    "base_model": hub_id(namespace, size, "ext-init-v1"),
+                },
+                {
+                    "hub_repo": hub_id(namespace, size, "CPT-v1"),
+                    "size": size,
+                    "kind": "cpt_merged",
+                    "base_model": hub_id(namespace, size, "ext-init-v1"),
+                },
+                {
+                    "hub_repo": hub_id(namespace, size, "Instruct-adapter-v1"),
+                    "size": size,
+                    "kind": "sft_cpt_adapter",
+                    "base_model": hub_id(namespace, size, "CPT-v1"),
+                },
+                {
+                    "hub_repo": hub_id(namespace, size, "InstructStock-adapter-v1"),
+                    "size": size,
+                    "kind": "sft_instruct_adapter",
+                    "base_model": STOCK_INSTRUCT[size],
+                },
+                {
+                    "hub_repo": hub_id(namespace, size, "Instruct-v1"),
+                    "size": size,
+                    "kind": "instruct_merged",
+                    "base_model": hub_id(namespace, size, "CPT-v1"),
+                },
+            ]
+        )
+    return targets
+
+
+def _clm_from_row(
+    row: dict[str, Any],
+    *,
+    prefix: str,
+    note: str | None = None,
+    extra: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    bpb_key = "instruct_bpb" if prefix == "instruct" else f"{prefix}_bpb_wo"
+    clm: dict[str, Any] = {}
+    bpb = row.get(bpb_key)
+    if bpb is not None:
+        clm["BPB"] = bpb
+    for score_key, out_key in (
+        (f"{prefix}_ppl", "perplexity"),
+        (f"{prefix}_bleu", "BLEU"),
+        (f"{prefix}_chrf", "chrF"),
+    ):
+        value = row.get(score_key)
+        if value is not None:
+            clm[out_key] = value
+    if note:
+        clm["note"] = note
+    if extra:
+        clm.update({k: v for k, v in extra.items() if v is not None})
+    return clm
+
+
+def build_metrics_payload(target: dict[str, Any], row: dict[str, Any]) -> dict[str, Any]:
+    kind = target["kind"]
+    hub_repo = target["hub_repo"]
+    model_name = hub_repo.split("/")[-1]
+    clm: dict[str, Any] = {}
+    sft: dict[str, Any] = {}
+
+    if kind in {"ext_init"}:
+        clm = _clm_from_row(
+            row,
+            prefix="stock",
+            note="Stock base CLM scores before CPT (same test protocol).",
+        )
+    elif kind in {"cpt_adapter", "cpt_merged"}:
+        clm = _clm_from_row(
+            row,
+            prefix="cpt",
+            extra={
+                "stock_BPB": row.get("stock_bpb_wo"),
+                "stock_BLEU": row.get("stock_bleu"),
+                "stock_chrF": row.get("stock_chrf"),
+                "best_checkpoint": row.get("cpt_best_ckpt"),
+                "cpt_eval_loss": row.get("cpt_eval_loss"),
+            },
+        )
+    elif kind in {"sft_cpt_adapter", "instruct_merged"}:
+        # Prefer Instruct merged full CLM; fall back to parent CPT scores.
+        clm = _clm_from_row(row, prefix="instruct")
+        if not clm.get("BPB"):
+            clm = _clm_from_row(row, prefix="cpt", note="Parent CPT merged scores (Instruct CLM pending).")
+        if row["sft_from_cpt_eval_loss"] is not None:
+            sft = {
+                "eval_loss": row["sft_from_cpt_eval_loss"],
+                "best_checkpoint": row["sft_from_cpt_best_ckpt"],
+                "branch": "from_cpt",
+            }
+    elif kind == "sft_instruct_adapter":
+        if row["sft_from_instruct_eval_loss"] is not None:
+            sft = {
+                "eval_loss": row["sft_from_instruct_eval_loss"],
+                "best_checkpoint": row["sft_from_instruct_best_ckpt"],
+                "branch": "from_instruct_stock",
+            }
+
+    results: list[dict[str, Any]] = []
+    source = {
+        "name": "GalsenAI Qwen3.5 Wolof family eval",
+        "url": f"https://huggingface.co/{hub_repo}/blob/main/metrics.json",
+    }
+    if clm.get("BPB") is not None or clm.get("BLEU") is not None:
+        mets = [
+            metric_entry("bpb", clm.get("BPB"), name="Bits Per Byte (Wolof CLM test)"),
+            metric_entry("bleu", clm.get("BLEU"), name="BLEU (continuation)"),
+            metric_entry("chrf", clm.get("chrF"), name="chrF (continuation)"),
+            metric_entry("perplexity", clm.get("perplexity"), name="Perplexity (same-tokenizer)"),
+            metric_entry("bpb", clm.get("stock_BPB"), name="Stock base BPB (reference)"),
+            metric_entry("bleu", clm.get("stock_BLEU"), name="Stock base BLEU (reference)"),
+            metric_entry("chrf", clm.get("stock_chrF"), name="Stock base chrF (reference)"),
+            metric_entry("loss", clm.get("cpt_eval_loss"), name="CPT best-pool eval_loss"),
+        ]
+        results.append(
+            {
+                "task": {"type": "text-generation", "name": "Wolof causal LM"},
+                "dataset": {
+                    "type": "qwen35-wolof-ortho-ns-mixed-cpt-test",
+                    "name": "Ortho-filtered Wolof NTP test",
+                    "split": "test",
+                },
+                "metrics": [m for m in mets if m is not None],
+                "source": source,
+            }
+        )
+    if sft.get("eval_loss") is not None:
+        results.append(
+            {
+                "task": {"type": "text-generation", "name": f"Wolof SFT ({sft.get('branch')})"},
+                "dataset": {
+                    "type": "qwen35-wolof-sft-prepared-anchored",
+                    "name": "Anchored Wolof SFT eval",
+                    "split": "eval",
+                },
+                "metrics": [
+                    m
+                    for m in [
+                        metric_entry("loss", sft["eval_loss"], name="SFT best-pool eval_loss"),
+                    ]
+                    if m is not None
+                ],
+                "source": source,
+            }
+        )
+
+    return {
+        "schema_version": 2,
+        "updated_at": utc_now(),
+        "hub_repo": hub_repo,
+        "size": target["size"],
+        "kind": kind,
+        "base_model": target["base_model"],
+        "clm": clm or None,
+        "sft": sft or None,
+        "family": {
+            "stock_bpb_wo": row["stock_bpb_wo"],
+            "stock_bleu": row.get("stock_bleu"),
+            "stock_chrf": row.get("stock_chrf"),
+            "cpt_bpb_wo": row["cpt_bpb_wo"],
+            "cpt_bleu": row.get("cpt_bleu"),
+            "cpt_chrf": row.get("cpt_chrf"),
+            "instruct_bpb": row.get("instruct_bpb"),
+            "instruct_bleu": row.get("instruct_bleu"),
+            "instruct_chrf": row.get("instruct_chrf"),
+            "sft_from_cpt_eval_loss": row["sft_from_cpt_eval_loss"],
+            "sft_from_instruct_eval_loss": row["sft_from_instruct_eval_loss"],
+        },
+        "protocol": "evaluate_clm.py (BPB/PPL/BLEU/chrF) + trainer best_pool eval_loss",
+        "notes": (
+            "BPB is the cross-tokenizer gold metric; PPL is same-tokenizer only. "
+            "BLEU/chrF are continuation scores on the ortho-filtered Wolof CLM test. "
+            "SFT eval_loss is best-pool selection (lower is better)."
+        ),
+        "model-index": [{"name": model_name, "results": results}],
+    }
+
+
+def build_eval_section(metrics: dict[str, Any]) -> str:
+    lines = [
+        EVAL_MARKER_START,
+        "## Evaluation",
+        "",
+        "- **Protocol**: `evaluate_clm.py` — BPB / PPL / BLEU / chrF on ortho-filtered Wolof CLM test; "
+        "SFT `eval_loss` from best-pool.",
+        "- Machine-readable copy: [`metrics.json`](./metrics.json).",
+        "",
+        "### Family snapshot",
+        "",
+        "| Metric | Value |",
+        "|---|---:|",
+    ]
+    fam = metrics.get("family") or {}
+    for label, key, digits in (
+        ("Stock BPB ↓", "stock_bpb_wo", 4),
+        ("Stock BLEU", "stock_bleu", 2),
+        ("Stock chrF", "stock_chrf", 2),
+        ("CPT BPB ↓", "cpt_bpb_wo", 4),
+        ("CPT BLEU", "cpt_bleu", 2),
+        ("CPT chrF", "cpt_chrf", 2),
+        ("Instruct BPB ↓", "instruct_bpb", 4),
+        ("Instruct BLEU", "instruct_bleu", 2),
+        ("Instruct chrF", "instruct_chrf", 2),
+        ("SFT-from-CPT eval_loss ↓", "sft_from_cpt_eval_loss", 4),
+        ("SFT-from-instruct eval_loss ↓", "sft_from_instruct_eval_loss", 4),
+    ):
+        value = fam.get(key)
+        lines.append(f"| {label} | {fmt(value, digits) or '—'} |")
+    lines.append("")
+
+    clm = metrics.get("clm") or {}
+    if any(clm.get(k) is not None for k in ("BPB", "BLEU", "chrF", "perplexity")):
+        lines.extend(
+            [
+                "### This artifact — causal LM",
+                "",
+                "| Metric | Value |",
+                "|---|---:|",
+            ]
+        )
+        if clm.get("BPB") is not None:
+            lines.append(f"| BPB ↓ | {fmt(clm.get('BPB'))} |")
+        if clm.get("BLEU") is not None:
+            lines.append(f"| BLEU | {fmt(clm.get('BLEU'), 2)} |")
+        if clm.get("chrF") is not None:
+            lines.append(f"| chrF | {fmt(clm.get('chrF'), 2)} |")
+        if clm.get("perplexity") is not None:
+            lines.append(f"| PPL | {fmt(clm.get('perplexity'), 2)} |")
+        if clm.get("stock_BPB") is not None:
+            lines.append(f"| Stock BPB (reference) | {fmt(clm.get('stock_BPB'))} |")
+        if clm.get("cpt_eval_loss") is not None:
+            lines.append(f"| CPT eval_loss | {fmt(clm.get('cpt_eval_loss'))} |")
+        if clm.get("best_checkpoint"):
+            lines.append(f"| Best CPT ckpt | `{clm.get('best_checkpoint')}` |")
+        if clm.get("note"):
+            lines.append(f"| Note | {clm.get('note')} |")
+        lines.append("")
+
+    sft = metrics.get("sft") or {}
+    if sft.get("eval_loss") is not None:
+        lines.extend(
+            [
+                "### This artifact — SFT",
+                "",
+                "| Metric | Value |",
+                "|---|---:|",
+                f"| Branch | `{sft.get('branch')}` |",
+                f"| Eval loss ↓ | {fmt(sft.get('eval_loss'))} |",
+            ]
+        )
+        if sft.get("best_checkpoint"):
+            lines.append(f"| Best ckpt | `{sft.get('best_checkpoint')}` |")
+        lines.append("")
+
+    lines.append(EVAL_MARKER_END)
+    return "\n".join(lines)
+
+
+def split_readme(text: str) -> tuple[dict[str, Any], str]:
+    if not text.startswith("---"):
+        return {}, text
+    match = re.match(r"^---\r?\n(.*?)\r?\n---\r?\n?(.*)$", text, flags=re.DOTALL)
+    if not match:
+        return {}, text
+    meta = yaml.safe_load(match.group(1)) or {}
+    if not isinstance(meta, dict):
+        meta = {}
+    return meta, match.group(2)
+
+
+def dump_readme(meta: dict[str, Any], body: str) -> str:
+    front = yaml.safe_dump(meta, sort_keys=False, allow_unicode=True, default_flow_style=False).strip()
+    cleaned = body.lstrip("\n")
+    return f"---\n{front}\n---\n\n{cleaned}"
+
+
+def upsert_eval_section(body: str, section: str) -> str:
+    pattern = re.compile(
+        re.escape(EVAL_MARKER_START) + r".*?" + re.escape(EVAL_MARKER_END),
+        flags=re.DOTALL,
+    )
+    if pattern.search(body):
+        return pattern.sub(section, body)
+    legacy = re.compile(r"(?im)^##\s+(Metrics|Evaluation)\s*$.*?(?=^##\s|\Z)", flags=re.DOTALL)
+    if legacy.search(body):
+        return legacy.sub(section + "\n\n", body, count=1)
+    return body.rstrip() + "\n\n" + section + "\n"
+
+
+def is_placeholder_card(body: str) -> bool:
+    return "More Information Needed" in body or "Model Card for Model ID" in body
+
+
+def build_card_body(target: dict[str, Any], metrics: dict[str, Any]) -> str:
+    model_name = target["hub_repo"].split("/")[-1]
+    size = target["size"]
+    kind = target["kind"]
+    kind_blurb = {
+        "ext_init": "Tokenizer-extended Qwen3.5 init (Wolof anchors) before CPT.",
+        "cpt_adapter": "LoRA continual-pretraining adapter on ortho-filtered Wolof NTP.",
+        "cpt_merged": "Merged CPT weights for Wolof continual pretraining.",
+        "sft_cpt_adapter": "LoRA SFT adapter trained from the CPT-merged base.",
+        "sft_instruct_adapter": "LoRA SFT adapter trained from stock Qwen3.5 Instruct.",
+        "instruct_merged": "Merged Instruct weights (SFT-from-CPT branch).",
+    }.get(kind, "Qwen3.5 Wolof family artifact.")
+    return "\n".join(
+        [
+            f"# {model_name}",
+            "",
+            kind_blurb,
+            "",
+            "## Summary",
+            "",
+            f"- **Size**: {SIZE_LABEL[size]}",
+            f"- **Base**: `{target['base_model']}`",
+            "- **Language**: Wolof (`wo`), orthography filter keeps `non_standard` + `mixed`",
+            "- **Anchors**: `<|lang_wo|>` `<|ortho_ns|>`",
+            "- **Family docs**: see pipeline `docs/FAMILY_EVAL.md`",
+            "",
+            "## Intended use",
+            "",
+            "Wolof text generation / adaptation research. Private Hub artifact for GalsenAI.",
+            "",
+            "## Limitations",
+            "",
+            "Private research release. Do not compare perplexity across tokenizer families; use BPB.",
+            "",
+        ]
+    )
+
+
+def download_text(api: HfApi, repo_id: str, path: str, token: str) -> str | None:
+    try:
+        local = hf_hub_download(repo_id, path, repo_type="model", token=token)
+        return Path(local).read_text(encoding="utf-8")
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def repo_exists(api: HfApi, repo_id: str) -> bool:
+    try:
+        api.repo_info(repo_id=repo_id, repo_type="model")
+        return True
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def has_usable_metrics(metrics: dict[str, Any]) -> bool:
+    clm = metrics.get("clm") or {}
+    sft = metrics.get("sft") or {}
+    return clm.get("BPB") is not None or sft.get("eval_loss") is not None
+
+
+def publish_one(
+    api: HfApi,
+    token: str,
+    target: dict[str, Any],
+    row: dict[str, Any],
+    *,
+    dry_run: bool,
+    force: bool,
+) -> dict[str, Any]:
+    repo_id = target["hub_repo"]
+    if not repo_exists(api, repo_id):
+        return {"repo": repo_id, "status": "skip_missing"}
+
+    metrics = build_metrics_payload(target, row)
+    if not has_usable_metrics(metrics) and not force:
+        return {"repo": repo_id, "status": "skip_no_metrics"}
+
+    info = api.repo_info(repo_id=repo_id, repo_type="model")
+    if info.private is not True:
+        raise RuntimeError(f"refusing to publish metrics to non-private repo: {repo_id}")
+
+    model_name = repo_id.split("/")[-1]
+    existing = download_text(api, repo_id, "README.md", token)
+    if existing and not is_placeholder_card(split_readme(existing)[1]):
+        meta, body = split_readme(existing)
+    else:
+        meta, body = {}, build_card_body(target, metrics)
+
+    meta["base_model"] = target["base_model"]
+    meta["language"] = ["wo"]
+    meta["pipeline_tag"] = "text-generation"
+    meta["library_name"] = "peft" if "adapter" in target["kind"] else "transformers"
+    tags = meta.get("tags") if isinstance(meta.get("tags"), list) else []
+    for tag in ("wolof", "qwen3.5", "galsenai"):
+        if tag not in tags:
+            tags = list(tags) + [tag]
+    meta["tags"] = tags
+    meta["model-index"] = metrics["model-index"]
+
+    section = build_eval_section(metrics)
+    body = upsert_eval_section(body, section)
+    new_readme = dump_readme(meta, body)
+
+    result: dict[str, Any] = {
+        "repo": repo_id,
+        "status": "dry-run" if dry_run else "pending",
+        "n_model_index_results": len((metrics.get("model-index") or [{}])[0].get("results") or []),
+    }
+    if dry_run:
+        return result
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        (tmp_path / "metrics.json").write_text(
+            json.dumps(metrics, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        (tmp_path / "README.md").write_text(new_readme, encoding="utf-8")
+        commit = api.upload_folder(
+            folder_path=str(tmp_path),
+            repo_id=repo_id,
+            repo_type="model",
+            commit_message="Publish evaluation metrics and model card",
+            allow_patterns=["metrics.json", "README.md"],
+        )
+        result["status"] = "ok"
+        result["revision"] = commit.oid
+    return result
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Publish Qwen Wolof Hub metrics + model cards")
+    parser.add_argument("--namespace", default="Tonic")
+    parser.add_argument("--sizes", nargs="+", default=["08b", "2b", "4b", "9b"])
+    parser.add_argument("--only-repo", action="append", default=[])
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--force", action="store_true", help="Upload even if metrics empty")
+    parser.add_argument("--skip-upload", action="store_true", help="Only refresh FAMILY_EVAL.md")
+    parser.add_argument(
+        "--report",
+        type=Path,
+        default=ROOT / "results" / "full_pipeline" / "hub_metrics_publish.json",
+    )
+    return parser
+
+
+def main() -> int:
+    args = build_parser().parse_args()
+    load_trackio_env()
+    # Always rebuild the family table from every size; upload may be a subset.
+    all_sizes = ["08b", "2b", "4b", "9b"]
+    all_rows = [collect_size_metrics(size) for size in all_sizes]
+    family_path = write_family_eval(all_rows)
+    print(f"FAMILY_EVAL {family_path}", flush=True)
+    for row in all_rows:
+        print(json.dumps(row, ensure_ascii=False), flush=True)
+
+    if args.skip_upload:
+        report = {
+            "updated_at": utc_now(),
+            "skip_upload": True,
+            "family_eval": str(family_path),
+            "rows": all_rows,
+        }
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        atomic_json_write(args.report, report)
+        print("HUB_METRICS_SKIP_UPLOAD", flush=True)
+        return 0
+
+    token = os.environ.get("HF_TOKEN") or get_token()
+    if not token and not args.dry_run:
+        raise SystemExit("HF_TOKEN required")
+
+    by_size = {row["size"]: row for row in all_rows}
+    targets = discover_targets(args.namespace, args.sizes)
+    if args.only_repo:
+        wanted = set(args.only_repo)
+        targets = [t for t in targets if t["hub_repo"] in wanted]
+
+    api = HfApi(token=token)
+    results: list[dict[str, Any]] = []
+    failures: list[dict[str, Any]] = []
+    for target in targets:
+        try:
+            rec = publish_one(
+                api,
+                token or "",
+                target,
+                by_size[target["size"]],
+                dry_run=args.dry_run,
+                force=args.force,
+            )
+            results.append(rec)
+            print(json.dumps(rec, ensure_ascii=False), flush=True)
+        except Exception as exc:  # noqa: BLE001
+            fail = {"repo": target["hub_repo"], "status": "failed", "error": str(exc)}
+            failures.append(fail)
+            print(json.dumps(fail, ensure_ascii=False), file=sys.stderr, flush=True)
+
+    report = {
+        "updated_at": utc_now(),
+        "dry_run": args.dry_run,
+        "family_eval": str(family_path),
+        "n_ok": sum(1 for r in results if r.get("status") in {"ok", "dry-run"}),
+        "n_skip": sum(1 for r in results if str(r.get("status", "")).startswith("skip")),
+        "n_failed": len(failures),
+        "results": results,
+        "failures": failures,
+        "rows": all_rows,
+    }
+    # Keep FAMILY_EVAL on the pipeline-state dataset for a durable family table.
+    if not args.dry_run and family_path.is_file():
+        try:
+            api.upload_file(
+                path_or_fileobj=str(family_path),
+                path_in_repo="FAMILY_EVAL.md",
+                repo_id=f"{args.namespace}/Qwen3.5-Wolof-pipeline-state-v1",
+                repo_type="dataset",
+                commit_message="Update FAMILY_EVAL.md",
+            )
+            print("FAMILY_EVAL_HUB_OK", flush=True)
+        except Exception as exc:  # noqa: BLE001
+            print(f"FAMILY_EVAL_HUB_WARN {exc}", flush=True)
+
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    atomic_json_write(args.report, report)
+    print(
+        f"report={args.report} ok={report['n_ok']} skip={report['n_skip']} failed={report['n_failed']}",
+        flush=True,
+    )
+    print("HUB_METRICS_PUBLISH_OK" if not failures else "HUB_METRICS_PUBLISH_PARTIAL", flush=True)
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

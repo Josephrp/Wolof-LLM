@@ -1,0 +1,44 @@
+{
+  "model": {
+    "model_id": "Qwen/Qwen3.5-2B-Base",
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "float16"
+  },
+  "data": {
+    "local_path": "data preprocessing & cleaning/outputs/processed/v1/data_v1.parquet",
+    "text_column": "text",
+    "use_full_dataset": true
+  },
+  "lora": {
+    "r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1,
+    "bias": "none",
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  },
+  "training": {
+    "output_dir": "results/checkpoints/clm_v1",
+    "per_device_train_batch_size": 4,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 1e-4,
+    "weight_decay": 0.01,
+    "optim": "adamw_torch",
+    "fp16": true,
+    "evaluation_strategy": "epoch",
+    "num_train_epochs": 2
+  },
+  "output": {
+    "local_adapter_dir": "results/checkpoints/clm_v1/adapter",
+    "push_to_hub": true,
+    "hub_repo_id": "galsenai/qwen35-wolof-clm-base-v1",
+    "hf_token_env_var": "HF_TOKEN",
+    "metrics_csv": "results/metrics/clm_v1.csv",
+    "stats_json": "results/metrics/clm_v1_stats.json"
+  },
+  "inference": {
+    "prompt": "Jox ñatti xeeti feem ngir am wérgi-yaram.",
+    "max_new_tokens": 200,
+    "output_file": "results/model_cards/clm_v1_inference_example.json"
+  }
+}

@@ -1,0 +1,6 @@
+run,methode,tokenizer,vocab,lr,fertilite,BPB,PPL,duree_h
+wolof-ext4000-lora,lora,etendu,132256,0.0002,1.293,0.7413,15.83,2.691
+wolof-default-full,full,defaut,128256,2e-05,2.036,0.7521,5.85,2.426
+wolof-default-lora,lora,defaut,128256,0.0002,2.036,0.7892,6.38,4.187
+wolof-ext4000-full,full,etendu,132256,2e-05,1.293,0.8926,27.82,1.532
+base (non entraine),-,defaut,128256,,2.036,2.1624,160.61,

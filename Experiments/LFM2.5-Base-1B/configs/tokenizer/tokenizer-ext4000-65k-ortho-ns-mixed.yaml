@@ -1,0 +1,13 @@
+# Rebuild Wolof ext4000 from ortho non_standard+mixed CPT train (v3).
+
+base_id: LiquidAI/LFM2.5-1.2B-Base
+family: 65k
+n_tokens: 4000
+n_echantillon: 300000
+seed: 42
+eos_token_id: 7
+dataset_id: Tonic/LFM2.5-Wolof-CPT-ortho_ns_mixed_v1
+data_root: data/clm/ortho_ns_mixed_v1
+
+tokenizer_path: tokenizers/lfm25-wolof-ext4000-ortho-ns-mixed-v1
+model_path: models/lfm25-wolof-ext4000-ortho-ns-mixed-init

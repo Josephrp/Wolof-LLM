@@ -1,0 +1,73 @@
+[project]
+name = "galsenai-tinyaya-wolof-family"
+version = "0.1.0"
+description = "Tiny Aya 3.35B Wolof family: ortho-filtered NTP CPT, triple SFT, DPO"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "pyyaml",
+    "pandas",
+    "pyarrow",
+    "numpy",
+    "tqdm",
+    "huggingface_hub",
+    "datasets",
+    "jinja2",
+]
+
+[dependency-groups]
+train = [
+    # Match H200 host driver (CUDA 12.8). Default torch 2.11 wheels are cu130.
+    "torch==2.11.0",
+    "transformers>=4.57",
+    "accelerate",
+    "peft",
+    "trl",
+    "bitsandbytes",
+    "safetensors",
+    "sentencepiece",
+    "protobuf",
+    "trackio",
+    "gradio",
+    # Attention: FA3 via Hub kernels (no local FA build). Optional FA3 wheel:
+    #   uv pip install flash-attn-3 --index-url https://download.pytorch.org/whl/cu128
+    "kernels",
+    # Manual Liger FLCE/RMSNorm/SwiGLU (no apply_liger_kernel_to_cohere2).
+    "liger-kernel",
+    # Optional CCE: install with --no-deps so it does not pin transformers<5:
+    #   uv pip install --no-deps "cut-cross-entropy @ git+https://github.com/apple/ml-cross-entropy.git"
+]
+eval = [
+    "sacrebleu",
+    "torch==2.11.0",
+    "transformers>=4.57",
+    "accelerate",
+]
+data = [
+    "datasets",
+    "pandas",
+    "pyarrow",
+]
+remote = [
+    "paramiko",
+    "rapidocr-onnxruntime",
+]
+dev = [
+    "ruff",
+    "pytest",
+]
+
+[tool.uv]
+package = false
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

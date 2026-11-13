@@ -1,0 +1,35 @@
+# ONNX (Transformers.js / WebGPU) for Instruct sizes used by the static demo.
+# 9B is optional — heavy for browser; default demo uses 0.8B.
+schema_version: 1
+output_root: results/onnx/v1
+cache_root: results/hub_cache
+namespace_preferred: Tonic
+private: false
+cleanup_after_publish: true
+dtypes: [fp16, q4, q4f16, quantized]
+models:
+  - size: 08b
+    stage: Instruct
+    artifact: models/qwen35-08b-instruct-from-cpt-merged
+    hub_source: Tonic/Qwen3.5-08B-Wolof-Instruct-v1
+    base_repo: Tonic/Qwen3.5-08B-Wolof-Instruct-v1
+    onnx_repo_name: Qwen3.5-08B-Wolof-Instruct-v1-ONNX
+  - size: 2b
+    stage: Instruct
+    artifact: models/qwen35-2b-instruct-from-cpt-merged
+    hub_source: Tonic/Qwen3.5-2B-Wolof-Instruct-v1
+    base_repo: Tonic/Qwen3.5-2B-Wolof-Instruct-v1
+    onnx_repo_name: Qwen3.5-2B-Wolof-Instruct-v1-ONNX
+  - size: 4b
+    stage: Instruct
+    artifact: models/qwen35-4b-instruct-from-cpt-merged
+    hub_source: Tonic/Qwen3.5-4B-Wolof-Instruct-v1
+    base_repo: Tonic/Qwen3.5-4B-Wolof-Instruct-v1
+    onnx_repo_name: Qwen3.5-4B-Wolof-Instruct-v1-ONNX
+  - size: 9b
+    stage: Instruct
+    artifact: models/qwen35-9b-instruct-from-cpt-merged
+    hub_source: Tonic/Qwen3.5-9B-Wolof-Instruct-v1
+    base_repo: Tonic/Qwen3.5-9B-Wolof-Instruct-v1
+    onnx_repo_name: Qwen3.5-9B-Wolof-Instruct-v1-ONNX
+    optional: true

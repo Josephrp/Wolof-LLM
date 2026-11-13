@@ -1,0 +1,30 @@
+run: v1_350m_ext4000_full
+stage: v1
+size: 350m
+base_id: LiquidAI/LFM2.5-350M-Base
+tokenizer: tokenizers/lfm25_wolof_ext_4000
+model: models/lfm25-350m-wolof-ext4000-init
+output_root: runs/clm/350m/v1_ext4000_full
+data_root: null
+methode: full
+attention: sdpa
+tokenizer_family: 65k-ext
+eos_token_id: 7
+
+entrainement:
+  max_steps: 1500
+  seq_len: 2048
+  micro_bs: 2
+  grad_acc: 8
+  lr: 2.0e-5
+  lr_embeddings: 1.0e-4
+  warmup_embeddings_steps: 100
+  scheduler: cosine
+  warmup_ratio: 0.03
+  logging_steps: 25
+  eval_steps: 100
+  save_steps: 500
+  save_total_limit: 3
+  gradient_checkpointing: true
+  optim: adamw_torch
+  seed: 42

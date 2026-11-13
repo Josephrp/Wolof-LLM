@@ -1,0 +1,23 @@
+run: lfm_1.2b_sft_raw_unweighted_control
+model: models/lfm_1.2b_v2_ext4000_lora-merged
+starts_from: merged_cpt
+dataset: data/sft/prepared_raw_unweighted
+mixture_id: raw_unweighted_control
+output_dir: runs/sft/1.2b_raw_unweighted
+extended_tokenizer: true
+assistant_only_loss: true
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj]
+  modules_to_save: [embed_tokens, lm_head]
+training:
+  max_steps: 12000
+  seq_len: 2048
+  micro_bs: 1
+  grad_acc: 16
+  lr: 2.0e-4
+  eval_steps: 250
+  save_steps: 250
+  seed: 42

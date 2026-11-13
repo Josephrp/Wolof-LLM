@@ -1,0 +1,12 @@
+# Stock MORENA HF eval matrix (Wolof verbalized corpus BPB).
+jobs:
+  - name: 1.5b-base
+    config: configs/morena/stock_1.5b_base.yaml
+  - name: 1.5b-instruct
+    config: configs/morena/stock_1.5b_instruct.yaml
+  - name: 0.5b-mini
+    config: configs/morena/stock_0.5b_mini.yaml
+  - name: 0.5b-mini-instruct
+    config: configs/morena/stock_0.5b_mini_instruct.yaml
+  - name: 0.2b-nano
+    config: configs/morena/stock_0.2b_nano.yaml

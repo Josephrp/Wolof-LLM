@@ -1,0 +1,16 @@
+model: models/qwen35-08b-instruct-from-cpt-merged
+dataset: data/sft/preferences_v1.parquet
+output_dir: runs/sft/08b_dpo_v1
+gated: G6
+lora:
+  r: 16
+  alpha: 32
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+training:
+  max_steps: 1000
+  # H200: DPO pairs need headroom; keep eff. batch=16.
+  micro_bs: 4
+  grad_acc: 4
+  lr: 5.0e-7
+  beta: 0.1
+  seed: 42

@@ -1,0 +1,21 @@
+# Prefer base tokenizer (bos=2/eos=3/pad=0). Earth/global Instruct use eos=6 (END_OF_TURN).
+base_id: CohereLabs/tiny-aya-base
+model_id: CohereLabs/tiny-aya-base
+tokenizer_id: CohereLabs/tiny-aya-base
+n_tokens: 3000
+n_echantillon: 200000
+seed: 42
+# Mine pretok chunks from both Wolof orthography CPT trains when present.
+data_roots:
+  - data/ortho_ns_mixed_v1/cpt
+  - data/ortho_std_mixed_v1/cpt
+tokenizer_path: tokenizers/tinyaya-wolof-ext-anchors
+model_path: models/tinyaya-3.35b-ext-init
+expected_bos: 2
+expected_eos: 3
+expected_pad: 0
+tie_word_embeddings: true
+anchor_specials:
+  - "<|lang_wo|>"
+  - "<|ortho_ns|>"
+  - "<|ortho_std|>"

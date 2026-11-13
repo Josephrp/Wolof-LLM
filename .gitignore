@@ -1,0 +1,62 @@
+# Checkpoints and heavy model weights
+runs/
+*.safetensors
+*.bin
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.onnx_data*
+*.gguf
+*.parquet
+*.arrow
+*.h5
+*.npz
+*.pkl
+*.pickle
+
+# Local envs and tooling
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+.cursor/
+.idea/
+.vscode/
+*.egg-info/
+dist/
+build/
+
+# Python / notebooks
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+
+# Logs, caches, job artifacts
+logs/
+*.log
+.cache/
+.huggingface/
+**/jobs-artifacts/
+**/results/full_pipeline/
+**/results/onnx/
+**/results/gguf/
+
+# Compiled / OS binaries that may appear under local tool installs
+*.dll
+*.pyd
+*.so
+*.dylib
+*.exe
+*.lib
+*.a
+
+# Large local data dumps (keep small samples via explicit git add if needed)
+**/data/raw/
+**/data/cache/
+**/*.jsonl.gz

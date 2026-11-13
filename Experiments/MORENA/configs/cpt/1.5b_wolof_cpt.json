@@ -1,0 +1,42 @@
+{
+  "_comment": "MORENA 1.5B Wolof CPT on single H200 (1 GPU). global_batch_seqs scaled down from 1024.",
+  "model": {
+    "vocab_size": 65536,
+    "n_layer": 28,
+    "d_model": 2048,
+    "n_head": 16,
+    "n_kv_head": 4,
+    "d_ff": 6144,
+    "rope_theta": 500000.0,
+    "norm_eps": 1e-05,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "train": {
+    "seq_len": 4096,
+    "micro_batch": 1,
+    "grad_accum": 8,
+    "global_batch_seqs": 8,
+    "fsdp_shard_size": 0,
+    "optimizer": "muon",
+    "lr": 0.0003,
+    "min_lr_ratio": 0.1,
+    "weight_decay": 0.1,
+    "muon_momentum": 0.95,
+    "muon_ns_steps": 5,
+    "muon_ns_mode": "roundrobin",
+    "adam_betas": [0.9, 0.95],
+    "adam_eps": 1e-08,
+    "grad_clip": 1.0,
+    "warmup_steps": 100,
+    "total_steps": 2000,
+    "decay_steps": 200,
+    "decay_start": -1,
+    "decay_shape": "1-sqrt",
+    "attn": "sdpa_mask",
+    "act_ckpt": true,
+    "compile": false,
+    "seed": 1234,
+    "loss_mask": false
+  }
+}

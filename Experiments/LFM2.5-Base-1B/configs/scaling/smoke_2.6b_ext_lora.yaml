@@ -1,0 +1,24 @@
+run: smoke_2.6b_ext_lora
+stage: gated_128k_smoke
+size: 2.6b
+base_id: LiquidAI/LFM2.5-2.6B-Base
+model: models/lfm25-2.6b-wolof-ext4000-init
+tokenizer: tokenizers/lfm25_wolof_ext_4000_128k
+tokenizer_family: 128k-ext
+eos_token_id: 128900
+dataset_id: galsenai/cleaned_data_for_clm
+methode: lora
+gated: T-128
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj]
+  modules_to_save: [embed_tokens, lm_head]
+entrainement:
+  max_steps: 10
+  seq_len: 1024
+  micro_bs: 1
+  grad_acc: 8
+  lr: 2.0e-4
+  seed: 42

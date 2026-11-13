@@ -1,0 +1,46 @@
+# Ordered production CPT recipes. Probe/tokenizer gates run before this manifest.
+sizes:
+  350m:
+    enabled: true
+    configs:
+      - configs/scaling/smoke_350m_default_lora.yaml
+      - configs/scaling/smoke_350m_ext_lora.yaml
+      - configs/scaling/mini_350m_ext_lora.yaml
+      - configs/clm/350m/v1_default_lora.yaml
+      - configs/clm/350m/v1_default_full.yaml
+      - configs/clm/350m/v1_ext4000_lora.yaml
+      - configs/clm/350m/v1_ext4000_full.yaml
+      - configs/clm/350m/v2_default_lora.yaml
+      - configs/clm/350m/v2_default_full.yaml
+      - configs/clm/350m/v2_ext4000_lora.yaml
+      - configs/clm/350m/v2_ext4000_full.yaml
+  1.2b:
+    enabled: true
+    configs:
+      - configs/scaling/smoke_1.2b_ext_lora.yaml
+      - configs/scaling/mini_1.2b_ext_lora.yaml
+      - configs/clm/1.2b/v1_default_lora.yaml
+      - configs/clm/1.2b/v1_default_full.yaml
+      - configs/clm/1.2b/v1_ext4000_lora.yaml
+      - configs/clm/1.2b/v1_ext4000_full.yaml
+      - configs/clm/1.2b/v2_default_lora.yaml
+      - configs/clm/1.2b/v2_default_full.yaml
+      - configs/clm/1.2b/v2_ext4000_lora.yaml
+      - configs/clm/1.2b/v2_ext4000_full.yaml
+  230m:
+    enabled: true
+    configs:
+      - configs/scaling/smoke_230m_ext_lora.yaml
+      - configs/clm/230m/v2_ext_lora.yaml
+  2.6b:
+    enabled: true
+    gate: T-128
+    configs:
+      - configs/scaling/smoke_2.6b_ext_lora.yaml
+      - configs/clm/2.6b/v2_ext4000_lora.yaml
+  8b:
+    enabled: true
+    gate: MOE-PROBE
+    configs:
+      - configs/scaling/smoke_8b_moe_lora.yaml
+      - configs/clm/8b/v2_moe_lora.yaml

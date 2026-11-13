@@ -1,0 +1,38 @@
+# Stage 3 smoke — 350M, extended tokenizer (+4000), LoRA + modules_to_save
+# Requires tokenizer/model paths from 02_build_tokenizer.py.
+
+run: smoke_350m_ext_lora
+stage: smoke
+size: 350m
+base_id: LiquidAI/LFM2.5-350M-Base
+tokenizer: tokenizers/lfm25_wolof_ext_4000
+model: models/lfm25-350m-wolof-ext4000-init
+output_root: runs/smoke/350m_ext_lora
+data_root: null
+methode: lora
+attention: sdpa
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  # Verified by results/full_pipeline/probes/350m.json.
+  target_modules: [q_proj, k_proj, v_proj]
+  modules_to_save: [embed_tokens, lm_head]
+
+entrainement:
+  max_steps: 10
+  seq_len: 1024
+  micro_bs: 2
+  grad_acc: 4
+  lr: 2.0e-4
+  lr_embeddings: 1.0e-3
+  scheduler: cosine
+  warmup_ratio: 0.03
+  logging_steps: 1
+  eval_steps: 10
+  save_steps: 10
+  save_total_limit: 1
+  gradient_checkpointing: true
+  optim: adamw_torch
+  seed: 42

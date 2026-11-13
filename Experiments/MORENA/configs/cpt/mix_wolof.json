@@ -1,0 +1,9 @@
+{
+  "sources": {
+    "wolof_clm": {
+      "path": "wolof_clm",
+      "weight": 1.0,
+      "required": true
+    }
+  }
+}

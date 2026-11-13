@@ -1,0 +1,29 @@
+---
+base_model: {{ base_model }}
+language: [wo]
+---
+# {{ model_name }}
+
+## Summary
+Wolof adaptation of `{{ base_model }}` using continual pretraining and supervised fine-tuning.
+
+## Training data
+{{ training_data }}
+
+## Evaluation
+{% for name, value in metrics.items() %}- {{ name }}: {{ value }}
+{% endfor %}
+
+## Intended use
+{{ intended_use }}
+
+## Limitations and leakage
+{{ limitations }}
+
+{{ leakage_caveat }}
+
+## License review
+Compatibility was reviewed by {{ license_reviewed_by }}. Users must also follow the upstream LFM license.
+
+## Citation
+Liquid AI, *LFM2.5*, arXiv:2511.23404.

@@ -1,0 +1,10 @@
+base_id: HuggingFaceTB/SmolLM3-3B-Base
+output_root: /mnt/volume_w2l8nkp/galsenllm/OutputOfSmolLM_Model
+data_root: /mnt/volume_w2l8nkp/galsenllm/data
+
+n_tokens: 4000
+n_echantillon: 300000
+seed: 42
+
+tokenizer_path: tokenizers/smollm3_wolof_ext_4000
+model_path: models/smollm3-wolof-ext4000-init

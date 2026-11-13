@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "minItems": 50,
+  "items": {
+    "type": "object",
+    "required": ["sample_id", "reviewer", "wolof_primary", "fluency", "instruction_following", "factuality", "orthography", "unsafe", "notes"],
+    "properties": {
+      "sample_id": {"type": ["string", "integer"]},
+      "reviewer": {"type": "string", "minLength": 1},
+      "wolof_primary": {"type": "boolean"},
+      "fluency": {"type": "integer", "minimum": 1, "maximum": 5},
+      "instruction_following": {"type": "integer", "minimum": 1, "maximum": 5},
+      "factuality": {"enum": ["pass", "fail", "not_applicable"]},
+      "orthography": {"enum": ["standard", "acceptable_variant", "problem"]},
+      "unsafe": {"type": "boolean"},
+      "notes": {"type": "string"}
+    },
+    "additionalProperties": false
+  }
+}

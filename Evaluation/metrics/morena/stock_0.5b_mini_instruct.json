@@ -1,0 +1,33 @@
+{
+  "protocol": "morena-native",
+  "run": "vamboai/morena-0.5b-mini-instruct",
+  "base_model_id": "vamboai/morena-0.5b-mini-instruct",
+  "BPB": 3.0535,
+  "perplexity": 265.51,
+  "n_bytes": 1640577,
+  "n_tokens": 622088,
+  "n_texts_scored": 4282,
+  "n_texts_evaluated": 4282,
+  "fertility_tokens_per_word": 2.0899,
+  "vocab_size": 65536,
+  "device": "cuda",
+  "bpb_max_len": 1024,
+  "model": {
+    "vocab_size": 65536,
+    "n_layer": 16,
+    "d_model": 1536,
+    "n_head": 12,
+    "n_kv_head": 4,
+    "d_ff": 4096,
+    "rope_theta": 500000.0,
+    "norm_eps": 1e-05,
+    "tie_embeddings": true,
+    "init_std": 0.02
+  },
+  "BLEU": 1.53,
+  "chrF": 11.21,
+  "n_bleu_pairs": 100,
+  "bleu_seed": 0,
+  "bleu_prompt_ratio": 0.5,
+  "note": "BPB is cross-tokenizer gold; PPL only within MORENA 65k tokenizer."
+}

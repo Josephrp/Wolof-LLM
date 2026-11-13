@@ -1,0 +1,31 @@
+#run: wolof-default-full
+run: wolof-default-full-v2
+base_id: HuggingFaceTB/SmolLM3-3B-Base
+tokenizer: HuggingFaceTB/SmolLM3-3B-Base
+model: HuggingFaceTB/SmolLM3-3B-Base
+output_root: /mnt/volume_w2l8nkp/galsenllm/OutputOfSmolLM_Model
+data_root: /mnt/volume_w2l8nkp/galsenllm/data
+methode: full
+
+attention: sdpa               
+                              
+
+entrainement:
+  max_steps: 6700            
+                            
+  seq_len: 2048              
+  micro_bs: 4
+  grad_acc: 8             
+  lr: 2.0e-5
+  
+  patience: 4
+  seuil_amelioration: 0.001
+  scheduler: cosine
+  warmup_ratio: 0.03
+  logging_steps: 25
+  eval_steps: 100            
+  save_steps: 500            # checkpoints intermediaires
+  save_total_limit: 3
+  gradient_checkpointing: true
+  optim: adamw_torch
+  seed: 42

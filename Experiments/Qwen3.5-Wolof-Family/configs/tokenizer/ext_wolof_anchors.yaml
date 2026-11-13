@@ -1,0 +1,7 @@
+base_id: Qwen/Qwen3.5-0.8B-Base
+n_tokens: 4000
+n_echantillon: 200000
+seed: 42
+data_root: data/ortho_ns_mixed_v1/cpt
+tokenizer_path: tokenizers/qwen35-wolof-ext-anchors
+model_path: models/qwen35-0.8b-ext-init

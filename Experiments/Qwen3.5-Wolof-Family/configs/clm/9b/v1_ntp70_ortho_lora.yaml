@@ -1,0 +1,32 @@
+run: qwen35_9b_cpt_v1
+stage: v1
+size: 9b
+base_id: Qwen/Qwen3.5-9B-Base
+tokenizer: tokenizers/qwen35-wolof-ext-anchors
+model: models/qwen35-9b-ext-init
+data_root: data/ortho_ns_mixed_v1/cpt
+methode: qlora
+extended_tokenizer: true
+output_root: runs/clm/9b/v1_ntp70_ortho_lora
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens, lm_head]
+entrainement:
+  num_train_epochs: 3
+  seq_len: 2048
+  # QLoRA 9B: keep ckpt; raise eval cadence and cap eval samples.
+  micro_bs: 1
+  grad_acc: 16
+  eval_micro_bs: 2
+  max_eval_samples: 512
+  lr: 2.0e-4
+  eval_steps: 200
+  save_steps: 200
+  logging_steps: 20
+  gradient_checkpointing: true
+  seed: 42
+  save_total_limit: 3
+  best_pool_keep: 15

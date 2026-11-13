@@ -1,0 +1,652 @@
+﻿
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 958720/990320 [07:25<01:54, 275.63 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 959232/990320 [07:27<01:51, 279.12 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 959744/990320 [07:29<01:49, 278.10 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 960256/990320 [07:31<01:52, 267.25 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 960768/990320 [07:33<01:51, 265.34 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 961280/990320 [07:35<01:52, 257.20 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 961792/990320 [07:37<01:52, 252.99 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 962304/990320 [07:39<01:47, 261.38 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 962816/990320 [07:41<01:47, 256.17 examples/s][A
+
+Map:  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï| 963328/990320 [07:42<01:31, 296.35 examples/s][A
+
+Map:  98%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûè| 967424/990320 [07:43<00:22, 1040.56 examples/s][A
+
+Map:  98%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûè| 971520/990320 [07:44<00:11, 1691.50 examples/s][A
+
+Map:  99%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûè| 975616/990320 [07:45<00:06, 2230.47 examples/s][A
+
+Map:  99%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 978432/990320 [07:47<00:05, 2045.53 examples/s][A
+
+Map:  99%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 981248/990320 [07:48<00:04, 2196.17 examples/s][A
+
+Map:  99%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 984320/990320 [07:49<00:02, 2363.79 examples/s][A
+
+Map: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 987136/990320 [07:50<00:01, 2475.87 examples/s][A
+
+Map: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 989952/990320 [07:52<00:00, 2035.16 examples/s][A
+Map: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 990320/990320 [07:52<00:00, 2094.10 examples/s]
+  train: {'n': 990320, 'labels': {'standard': 350746, 'non_standard': 231836, 'mixed': 202640, 'not_wolof': 205098}}
+
+
+Map:   0%|          | 0/2250 [00:00<?, ? examples/s][A
+Map: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 2250/2250 [00:00<00:00, 2805.86 examples/s]
+  test: {'n': 2250, 'labels': {'standard': 1610, 'non_standard': 63, 'mixed': 563, 'not_wolof': 14}}
+[push] Tonic/wolof_sft_ortho_labeled
+
+
+Uploading the dataset shards:   0%|          | 0/5 [00:00<?, ? shards/s][A
+
+Creating parquet from Arrow format:   0%|          | 0/5 [00:00<?, ?ba/s][A
+Creating parquet from Arrow format: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 5/5 [00:00<00:00, 19.65ba/s]
+
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+
+  /tmp/tmpe3ikygh_.parquet    :   4%|ÔûÄ         | 1.57MB / 42.9MB            [A[A
+
+
+  /tmp/tmpe3ikygh_.parquet    :   4%|ÔûÄ         | 1.57MB / 42.9MB            [A[A
+
+
+  /tmp/tmpe3ikygh_.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 42.9MB / 42.9MB            [A[A
+
+
+  /tmp/tmpe3ikygh_.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 42.9MB / 42.9MB            [A[A
+
+
+  /tmp/tmpe3ikygh_.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 42.9MB / 42.9MB            [A[A
+
+
+  /tmp/tmpe3ikygh_.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 42.9MB / 42.9MB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpe3ikygh_.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 42.9MB / 42.9MB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpe3ikygh_.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 42.9MB / 42.9MB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpe3ikygh_.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 42.9MB / 42.9MB            [A[A
+
+
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            [A[A[A
+Processing Files (1 / 1)      : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 42.9MB / 42.9MB, 4.05MB/s  
+
+New Data Upload               : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 40.9MB / 40.9MB, 3.86MB/s  
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            
+
+  /tmp/tmpe3ikygh_.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 42.9MB / 42.9MB            
+
+
+Uploading the dataset shards:  20%|ÔûêÔûê        | 1/5 [00:01<00:04,  1.20s/ shards][A
+
+Creating parquet from Arrow format:   0%|          | 0/5 [00:00<?, ?ba/s][A
+Creating parquet from Arrow format: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 5/5 [00:00<00:00, 20.45ba/s]
+
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+
+  /tmp/tmpr6um2p0p.parquet    :   6%|Ôûî         | 2.23MB / 39.8MB            [A[A
+
+
+  /tmp/tmpr6um2p0p.parquet    :   6%|Ôûî         | 2.23MB / 39.8MB            [A[A
+
+
+  /tmp/tmpr6um2p0p.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 39.8MB / 39.8MB            [A[A
+
+
+  /tmp/tmpr6um2p0p.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 39.8MB / 39.8MB            [A[A
+
+
+  /tmp/tmpr6um2p0p.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 39.8MB / 39.8MB            [A[A
+
+
+  /tmp/tmpr6um2p0p.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 39.8MB / 39.8MB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpr6um2p0p.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 39.8MB / 39.8MB            [A[A
+
+
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            [A[A[A
+Processing Files (1 / 1)      : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 39.8MB / 39.8MB, 3.83MB/s  
+
+New Data Upload               : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 37.4MB / 37.4MB, 3.59MB/s  
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            
+
+  /tmp/tmpr6um2p0p.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 39.8MB / 39.8MB            
+
+
+Creating parquet from Arrow format:   0%|          | 0/5 [00:00<?, ?ba/s][A
+Creating parquet from Arrow format: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 5/5 [00:00<00:00, 16.64ba/s]
+
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+
+  /tmp/tmpp8th3or6.parquet    :   5%|Ôûì         | 2.88MB / 63.0MB            [A[A
+
+
+  /tmp/tmpp8th3or6.parquet    :   5%|Ôûì         | 2.88MB / 63.0MB            [A[A
+
+
+  /tmp/tmpp8th3or6.parquet    :  17%|ÔûêÔûï        | 10.6MB / 63.0MB            [A[A
+
+
+  /tmp/tmpp8th3or6.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 63.0MB / 63.0MB            [A[A
+
+
+  /tmp/tmpp8th3or6.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 63.0MB / 63.0MB            [A[A
+
+
+  /tmp/tmpp8th3or6.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 63.0MB / 63.0MB            [A[A
+
+
+  /tmp/tmpp8th3or6.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 63.0MB / 63.0MB            [A[A
+
+
+  /tmp/tmpp8th3or6.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 63.0MB / 63.0MB            [A[A
+
+
+  /tmp/tmpp8th3or6.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 63.0MB / 63.0MB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpp8th3or6.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 63.0MB / 63.0MB            [A[A
+
+
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            [A[A[A
+Processing Files (1 / 1)      : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 63.0MB / 63.0MB, 5.91MB/s  
+
+New Data Upload               : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 60.1MB / 60.1MB, 5.64MB/s  
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            
+
+  /tmp/tmpp8th3or6.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 63.0MB / 63.0MB            
+
+
+Uploading the dataset shards:  60%|ÔûêÔûêÔûêÔûêÔûêÔûê    | 3/5 [00:03<00:02,  1.14s/ shards][A
+
+Creating parquet from Arrow format:   0%|          | 0/5 [00:00<?, ?ba/s][A
+Creating parquet from Arrow format: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 5/5 [00:00<00:00, 11.66ba/s]
+
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+
+  /tmp/tmp41eaijxw.parquet    :   1%|ÔûÅ         | 1.44MB /  109MB            [A[A
+
+
+  /tmp/tmp41eaijxw.parquet    :   1%|ÔûÅ         | 1.44MB /  109MB            [A[A
+
+
+  /tmp/tmp41eaijxw.parquet    :   1%|ÔûÅ         | 1.44MB /  109MB            [A[A
+
+
+  /tmp/tmp41eaijxw.parquet    :  55%|ÔûêÔûêÔûêÔûêÔûêÔûî    | 60.5MB /  109MB            [A[A
+
+
+  /tmp/tmp41eaijxw.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë|  109MB /  109MB            [A[A
+
+
+  /tmp/tmp41eaijxw.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë|  109MB /  109MB            [A[A
+
+
+  /tmp/tmp41eaijxw.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë|  109MB /  109MB            [A[A
+
+
+  /tmp/tmp41eaijxw.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë|  109MB /  109MB            [A[A
+
+
+  /tmp/tmp41eaijxw.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê|  109MB /  109MB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmp41eaijxw.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê|  109MB /  109MB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmp41eaijxw.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê|  109MB /  109MB            [A[A
+Processing Files (1 / 1)      : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê|  109MB /  109MB, 10.2MB/s  
+
+New Data Upload               : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê|  107MB /  107MB, 10.0MB/s  [A
+
+
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            [A[A[A
+Processing Files (1 / 1)      : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê|  109MB /  109MB, 10.2MB/s  
+
+New Data Upload               : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê|  107MB /  107MB, 10.0MB/s  
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            
+
+  /tmp/tmp41eaijxw.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê|  109MB /  109MB            
+
+
+Uploading the dataset shards:  80%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê  | 4/5 [00:04<00:01,  1.27s/ shards][A
+
+Creating parquet from Arrow format:   0%|          | 0/5 [00:00<?, ?ba/s][A
+
+Creating parquet from Arrow format:  40%|ÔûêÔûêÔûêÔûê      | 2/5 [00:01<00:02,  1.48ba/s][A
+
+Creating parquet from Arrow format:  80%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê  | 4/5 [00:03<00:00,  1.11ba/s][A
+Creating parquet from Arrow format: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 5/5 [00:03<00:00,  1.41ba/s]
+
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+
+  /tmp/tmpqz0umeat.parquet    :   0%|          |  918kB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :   0%|          |  918kB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :   0%|          |  918kB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :   4%|ÔûÄ         | 45.9MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :   5%|Ôûî         | 68.0MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  10%|Ôûë         |  127MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  11%|Ôûê         |  135MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  16%|ÔûêÔûî        |  203MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  16%|ÔûêÔûî        |  203MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  21%|ÔûêÔûê        |  270MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  21%|ÔûêÔûê        |  270MB / 1.28GB            [A[A
+Processing Files (0 / 1)      :  21%|ÔûêÔûê        |  270MB / 1.28GB, 25.6MB/s  
+
+New Data Upload               :  80%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë  |  268MB /  335MB, 25.4MB/s  [A
+
+
+  /tmp/tmpqz0umeat.parquet    :  25%|ÔûêÔûêÔûî       |  325MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  26%|ÔûêÔûêÔûï       |  338MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  30%|ÔûêÔûêÔûê       |  384MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  32%|ÔûêÔûêÔûêÔûÅ      |  405MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  35%|ÔûêÔûêÔûêÔûì      |  443MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  37%|ÔûêÔûêÔûêÔûï      |  472MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  37%|ÔûêÔûêÔûêÔûï      |  475MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  42%|ÔûêÔûêÔûêÔûêÔûÅ     |  539MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  44%|ÔûêÔûêÔûêÔûêÔûÄ     |  557MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  48%|ÔûêÔûêÔûêÔûêÔûè     |  606MB / 1.28GB            [A[A
+Processing Files (0 / 1)      :  48%|ÔûêÔûêÔûêÔûêÔûè     |  606MB / 1.28GB, 54.1MB/s  
+
+New Data Upload               :  90%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê |  604MB /  671MB, 53.9MB/s  [A
+
+
+  /tmp/tmpqz0umeat.parquet    :  51%|ÔûêÔûêÔûêÔûêÔûê     |  653MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  53%|ÔûêÔûêÔûêÔûêÔûêÔûÄ    |  674MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  56%|ÔûêÔûêÔûêÔûêÔûêÔûî    |  709MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  58%|ÔûêÔûêÔûêÔûêÔûêÔûè    |  741MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  58%|ÔûêÔûêÔûêÔûêÔûêÔûè    |  741MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  63%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûÄ   |  809MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  63%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûÄ   |  809MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  69%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûè   |  877MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  69%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûè   |  877MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  72%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûÅ  |  919MB / 1.28GB            [A[A
+Processing Files (0 / 1)      :  72%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûÅ  |  919MB / 1.28GB, 77.2MB/s  
+
+New Data Upload               :  97%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï|  914MB /  939MB, 76.8MB/s  [A
+
+
+  /tmp/tmpqz0umeat.parquet    :  74%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûì  |  944MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  76%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûï  |  974MB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  79%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë  | 1.01GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  81%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê  | 1.03GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  85%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûì | 1.08GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  89%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë | 1.14GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  93%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûÄ| 1.19GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    :  98%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûè| 1.25GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+Processing Files (0 / 1)      : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB,  102MB/s  
+
+New Data Upload               : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.27GB,  101MB/s  [A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            [A[A
+
+
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            [A[A[A
+Processing Files (0 / 1)      : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB, 94.9MB/s  
+
+New Data Upload               : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1.27GB / 1.27GB, 94.5MB/s  
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            
+
+  /tmp/tmpqz0umeat.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë| 1.27GB / 1.28GB            
+
+
+Uploading the dataset shards: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 5/5 [00:13<00:00,  3.66s/ shards][A
+Uploading the dataset shards: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 5/5 [00:13<00:00,  2.69s/ shards]
+Setting num_proc from 1 back to 1 for the test split to disable multiprocessing as it only contains one shard.
+
+
+Uploading the dataset shards:   0%|          | 0/1 [00:00<?, ? shards/s][A
+
+Creating parquet from Arrow format:   0%|          | 0/1 [00:00<?, ?ba/s][A
+Creating parquet from Arrow format: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1/1 [00:00<00:00, 101.47ba/s]
+
+Processing Files (0 / 0)      : |          |  0.00B /  0.00B            
+
+New Data Upload               : |          |  0.00B /  0.00B            [A
+
+
+  /tmp/tmpc1avd2e7.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1.71MB / 1.71MB            [A[A
+
+
+  /tmp/tmpc1avd2e7.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1.71MB / 1.71MB            [A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+
+Validating                    :           |   0%            [A[A[A
+
+
+  /tmp/tmpc1avd2e7.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1.71MB / 1.71MB            [A[A
+
+
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            [A[A[A
+Processing Files (1 / 1)      : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1.71MB / 1.71MB,   ???B/s  
+
+New Data Upload               : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1.71MB / 1.71MB,   ???B/s  
+
+Validating                    : ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 100%            
+
+  /tmp/tmpc1avd2e7.parquet    : 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1.71MB / 1.71MB            
+
+Uploading the dataset shards: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1/1 [00:00<00:00,  3.64 shards/s]
+
+
+Filter:   0%|          | 0/990320 [00:00<?, ? examples/s][A
+
+Filter:  26%|ÔûêÔûêÔûî       | 259000/990320 [00:01<00:02, 252602.11 examples/s][A
+
+Filter:  52%|ÔûêÔûêÔûêÔûêÔûêÔûÅ    | 518000/990320 [00:02<00:01, 252546.19 examples/s][A
+
+Filter:  79%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûë  | 782000/990320 [00:03<00:00, 248312.82 examples/s][A
+Filter: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 990320/990320 [00:05<00:00, 186844.59 examples/s]
+
+
+Flattening the indices:   0%|          | 0/350746 [00:00<?, ? examples/s][A
+
+Flattening the indices:   2%|ÔûÅ         | 8000/350746 [00:01<00:49, 6932.10 examples/s][A
+
+Flattening the indices:   4%|Ôûì         | 15000/350746 [00:02<00:51, 6474.27 examples/s][A
+
+Flattening the indices:   6%|Ôûï         | 22000/350746 [00:03<00:52, 6320.98 examples/s][A
+
+Flattening the indices:   8%|Ôûè         | 29000/350746 [00:04<00:52, 6174.36 examples/s][A
+
+Flattening the indices:  10%|Ôûê         | 36000/350746 [00:05<00:51, 6164.86 examples/s][A
+
+Flattening the indices:  12%|ÔûêÔûÅ        | 43000/350746 [00:06<00:49, 6162.78 examples/s][A
+
+Flattening the indices:  14%|ÔûêÔûì        | 50000/350746 [00:08<00:48, 6162.37 examples/s][A
+
+Flattening the indices:  16%|ÔûêÔûï        | 57000/350746 [00:09<00:47, 6160.04 examples/s][A
+
+Flattening the indices:  18%|ÔûêÔûè        | 64000/350746 [00:10<00:46, 6102.09 examples/s][A
+
+Flattening the indices:  20%|ÔûêÔûê        | 71000/350746 [00:11<00:45, 6112.37 examples/s][A
+
+Flattening the indices:  22%|ÔûêÔûêÔûÅ       | 78000/350746 [00:12<00:44, 6151.53 examples/s][A
+
+Flattening the indices:  24%|ÔûêÔûêÔûì       | 85000/350746 [00:13<00:43, 6148.06 examples/s][A
+
+Flattening the indices:  26%|ÔûêÔûêÔûî       | 92000/350746 [00:14<00:42, 6102.83 examples/s][A
+
+Flattening the indices:  28%|ÔûêÔûêÔûè       | 99000/350746 [00:16<00:41, 6119.24 examples/s][A
+
+Flattening the indices:  30%|ÔûêÔûêÔûê       | 106000/350746 [00:17<00:39, 6123.85 examples/s][A
+
+Flattening the indices:  32%|ÔûêÔûêÔûêÔûÅ      | 113000/350746 [00:18<00:38, 6140.05 examples/s][A
+
+Flattening the indices:  34%|ÔûêÔûêÔûêÔûì      | 120000/350746 [00:19<00:37, 6132.45 examples/s][A
+
+Flattening the indices:  36%|ÔûêÔûêÔûêÔûî      | 127000/350746 [00:20<00:36, 6054.79 examples/s][A
+
+Flattening the indices:  38%|ÔûêÔûêÔûêÔûè      | 134000/350746 [00:21<00:35, 6080.61 examples/s][A
+
+Flattening the indices:  40%|ÔûêÔûêÔûêÔûê      | 141000/350746 [00:22<00:34, 6121.81 examples/s][A
+
+Flattening the indices:  42%|ÔûêÔûêÔûêÔûêÔûÅ     | 148000/350746 [00:24<00:32, 6149.34 examples/s][A
+
+Flattening the indices:  44%|ÔûêÔûêÔûêÔûêÔûì     | 155000/350746 [00:25<00:32, 6107.52 examples/s][A
+
+Flattening the indices:  46%|ÔûêÔûêÔûêÔûêÔûî     | 162000/350746 [00:26<00:30, 6134.38 examples/s][A
+
+Flattening the indices:  48%|ÔûêÔûêÔûêÔûêÔûè     | 169000/350746 [00:27<00:29, 6157.49 examples/s][A
+
+Flattening the indices:  50%|ÔûêÔûêÔûêÔûêÔûê     | 176000/350746 [00:28<00:28, 6177.85 examples/s][A
+
+Flattening the indices:  52%|ÔûêÔûêÔûêÔûêÔûêÔûÅ    | 183000/350746 [00:29<00:27, 6119.78 examples/s][A
+
+Flattening the indices:  54%|ÔûêÔûêÔûêÔûêÔûêÔûì    | 190000/350746 [00:30<00:26, 6106.71 examples/s][A
+
+Flattening the indices:  56%|ÔûêÔûêÔûêÔûêÔûêÔûî    | 197000/350746 [00:32<00:25, 6133.92 examples/s][A
+
+Flattening the indices:  58%|ÔûêÔûêÔûêÔûêÔûêÔûè    | 204000/350746 [00:33<00:23, 6144.86 examples/s][A
+
+Flattening the indices:  60%|ÔûêÔûêÔûêÔûêÔûêÔûê    | 211000/350746 [00:34<00:22, 6137.74 examples/s][A
+
+Flattening the indices:  62%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûÅ   | 218000/350746 [00:35<00:21, 6076.79 examples/s][A
+
+Flattening the indices:  64%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûì   | 225000/350746 [00:36<00:20, 6109.04 examples/s][A
+
+Flattening the indices:  66%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûî   | 232000/350746 [00:37<00:19, 6124.57 examples/s][A
+
+Flattening the indices:  68%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûè   | 239000/350746 [00:38<00:18, 6143.61 examples/s][A
+
+Flattening the indices:  70%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûê   | 246000/350746 [00:40<00:17, 6159.93 examples/s][A
+
+Flattening the indices:  72%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûÅ  | 253000/350746 [00:41<00:15, 6157.89 examples/s][A
+
+Flattening the indices:  74%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûì  | 260000/350746 [00:42<00:14, 6151.79 examples/s][A
+
+Flattening the indices:  76%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûî  | 267000/350746 [00:43<00:13, 6077.43 examples/s][A
+
+Flattening the indices:  78%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûè  | 274000/350746 [00:44<00:12, 6095.43 examples/s][A
+
+Flattening the indices:  80%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê  | 281000/350746 [00:45<00:11, 6107.06 examples/s][A
+
+Flattening the indices:  82%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûÅ | 288000/350746 [00:46<00:10, 6098.83 examples/s][A
+
+Flattening the indices:  84%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûì | 295000/350746 [00:48<00:09, 6022.64 examples/s][A
+
+Flattening the indices:  86%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûî | 302000/350746 [00:49<00:08, 6068.53 examples/s][A
+
+Flattening the indices:  88%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûè | 309000/350746 [00:50<00:06, 6099.02 examples/s][A
+
+Flattening the indices:  90%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê | 316000/350746 [00:51<00:05, 6119.30 examples/s][A
+
+Flattening the indices:  92%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûÅ| 323000/350746 [00:52<00:04, 6145.02 examples/s][A
+
+Flattening the indices:  94%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûì| 330000/350746 [00:53<00:03, 6092.69 examples/s][A
+
+Flattening the indices:  96%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûî| 337000/350746 [00:54<00:02, 6109.78 examples/s][A
+
+Flattening the indices:  98%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûè| 344000/350746 [00:56<00:01, 6109.78 examples/s][A
+
+Flattening the indices: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 350746/350746 [00:57<00:00, 6103.43 examples/s][A
+Flattening the indices: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 350746/350746 [00:57<00:00, 6130.78 examples/s]
+
+
+Filter:   0%|          | 0/2250 [00:00<?, ? examples/s][A
+Filter: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 2250/2250 [00:00<00:00, 141548.56 examples/s]
+
+
+Flattening the indices:   0%|          | 0/1610 [00:00<?, ? examples/s][A
+Flattening the indices: 100%|ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê| 1610/1610 [00:00<00:00, 13149.75 examples/s]
+

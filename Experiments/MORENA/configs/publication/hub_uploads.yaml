@@ -1,0 +1,17 @@
+schema_version: 1
+tokenizer_repo: Tonic/MORENA-65k-Tokenizer
+uploads:
+- hub_repo: Tonic/MORENA-0.2B-Nano-Wolof-CPT
+  metrics: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation/metrics/morena/wolof_cpt_0.2b_nano.json
+- hub_repo: Tonic/MORENA-0.5B-Mini-Wolof-CPT
+  metrics: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation/metrics/morena/wolof_cpt_0.5b_mini.json
+- hub_repo: Tonic/MORENA-1.5B-Wolof-CPT
+  metrics: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation/metrics/morena/wolof_cpt_1.5b.json
+- hub_repo: Tonic/MORENA-1.5B-Wolof-Instruct
+  metrics: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation/metrics/morena/wolof_sft_1.5b.json
+- hub_repo: Tonic/MORENA-0.5B-Mini-Wolof-Instruct
+  metrics: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation/metrics/morena/wolof_sft_0.5b_mini.json
+- hub_repo: Tonic/MORENA-0.5B-Mini-Wolof-Distill
+  metrics: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation/metrics/morena/wolof_distill_0.5b_mini.json
+- hub_repo: Tonic/MORENA-0.2B-Nano-Wolof-Distill
+  metrics: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation/metrics/morena/wolof_distill_0.2b_nano.json

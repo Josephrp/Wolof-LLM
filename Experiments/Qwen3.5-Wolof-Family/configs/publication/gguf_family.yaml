@@ -1,0 +1,70 @@
+# Complete GGUF matrix for Qwen3.5 Wolof CPT + Instruct (all sizes).
+schema_version: 1
+llamacpp_root: /mnt/volume_w2l8nkp/tools/llama.cpp
+output_root: results/gguf/v1
+quant_set: [BF16, F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q4_0]
+verify_quant: Q4_K_M
+namespace_preferred: Tonic
+private: false
+cleanup_after_publish: true
+smoke_prompt: "Salaam aleekum, naka nga def?"
+smoke_n_predict: 48
+# Prefer local merged dirs; fall back to Hub download into cache_root.
+cache_root: results/hub_cache
+models:
+  - size: 08b
+    stage: CPT
+    artifact: models/qwen35-08b-cpt-v1-merged
+    hub_source: Tonic/Qwen3.5-08B-Wolof-CPT-v1
+    base_repo: Tonic/Qwen3.5-08B-Wolof-CPT-v1
+    gguf_repo_name: Qwen3.5-08B-Wolof-CPT-v1-GGUF
+    file_stem: Qwen3.5-08B-Wolof-CPT-v1
+  - size: 08b
+    stage: Instruct
+    artifact: models/qwen35-08b-instruct-from-cpt-merged
+    hub_source: Tonic/Qwen3.5-08B-Wolof-Instruct-v1
+    base_repo: Tonic/Qwen3.5-08B-Wolof-Instruct-v1
+    gguf_repo_name: Qwen3.5-08B-Wolof-Instruct-v1-GGUF
+    file_stem: Qwen3.5-08B-Wolof-Instruct-v1
+  - size: 2b
+    stage: CPT
+    artifact: models/qwen35-2b-cpt-v1-merged
+    hub_source: Tonic/Qwen3.5-2B-Wolof-CPT-v1
+    base_repo: Tonic/Qwen3.5-2B-Wolof-CPT-v1
+    gguf_repo_name: Qwen3.5-2B-Wolof-CPT-v1-GGUF
+    file_stem: Qwen3.5-2B-Wolof-CPT-v1
+  - size: 2b
+    stage: Instruct
+    artifact: models/qwen35-2b-instruct-from-cpt-merged
+    hub_source: Tonic/Qwen3.5-2B-Wolof-Instruct-v1
+    base_repo: Tonic/Qwen3.5-2B-Wolof-Instruct-v1
+    gguf_repo_name: Qwen3.5-2B-Wolof-Instruct-v1-GGUF
+    file_stem: Qwen3.5-2B-Wolof-Instruct-v1
+  - size: 4b
+    stage: CPT
+    artifact: models/qwen35-4b-cpt-v1-merged
+    hub_source: Tonic/Qwen3.5-4B-Wolof-CPT-v1
+    base_repo: Tonic/Qwen3.5-4B-Wolof-CPT-v1
+    gguf_repo_name: Qwen3.5-4B-Wolof-CPT-v1-GGUF
+    file_stem: Qwen3.5-4B-Wolof-CPT-v1
+  - size: 4b
+    stage: Instruct
+    artifact: models/qwen35-4b-instruct-from-cpt-merged
+    hub_source: Tonic/Qwen3.5-4B-Wolof-Instruct-v1
+    base_repo: Tonic/Qwen3.5-4B-Wolof-Instruct-v1
+    gguf_repo_name: Qwen3.5-4B-Wolof-Instruct-v1-GGUF
+    file_stem: Qwen3.5-4B-Wolof-Instruct-v1
+  - size: 9b
+    stage: CPT
+    artifact: models/qwen35-9b-cpt-v1-merged
+    hub_source: Tonic/Qwen3.5-9B-Wolof-CPT-v1
+    base_repo: Tonic/Qwen3.5-9B-Wolof-CPT-v1
+    gguf_repo_name: Qwen3.5-9B-Wolof-CPT-v1-GGUF
+    file_stem: Qwen3.5-9B-Wolof-CPT-v1
+  - size: 9b
+    stage: Instruct
+    artifact: models/qwen35-9b-instruct-from-cpt-merged
+    hub_source: Tonic/Qwen3.5-9B-Wolof-Instruct-v1
+    base_repo: Tonic/Qwen3.5-9B-Wolof-Instruct-v1
+    gguf_repo_name: Qwen3.5-9B-Wolof-Instruct-v1-GGUF
+    file_stem: Qwen3.5-9B-Wolof-Instruct-v1

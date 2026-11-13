@@ -1,0 +1,42 @@
+#run: wolof-ext4000-lora
+run: wolof-ext4000-lora-v2
+base_id: HuggingFaceTB/SmolLM3-3B-Base
+tokenizer: tokenizers/smollm3_wolof_ext_4000
+model: models/smollm3-wolof-ext4000-init  
+output_root: /mnt/volume_w2l8nkp/galsenllm/OutputOfSmolLM_Model
+data_root: /mnt/volume_w2l8nkp/galsenllm/data
+methode: lora
+
+
+attention: sdpa               
+                              
+                              
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens, lm_head]
+
+entrainement:
+  max_steps: 4270            
+                            
+  seq_len: 2048             
+  micro_bs: 4
+  grad_acc: 8              
+  lr: 2.0e-4
+ 
+  lr_embeddings: 4.0e-4
+  
+  patience: 4
+  seuil_amelioration: 0.001
+  scheduler: cosine
+  warmup_ratio: 0.03
+  logging_steps: 25
+  eval_steps: 100            
+  save_steps: 500            
+  save_total_limit: 3
+  gradient_checkpointing: true
+  optim: adamw_torch
+  seed: 42

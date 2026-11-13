@@ -1,0 +1,32 @@
+run: tinyaya_3b35_cpt_std_v1
+stage: v1
+size: 3b35
+ortho: std
+base_id: CohereLabs/tiny-aya-base
+tokenizer: tokenizers/tinyaya-wolof-ext-anchors
+model: models/tinyaya-3.35b-ext-init
+data_root: data/ortho_std_mixed_v1/cpt
+methode: lora
+extended_tokenizer: true
+attn_implementation: flash_attention_3
+fused_ce: true
+output_root: runs/clm/3b35/v1_ntp70_ortho_std_lora
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens]
+entrainement:
+  num_train_epochs: 3
+  seq_len: 2048
+  micro_bs: 1
+  grad_acc: 16
+  lr: 2.0e-4
+  eval_steps: 250
+  save_steps: 250
+  logging_steps: 25
+  gradient_checkpointing: true
+  seed: 42
+  save_total_limit: 3
+  patience: 0

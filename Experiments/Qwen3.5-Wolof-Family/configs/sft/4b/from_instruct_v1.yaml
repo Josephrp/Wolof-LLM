@@ -1,0 +1,29 @@
+run: qwen35_4b_sft_from_instruct_v1
+size: 4b
+model: Qwen/Qwen3.5-4B
+starts_from: stock_instruct
+dataset: data/sft/prepared_anchored_v1
+output_dir: runs/sft/4b_from_instruct_v1
+extended_tokenizer: false
+assistant_only_loss: true
+methode: lora
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: []
+training:
+  num_train_epochs: 3
+  seq_len: 2048
+  micro_bs: 2
+  grad_acc: 8
+  lr: 2.0e-4
+  eval_steps: 100
+  save_steps: 100
+  logging_steps: 10
+  packing: false
+  seed: 42
+  patience: 5
+  save_total_limit: 3
+  best_pool_keep: 15

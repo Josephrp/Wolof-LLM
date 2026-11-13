@@ -1,0 +1,16 @@
+# Tokenizer extension — 65k family, +4000 Wolof candidates
+# Shared recipe for 230M / 350M / 1.2B (append-only; eos stays 7).
+# For a cheaper build machine, temporarily set base_id to LiquidAI/LFM2.5-350M-Base.
+
+base_id: LiquidAI/LFM2.5-1.2B-Base
+family: 65k
+n_tokens: 4000
+n_echantillon: 300000
+seed: 42
+eos_token_id: 7
+
+tokenizer_path: tokenizers/lfm25_wolof_ext_4000
+model_path: models/lfm25-wolof-ext4000-init
+
+# Plan also references configs/tokenizer-ext4000-65k.yaml at experiment root —
+# that path is a thin pointer YAML (see sibling copy at configs/tokenizer-ext4000-65k.yaml).

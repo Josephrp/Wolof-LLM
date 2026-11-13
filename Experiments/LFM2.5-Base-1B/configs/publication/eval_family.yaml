@@ -1,0 +1,291 @@
+# Durable gated family evaluation for LFM2.5 Wolof HF + GGUF artifacts.
+schema_version: 1
+evaluation_root: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation
+lfm_root: /mnt/volume_w2l8nkp/Wolof-LLM-main/Experiments/LFM2.5-Base-1B
+llamacpp_root: /mnt/volume_w2l8nkp/tools/llama.cpp
+namespace: Tonic
+prefer_local_artifacts: true
+
+clm_stock:
+  - config: configs/clm/lfm_230m_base.yaml
+    size: 230m
+    stage: Base
+  - config: configs/clm/lfm_350m_base.yaml
+    size: 350m
+    stage: Base
+  - config: configs/clm/lfm_1.2b_base.yaml
+    size: 1.2b
+    stage: Base
+  - config: configs/clm/lfm_2.6b_base.yaml
+    size: 2.6b
+    stage: Base
+  - config: configs/clm/lfm_8b_base.yaml
+    size: 8b-a1b
+    stage: Base
+
+clm_cpt:
+  - config: configs/clm/lfm_230m_clm.yaml
+    size: 230m
+    stage: CPT
+    local_artifact: models/v2_230m_ext_lora-merged
+    hub_repo: Tonic/LFM2.5-230M-Wolof-CPT
+  - config: configs/clm/lfm_350m_clm.yaml
+    size: 350m
+    stage: CPT
+    local_artifact: models/v2_350m_ext4000_lora-merged
+    hub_repo: Tonic/LFM2.5-350M-Wolof-CPT
+  - config: configs/clm/lfm_1.2b_clm.yaml
+    size: 1.2b
+    stage: CPT
+    local_artifact: models/v2_1.2b_ext4000_lora-merged
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-CPT
+  - config: configs/clm/lfm_2.6b_clm.yaml
+    size: 2.6b
+    stage: CPT
+    local_artifact: models/lfm_2.6b_v2_ext4000_lora-merged
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-CPT
+  - config: configs/clm/lfm_8b_clm.yaml
+    size: 8b-a1b
+    stage: CPT
+    local_artifact: models/lfm_8b_a1b_v2_moe_lora-merged
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-CPT
+
+clm_instruct:
+  - config: configs/clm/lfm_230m_instruct.yaml
+    size: 230m
+    stage: Instruct
+    local_artifact: models/lfm25-230m-wolof-instruct-merged
+    hub_repo: Tonic/LFM2.5-230M-Wolof-Instruct
+    sft_data: data/sft/prepared_mixture_v1
+  - config: configs/clm/lfm_350m_instruct.yaml
+    size: 350m
+    stage: Instruct
+    local_artifact: models/lfm25-350m-wolof-instruct-merged
+    hub_repo: Tonic/LFM2.5-350M-Wolof-Instruct
+    sft_data: data/sft/prepared_mixture_v1
+  - config: configs/clm/lfm_1.2b_instruct.yaml
+    size: 1.2b
+    stage: Instruct
+    local_artifact: models/lfm25-1.2b-wolof-instruct-merged
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-Instruct
+    sft_data: data/sft/prepared_mixture_v1
+  - config: configs/clm/lfm_2.6b_instruct.yaml
+    size: 2.6b
+    stage: Instruct
+    local_artifact: models/lfm25-2.6b-wolof-instruct-merged
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-Instruct
+    sft_data: data/sft/prepared_mixture_v1_128k
+  - config: configs/clm/lfm_8b_instruct.yaml
+    size: 8b-a1b
+    stage: Instruct
+    local_artifact: models/lfm25-8b-a1b-wolof-instruct-merged
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-Instruct
+    sft_data: data/sft/prepared_mixture_v1_128k
+
+# Ortho NS+mixed CPT-v3 / Instruct-v3 (primary BPB = filtered test)
+clm_cpt_v3:
+  - size: 230m
+    stage: CPT
+    local_artifact: models/v3_230m_ortho_ns_mixed_lora-merged
+    hub_repo: Tonic/LFM2.5-230M-Wolof-CPT-v3
+    clm_metrics: metrics/clm/lfm_230m_cpt_v3.json
+  - size: 350m
+    stage: CPT
+    local_artifact: models/v3_350m_ortho_ns_mixed_lora-merged
+    hub_repo: Tonic/LFM2.5-350M-Wolof-CPT-v3
+    clm_metrics: metrics/clm/lfm_350m_cpt_v3.json
+  - size: 1.2b
+    stage: CPT
+    local_artifact: models/v3_1.2b_ortho_ns_mixed_lora-merged
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-CPT-v3
+    clm_metrics: metrics/clm/lfm_1.2b_cpt_v3.json
+  - size: 2.6b
+    stage: CPT
+    local_artifact: models/v3_2.6b_ortho_ns_mixed_lora-merged
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-CPT-v3
+    clm_metrics: metrics/clm/lfm_2.6b_cpt_v3.json
+  - size: 8b-a1b
+    stage: CPT
+    local_artifact: models/v3_8b_a1b_ortho_ns_mixed_lora-merged
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-CPT-v3
+    clm_metrics: metrics/clm/lfm_8b_cpt_v3.json
+
+clm_instruct_v3:
+  - size: 230m
+    stage: Instruct
+    local_artifact: models/lfm25-230m-wolof-instruct-ortho-ns-mixed-merged
+    hub_repo: Tonic/LFM2.5-230M-Wolof-Instruct-v3
+    sft_eval: results/full_pipeline/eval_ortho_ns_mixed/230m/evaluation.json
+    clm_metrics: metrics/clm/lfm_230m_instruct_v3.json
+  - size: 350m
+    stage: Instruct
+    local_artifact: models/lfm25-350m-wolof-instruct-ortho-ns-mixed-merged
+    hub_repo: Tonic/LFM2.5-350M-Wolof-Instruct-v3
+    sft_eval: results/full_pipeline/eval_ortho_ns_mixed/350m/evaluation.json
+    clm_metrics: metrics/clm/lfm_350m_instruct_v3.json
+  - size: 1.2b
+    stage: Instruct
+    local_artifact: models/lfm25-1.2b-wolof-instruct-ortho-ns-mixed-merged
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-Instruct-v3
+    sft_eval: results/full_pipeline/eval_ortho_ns_mixed/1.2b/evaluation.json
+    clm_metrics: metrics/clm/lfm_1.2b_instruct_v3.json
+  - size: 2.6b
+    stage: Instruct
+    local_artifact: models/lfm25-2.6b-wolof-instruct-ortho-ns-mixed-merged
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-Instruct-v3
+    sft_eval: results/full_pipeline/eval_ortho_ns_mixed/2.6b/evaluation.json
+    clm_metrics: metrics/clm/lfm_2.6b_instruct_v3.json
+  - size: 8b-a1b
+    stage: Instruct
+    local_artifact: models/lfm25-8b-a1b-wolof-instruct-ortho-ns-mixed-merged
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-Instruct-v3
+    sft_eval: results/full_pipeline/eval_ortho_ns_mixed/8b-a1b/evaluation.json
+    clm_metrics: metrics/clm/lfm_8b_instruct_v3.json
+
+# Stratified-SFT Instruct-v2 (metrics composed from metrics.json + metrics_clm.json)
+clm_instruct_v2:
+  - size: 230m
+    stage: Instruct
+    local_artifact: models/lfm25-230m-wolof-instruct-stratified-merged
+    hub_repo: Tonic/LFM2.5-230M-Wolof-Instruct-v2
+    sft_eval: results/full_pipeline/eval_stratified/230m/evaluation.json
+    clm_metrics: metrics/clm/lfm_230m_instruct_v2.json
+  - size: 350m
+    stage: Instruct
+    local_artifact: models/lfm25-350m-wolof-instruct-stratified-merged
+    hub_repo: Tonic/LFM2.5-350M-Wolof-Instruct-v2
+    sft_eval: results/full_pipeline/eval_stratified/350m/evaluation.json
+    clm_metrics: metrics/clm/lfm_350m_instruct_v2.json
+  - size: 1.2b
+    stage: Instruct
+    local_artifact: models/lfm25-1.2b-wolof-instruct-stratified-merged
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-Instruct-v2
+    sft_eval: results/full_pipeline/eval_stratified/1.2b/evaluation.json
+    clm_metrics: metrics/clm/lfm_1.2b_instruct_v2.json
+  - size: 2.6b
+    stage: Instruct
+    local_artifact: models/lfm25-2.6b-wolof-instruct-stratified-merged
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-Instruct-v2
+    sft_eval: results/full_pipeline/eval_stratified/2.6b/evaluation.json
+    clm_metrics: metrics/clm/lfm_2.6b_instruct_v2.json
+  - size: 8b-a1b
+    stage: Instruct
+    local_artifact: models/lfm25-8b-a1b-wolof-instruct-stratified-merged
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-Instruct-v2
+    sft_eval: results/full_pipeline/eval_stratified/8b-a1b/evaluation.json
+    clm_metrics: metrics/clm/lfm_8b_instruct_v2.json
+
+# Ortho NS+mixed V3 GGUF Q4_K_M (eval via 59_eval_publish_gguf_v3.py)
+gguf_q4_v3:
+  - config: configs/gguf/lfm_230m_cpt_v3_q4_k_m.yaml
+    size: 230m
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-230M-Wolof-CPT-v3-GGUF
+    local_gguf: results/gguf/v3/230m/cpt/LFM2.5-230M-Wolof-CPT-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_230m_cpt_v3.json
+  - config: configs/gguf/lfm_230m_instruct_v3_q4_k_m.yaml
+    size: 230m
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-230M-Wolof-Instruct-v3-GGUF
+    local_gguf: results/gguf/v3/230m/instruct/LFM2.5-230M-Wolof-Instruct-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_230m_instruct_v3.json
+  - config: configs/gguf/lfm_350m_cpt_v3_q4_k_m.yaml
+    size: 350m
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-350M-Wolof-CPT-v3-GGUF
+    local_gguf: results/gguf/v3/350m/cpt/LFM2.5-350M-Wolof-CPT-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_350m_cpt_v3.json
+  - config: configs/gguf/lfm_350m_instruct_v3_q4_k_m.yaml
+    size: 350m
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-350M-Wolof-Instruct-v3-GGUF
+    local_gguf: results/gguf/v3/350m/instruct/LFM2.5-350M-Wolof-Instruct-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_350m_instruct_v3.json
+  - config: configs/gguf/lfm_1.2b_cpt_v3_q4_k_m.yaml
+    size: 1.2b
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-CPT-v3-GGUF
+    local_gguf: results/gguf/v3/1.2b/cpt/LFM2.5-1.2B-Wolof-CPT-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_1.2b_cpt_v3.json
+  - config: configs/gguf/lfm_1.2b_instruct_v3_q4_k_m.yaml
+    size: 1.2b
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-Instruct-v3-GGUF
+    local_gguf: results/gguf/v3/1.2b/instruct/LFM2.5-1.2B-Wolof-Instruct-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_1.2b_instruct_v3.json
+  - config: configs/gguf/lfm_2.6b_cpt_v3_q4_k_m.yaml
+    size: 2.6b
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-CPT-v3-GGUF
+    local_gguf: results/gguf/v3/2.6b/cpt/LFM2.5-2.6B-Wolof-CPT-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_2.6b_cpt_v3.json
+  - config: configs/gguf/lfm_2.6b_instruct_v3_q4_k_m.yaml
+    size: 2.6b
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-Instruct-v3-GGUF
+    local_gguf: results/gguf/v3/2.6b/instruct/LFM2.5-2.6B-Wolof-Instruct-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_2.6b_instruct_v3.json
+  - config: configs/gguf/lfm_8b_cpt_v3_q4_k_m.yaml
+    size: 8b-a1b
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-CPT-v3-GGUF
+    local_gguf: results/gguf/v3/8b-a1b/cpt/LFM2.5-8B-A1B-Wolof-CPT-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_8b_cpt_v3.json
+  - config: configs/gguf/lfm_8b_instruct_v3_q4_k_m.yaml
+    size: 8b-a1b
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-Instruct-v3-GGUF
+    local_gguf: results/gguf/v3/8b-a1b/instruct/LFM2.5-8B-A1B-Wolof-Instruct-v3-Q4_K_M.gguf
+    clm_metrics: metrics/clm/lfm_8b_instruct_v3.json
+
+gguf_q4:
+  - config: configs/gguf/lfm_230m_cpt_q4_k_m.yaml
+    size: 230m
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-230M-Wolof-CPT-GGUF
+    local_gguf: results/gguf/230m/cpt/LFM2.5-230M-Wolof-CPT-Q4_K_M.gguf
+  - config: configs/gguf/lfm_230m_instruct_q4_k_m.yaml
+    size: 230m
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-230M-Wolof-Instruct-GGUF
+    local_gguf: results/gguf/230m/instruct/LFM2.5-230M-Wolof-Instruct-Q4_K_M.gguf
+  - config: configs/gguf/lfm_350m_cpt_q4_k_m.yaml
+    size: 350m
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-350M-Wolof-CPT-GGUF
+    local_gguf: results/gguf/350m/cpt/LFM2.5-350M-Wolof-CPT-Q4_K_M.gguf
+  - config: configs/gguf/lfm_350m_instruct_q4_k_m.yaml
+    size: 350m
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-350M-Wolof-Instruct-GGUF
+    local_gguf: results/gguf/350m/instruct/LFM2.5-350M-Wolof-Instruct-Q4_K_M.gguf
+  - config: configs/gguf/lfm_1.2b_cpt_q4_k_m.yaml
+    size: 1.2b
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-CPT-GGUF
+    local_gguf: results/gguf/1.2b/cpt/LFM2.5-1.2B-Wolof-CPT-Q4_K_M.gguf
+  - config: configs/gguf/lfm_1.2b_instruct_q4_k_m.yaml
+    size: 1.2b
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-1.2B-Wolof-Instruct-GGUF
+    local_gguf: results/gguf/1.2b/instruct/LFM2.5-1.2B-Wolof-Instruct-Q4_K_M.gguf
+  - config: configs/gguf/lfm_2.6b_cpt_q4_k_m.yaml
+    size: 2.6b
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-CPT-GGUF
+    local_gguf: results/gguf/2.6b/cpt/LFM2.5-2.6B-Wolof-CPT-Q4_K_M.gguf
+  - config: configs/gguf/lfm_2.6b_instruct_q4_k_m.yaml
+    size: 2.6b
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-2.6B-Wolof-Instruct-GGUF
+    local_gguf: results/gguf/2.6b/instruct/LFM2.5-2.6B-Wolof-Instruct-Q4_K_M.gguf
+  - config: configs/gguf/lfm_8b_cpt_q4_k_m.yaml
+    size: 8b-a1b
+    stage: CPT
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-CPT-GGUF
+    local_gguf: results/gguf/8b-a1b/cpt/LFM2.5-8B-A1B-Wolof-CPT-Q4_K_M.gguf
+  - config: configs/gguf/lfm_8b_instruct_q4_k_m.yaml
+    size: 8b-a1b
+    stage: Instruct
+    hub_repo: Tonic/LFM2.5-8B-A1B-Wolof-Instruct-GGUF
+    local_gguf: results/gguf/8b-a1b/instruct/LFM2.5-8B-A1B-Wolof-Instruct-Q4_K_M.gguf

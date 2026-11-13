@@ -1,0 +1,17 @@
+{
+  "protocol": "gguf-llama-cpp",
+  "run": "LFM2.5-350M-Wolof-Instruct-Q4_K_M",
+  "gguf_path": "LFM2.5-350M-Wolof-Instruct-Q4_K_M.gguf",
+  "quant": "Q4_K_M",
+  "hf_repo": "Tonic/LFM2.5-350M-Wolof-Instruct-GGUF",
+  "hf_clm_ref": "../metrics/clm/lfm_350m_instruct.json",
+  "perplexity": 4360.8375,
+  "BLEU": 0.16,
+  "chrF": 6.66,
+  "n_texts_evaluated": 4282,
+  "n_bleu_pairs": 100,
+  "ppl_ctx_size": 1024,
+  "ppl_chunks": 32,
+  "bleu_seed": 0,
+  "note": "Not HF-BPB-equivalent; compare PPL only within same GGUF/tokenizer family."
+}

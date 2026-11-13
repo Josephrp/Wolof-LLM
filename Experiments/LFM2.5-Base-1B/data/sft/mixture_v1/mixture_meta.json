@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "config": "configs/sft/mixture_v1.yaml",
+  "dataset_id": "galsenai/wolof_sft",
+  "source_split": "train",
+  "seed": 42,
+  "val_pct": 0.02,
+  "max_per_task": null,
+  "task_caps": {
+    "translation": 120000,
+    "tool_use": 80000,
+    "classification": 60000,
+    "instruction": 60000,
+    "intent": 15000,
+    "ner": 7500,
+    "qa": 2814
+  },
+  "n_hub_train": 990320,
+  "n_selected": 345314,
+  "n_train": 338408,
+  "n_val": 6906,
+  "counts_selected": {
+    "translation": 120000,
+    "classification": 60000,
+    "instruction": 60000,
+    "tool_use": 80000,
+    "intent": 15000,
+    "qa": 2814,
+    "ner": 7500
+  },
+  "counts_train": {
+    "tool_use": 78400,
+    "instruction": 58800,
+    "translation": 117600,
+    "classification": 58800,
+    "intent": 14700,
+    "qa": 2758,
+    "ner": 7350
+  },
+  "counts_val": {
+    "tool_use": 1600,
+    "ner": 150,
+    "instruction": 1200,
+    "translation": 2400,
+    "intent": 300,
+    "classification": 1200,
+    "qa": 56
+  },
+  "translation_pct": 0.3475098026723504,
+  "translation_max_pct": 0.35,
+  "hub_test_touched": false,
+  "paths": {
+    "train": "data/sft/mixture_v1/train.parquet",
+    "val": "data/sft/mixture_v1/val.parquet"
+  },
+  "notes": "Cap translation <= 35%. Boost instruction/qa/ner/intent.\nKeep tool_use ~15-25% for agentic LFM story.\nDo not touch Hub test (belebele / afrimmlu / afrimgsm / afrixnli).\n"
+}

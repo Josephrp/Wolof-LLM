@@ -1,0 +1,90 @@
+# Gated GGUF family conversion for private Wolof LFM2.5 artifacts.
+schema_version: 1
+llamacpp_root: /mnt/volume_w2l8nkp/tools/llama.cpp
+output_root: results/gguf
+quant_set: [BF16, F16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q4_0]
+verify_quant: Q4_K_M
+namespace_preferred: Tonic
+smoke_prompt: "Salaam aleekum, naka nga def?"
+smoke_n_predict: 48
+models:
+  - size: 230m
+    stage: CPT
+    artifact: models/v2_230m_ext_lora-merged
+    base_repo: Tonic/LFM2.5-230M-Wolof-CPT
+    gguf_repo_name: LFM2.5-230M-Wolof-CPT-GGUF
+    file_stem: LFM2.5-230M-Wolof-CPT
+    tokenizer_family: 65k-ext
+    expected_eos: 7
+  - size: 230m
+    stage: Instruct
+    artifact: models/lfm25-230m-wolof-instruct-merged
+    base_repo: Tonic/LFM2.5-230M-Wolof-Instruct
+    gguf_repo_name: LFM2.5-230M-Wolof-Instruct-GGUF
+    file_stem: LFM2.5-230M-Wolof-Instruct
+    tokenizer_family: 65k-ext
+    expected_eos: 7
+  - size: 350m
+    stage: CPT
+    artifact: models/v2_350m_ext4000_lora-merged
+    base_repo: Tonic/LFM2.5-350M-Wolof-CPT
+    gguf_repo_name: LFM2.5-350M-Wolof-CPT-GGUF
+    file_stem: LFM2.5-350M-Wolof-CPT
+    tokenizer_family: 65k-ext
+    expected_eos: 7
+  - size: 350m
+    stage: Instruct
+    artifact: models/lfm25-350m-wolof-instruct-merged
+    base_repo: Tonic/LFM2.5-350M-Wolof-Instruct
+    gguf_repo_name: LFM2.5-350M-Wolof-Instruct-GGUF
+    file_stem: LFM2.5-350M-Wolof-Instruct
+    tokenizer_family: 65k-ext
+    expected_eos: 7
+  - size: 1.2b
+    stage: CPT
+    artifact: models/v2_1.2b_ext4000_lora-merged
+    base_repo: Tonic/LFM2.5-1.2B-Wolof-CPT
+    gguf_repo_name: LFM2.5-1.2B-Wolof-CPT-GGUF
+    file_stem: LFM2.5-1.2B-Wolof-CPT
+    tokenizer_family: 65k-ext
+    expected_eos: 7
+  - size: 1.2b
+    stage: Instruct
+    artifact: models/lfm25-1.2b-wolof-instruct-merged
+    base_repo: Tonic/LFM2.5-1.2B-Wolof-Instruct
+    gguf_repo_name: LFM2.5-1.2B-Wolof-Instruct-GGUF
+    file_stem: LFM2.5-1.2B-Wolof-Instruct
+    tokenizer_family: 65k-ext
+    expected_eos: 7
+  - size: 2.6b
+    stage: CPT
+    artifact: models/lfm_2.6b_v2_ext4000_lora-merged
+    base_repo: Tonic/LFM2.5-2.6B-Wolof-CPT
+    gguf_repo_name: LFM2.5-2.6B-Wolof-CPT-GGUF
+    file_stem: LFM2.5-2.6B-Wolof-CPT
+    tokenizer_family: 128k-ext
+    expected_eos: 128900
+  - size: 2.6b
+    stage: Instruct
+    artifact: models/lfm25-2.6b-wolof-instruct-merged
+    base_repo: Tonic/LFM2.5-2.6B-Wolof-Instruct
+    gguf_repo_name: LFM2.5-2.6B-Wolof-Instruct-GGUF
+    file_stem: LFM2.5-2.6B-Wolof-Instruct
+    tokenizer_family: 128k-ext
+    expected_eos: 128900
+  - size: 8b-a1b
+    stage: CPT
+    artifact: models/lfm_8b_a1b_v2_moe_lora-merged
+    base_repo: Tonic/LFM2.5-8B-A1B-Wolof-CPT
+    gguf_repo_name: LFM2.5-8B-A1B-Wolof-CPT-GGUF
+    file_stem: LFM2.5-8B-A1B-Wolof-CPT
+    tokenizer_family: 128k-ext
+    expected_eos: 128900
+  - size: 8b-a1b
+    stage: Instruct
+    artifact: models/lfm25-8b-a1b-wolof-instruct-merged
+    base_repo: Tonic/LFM2.5-8B-A1B-Wolof-Instruct
+    gguf_repo_name: LFM2.5-8B-A1B-Wolof-Instruct-GGUF
+    file_stem: LFM2.5-8B-A1B-Wolof-Instruct
+    tokenizer_family: 128k-ext
+    expected_eos: 128900

@@ -1,0 +1,19 @@
+{
+  "run": "HuggingFaceTB/SmolLM3-3B-Base",
+  "vocab_size": 128256,
+  "device": "NVIDIA H200",
+  "BPB": 2.7314,
+  "perplexity": 144.87,
+  "BLEU": 4.15,
+  "chrF": 17.98,
+  "n_texts_evaluated": 4282,
+  "n_texts_scored": 4282,
+  "n_bleu_pairs": 100,
+  "n_bytes": 1642310,
+  "n_tokens": 624892,
+  "bpb_max_len": 1024,
+  "bleu_prompt_ratio": 0.5,
+  "bleu_length_ratio": 1.3,
+  "bleu_n_texts": 100,
+  "bleu_seed": 0
+}

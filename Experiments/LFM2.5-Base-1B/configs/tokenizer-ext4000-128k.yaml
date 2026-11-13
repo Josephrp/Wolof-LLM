@@ -1,0 +1,9 @@
+base_id: LiquidAI/LFM2.5-2.6B-Base
+family: 128k
+dataset_id: galsenai/cleaned_data_for_clm
+n_tokens: 4000
+n_echantillon: 300000
+seed: 42
+eos_token_id: 124900
+tokenizer_path: tokenizers/lfm25_wolof_ext_4000_128k
+model_path: models/lfm25-2.6b-wolof-ext4000-init

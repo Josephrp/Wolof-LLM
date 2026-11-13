@@ -1,0 +1,30 @@
+run: qwen35_08b_cpt_smoke
+stage: smoke
+size: 08b
+base_id: Qwen/Qwen3.5-0.8B-Base
+tokenizer: tokenizers/qwen35-wolof-ext-anchors
+model: models/qwen35-0.8b-ext-init
+data_root: data/ortho_ns_mixed_v1/cpt
+methode: lora
+extended_tokenizer: true
+output_root: runs/clm/08b/smoke
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens, lm_head]
+entrainement:
+  num_train_epochs: 3
+  max_steps: 20
+  seq_len: 1024
+  micro_bs: 1
+  grad_acc: 4
+  lr: 2.0e-4
+  eval_steps: 10
+  save_steps: 10
+  logging_steps: 5
+  gradient_checkpointing: true
+  seed: 42
+  save_total_limit: 3
+  best_pool_keep: 15

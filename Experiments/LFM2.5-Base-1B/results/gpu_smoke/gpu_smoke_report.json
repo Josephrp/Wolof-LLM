@@ -1,0 +1,209 @@
+{
+  "timestamp_utc": "2026-09-16T20:00:00Z",
+  "authorized_smoke_only": true,
+  "vm": {
+    "host_name": "vmx1",
+    "os": "Ubuntu 24.04",
+    "python_system": "3.12.3",
+    "storage_mount": "/mnt/volume_w2l8nkp",
+    "storage_total": "2.9T",
+    "storage_free": "1.2T"
+  },
+  "gpu": {
+    "model": "NVIDIA H200",
+    "vram_total_mib": 143771,
+    "vram_free_initial_mib": 135096,
+    "driver": "570.211.01",
+    "cuda_driver_capability": "12.8",
+    "compute_capability": "9.0",
+    "bf16": true
+  },
+  "environment": {
+    "uv": "0.12.15",
+    "python_uv": "3.12.8",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.17.0",
+    "sync": "pass",
+    "cuda_verify": "pass"
+  },
+  "validation": {
+    "pytest": "22 passed",
+    "ruff": "pass",
+    "compileall": "pass",
+    "verify_env": "pass"
+  },
+  "probe_350m": {
+    "status": "pass",
+    "linear_suffixes": [
+      "in_proj",
+      "k_proj",
+      "lm_head",
+      "out_proj",
+      "q_proj",
+      "v_proj",
+      "w1",
+      "w2",
+      "w3"
+    ],
+    "conv_suffixes": [
+      "conv"
+    ]
+  },
+  "probe_1p2b": {
+    "model": "LiquidAI/LFM2.5-1.2B-Base",
+    "config_only": true,
+    "full_weights_downloaded": false,
+    "architectures": [
+      "Lfm2ForCausalLM"
+    ],
+    "hidden_size": 2048,
+    "num_hidden_layers": 16,
+    "vocab_size": 65536,
+    "linear_suffixes": [
+      "in_proj",
+      "k_proj",
+      "lm_head",
+      "out_proj",
+      "q_proj",
+      "v_proj",
+      "w1",
+      "w2",
+      "w3"
+    ],
+    "conv_suffixes": [
+      "conv"
+    ]
+  },
+  "forward_350m": {
+    "model": "LiquidAI/LFM2.5-350M-Base",
+    "batch_size": 1,
+    "sequence_length": 6,
+    "logits_shape": [
+      1,
+      6,
+      65536
+    ],
+    "finite_logits": true,
+    "peak_allocated_mib": 710.88,
+    "peak_reserved_mib": 726.0
+  },
+  "tokenizer_ext32": {
+    "status": "smoke pass with norm warning",
+    "n_added": 32,
+    "eos_token_id": 7,
+    "append_only": true,
+    "round_trip": "500/500",
+    "monotonicity_regressions": 0,
+    "fertility_before": 2.1847472386452176,
+    "fertility_after": 2.1847472386452176,
+    "mean_pool_norm_ratio": 0.7143288542812584,
+    "embeddings": {
+      "rows_before": 65536,
+      "rows_after": 65536,
+      "tokenizer_size": 64432,
+      "preserved_padded_capacity": true
+    },
+    "canonical_ext4000_untouched": true
+  },
+  "train_default_lora": {
+    "status": "pass",
+    "steps": 2,
+    "loss": {
+      "train_premiere": 8.87620735168457,
+      "train_derniere": 7.468776226043701,
+      "val_derniere": 8.44075870513916,
+      "moyenne_run": 8.172491788864136,
+      "courbe_train": [
+        [
+          1,
+          8.87620735168457
+        ],
+        [
+          2,
+          7.468776226043701
+        ]
+      ],
+      "courbe_val": [
+        [
+          2,
+          8.44075870513916
+        ]
+      ]
+    },
+    "bpb_before": 3.338770132199966,
+    "bpb_after": 3.3381736547430734,
+    "peak_vram": {
+      "allocated_mib": 976.63,
+      "reserved_mib": 1902.0
+    },
+    "quality_claim": false
+  },
+  "train_ext32_lora": {
+    "status": "pass",
+    "steps": 1,
+    "modules_to_save": [
+      "embed_tokens",
+      "lm_head"
+    ],
+    "loss": {
+      "train_premiere": 8.892138481140137,
+      "train_derniere": 8.892138481140137,
+      "val_derniere": 8.430253028869629,
+      "moyenne_run": 8.892138481140137,
+      "courbe_train": [
+        [
+          1,
+          8.892138481140137
+        ]
+      ],
+      "courbe_val": [
+        [
+          1,
+          8.430253028869629
+        ]
+      ]
+    },
+    "bpb_before": 3.352962413527979,
+    "bpb_after": 3.3378295942329177,
+    "peak_vram": {
+      "allocated_mib": 1746.5,
+      "reserved_mib": 2074.0
+    },
+    "quality_claim": false
+  },
+  "huggingface_publish": {
+    "identity": "Tonic",
+    "token_role": "read",
+    "status": "blocked_no_write_scope",
+    "repo_created": false,
+    "upload_attempted": false,
+    "readback": false
+  },
+  "source_fixes": [
+    "pyproject.toml",
+    "uv.lock",
+    "scripts/clm/02_build_tokenizer.py",
+    "common/model.py",
+    "scripts/clm/03_train.py",
+    "tests/test_workflows.py",
+    "tests/test_clm_configs.py"
+  ],
+  "gates": {
+    "G-UV": "pass",
+    "350m_micro_forward": "pass",
+    "tiny_tokenizer_pipeline": "pass_with_norm_warning",
+    "tiny_default_lora": "pass",
+    "tiny_ext_lora": "pass",
+    "Stage_0": "partial_1p2b_full_forward_pending",
+    "G-TOK-65K": "pending_ext4000_and_fertility",
+    "G-SCRIPTS-CLM": "pending_canonical_10_step_smokes",
+    "production_training": "pending",
+    "quality": "pending",
+    "HF_publish_smoke": "blocked_read_token"
+  },
+  "security": {
+    "credentials_in_report": false,
+    "model_weights_downloaded_to_local": false,
+    "actual_model_artifacts_published": false
+  }
+}

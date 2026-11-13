@@ -1,0 +1,11 @@
+# ZeroGPU Gradio runtime — torch is provided/patched by `spaces`.
+spaces>=0.30.0
+gradio>=5.0.0
+torch
+transformers>=4.54.0
+accelerate>=1.0.0
+safetensors>=0.4.0
+huggingface_hub>=0.26.0
+sentencepiece>=0.2.0
+protobuf>=4.0.0
+numpy

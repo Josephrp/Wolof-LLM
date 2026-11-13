@@ -1,0 +1,15 @@
+﻿model: models/qwen35-9b-instruct-from-cpt-merged
+dataset: data/sft/preferences_v1.parquet
+output_dir: runs/sft/9b_dpo_v1
+gated: G6
+lora:
+  r: 32
+  alpha: 64
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+training:
+  max_steps: 1000
+  micro_bs: 1
+  grad_acc: 16
+  lr: 5.0e-7
+  beta: 0.1
+  seed: 42

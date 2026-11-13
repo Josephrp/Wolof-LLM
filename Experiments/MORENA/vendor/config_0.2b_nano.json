@@ -1,0 +1,41 @@
+{
+ "_comment": "Morena-nano 0.21B student: 12L x 1024d, GQA 8/4 (head_dim 128, same as the 1.5B teacher and the 0.5B mini), SwiGLU 2816, tied 64k embeddings, RoPE 5e5, seq 4096. Pruned one-shot out of morena0p5b-mini step_00010000 by prune_mini.py, then distilled from the 1.5B teacher morena1p5b-mid step_00075083 with CE + KL(teacher||student) by train_distill.py. GLOBAL BATCH = 256 seqs x 4096 = 1.05M tokens/step, node-count invariant: on 64 GPUs micro_batch 2 x grad_accum 2 x 64 = 256 exactly. 10,000 steps = 10.5B tokens. LR 3e-4, warmup 200, WSD 1-sqrt decay over the last 1,000 steps, identical to the mini so the two runs are comparable step for step.",
+ "model": {
+  "vocab_size": 65536,
+  "n_layer": 12,
+  "d_model": 1024,
+  "n_head": 8,
+  "n_kv_head": 4,
+  "d_ff": 2816,
+  "rope_theta": 500000.0,
+  "norm_eps": 1e-05,
+  "tie_embeddings": true,
+  "init_std": 0.02
+ },
+ "train": {
+  "seq_len": 4096,
+  "micro_batch": 2,
+  "grad_accum": 2,
+  "global_batch_seqs": 256,
+  "lr": 0.0003,
+  "min_lr_ratio": 0.1,
+  "weight_decay": 0.1,
+  "muon_momentum": 0.95,
+  "muon_ns_steps": 5,
+  "muon_ns_mode": "roundrobin",
+  "adam_betas": [0.9, 0.95],
+  "adam_eps": 1e-08,
+  "grad_clip": 1.0,
+  "warmup_steps": 200,
+  "total_steps": 10000,
+  "decay_steps": 1000,
+  "decay_start": -1,
+  "decay_shape": "1-sqrt",
+  "attn": "auto",
+  "act_ckpt": true,
+  "compile": false,
+  "seed": 1234,
+  "fsdp_shard_size": 4,
+  "optimizer": "muon"
+ }
+}

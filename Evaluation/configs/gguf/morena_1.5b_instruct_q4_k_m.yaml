@@ -1,0 +1,16 @@
+﻿run: morena-1.5b-instruct-Q4_K_M.gguf
+gguf_path: PLACEHOLDER_LOCAL_OR_HUB
+hf_repo: vamboai/morena-1.5b-instruct-gguf
+gguf_filename: morena-1.5b-instruct-Q4_K_M.gguf
+quant: Q4_K_M
+hf_clm_ref: ../metrics/morena/stock_1.5b_instruct.json
+corpus_csv: ../data/corpus_test_clm.csv
+text_column: text
+n_texts: all
+apply_verbalization: true
+bleu_n_texts: 100
+bleu_seed: 0
+ppl_ctx_size: 1024
+ppl_chunks: 32
+llamacpp_root: /mnt/volume_w2l8nkp/tools/llama.cpp
+output_json: ../metrics/gguf/morena_1.5b_instruct_q4_k_m.json

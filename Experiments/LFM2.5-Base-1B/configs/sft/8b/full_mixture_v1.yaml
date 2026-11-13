@@ -1,0 +1,29 @@
+run: lfm_8b_a1b_sft_full_mixture_v1
+model: models/lfm_8b_a1b_v2_moe_lora-merged
+starts_from: merged_cpt
+dataset: data/sft/prepared_mixture_v1_128k
+mixture_id: mixture_v1_tool_heavy
+task_weights: {translation: 0.20, tool_use: 0.35, instruction: 0.20, qa: 0.10, classification: 0.08, intent: 0.04, ner: 0.03}
+output_dir: runs/sft/8b_a1b_full_mixture_v1
+extended_tokenizer: true
+tokenizer_family: 128k-ext
+eos_token_id: 128900
+assistant_only_loss: true
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj]
+  modules_to_save: [embed_tokens, lm_head]
+training:
+  max_steps: 12000
+  seq_len: 4096
+  micro_bs: 1
+  grad_acc: 16
+  lr: 1.0e-4
+  logging_steps: 25
+  eval_steps: 250
+  save_steps: 250
+  save_total_limit: 2
+  packing: false
+  seed: 42

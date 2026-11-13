@@ -1,0 +1,31 @@
+run: qwen35_4b_cpt_v1
+stage: v1
+size: 4b
+base_id: Qwen/Qwen3.5-4B-Base
+tokenizer: tokenizers/qwen35-wolof-ext-anchors
+model: models/qwen35-4b-ext-init
+data_root: data/ortho_ns_mixed_v1/cpt
+methode: lora
+extended_tokenizer: true
+output_root: runs/clm/4b/v1_ntp70_ortho_lora
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens, lm_head]
+entrainement:
+  num_train_epochs: 3
+  seq_len: 2048
+  micro_bs: 2
+  grad_acc: 8
+  eval_micro_bs: 4
+  max_eval_samples: 512
+  lr: 2.0e-4
+  eval_steps: 200
+  save_steps: 200
+  logging_steps: 20
+  gradient_checkpointing: false
+  seed: 42
+  save_total_limit: 3
+  best_pool_keep: 15

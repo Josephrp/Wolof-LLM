@@ -1,0 +1,94 @@
+{
+  "created_at": "2026-09-16T19:13:04.824093+00:00",
+  "manifest": "C:\\Users\\claud\\galsenai\\Wolof-LLM-main\\Experiments\\LFM2.5-Base-1B\\configs\\production_pipeline.yaml",
+  "manifest_sha256": "52ee98a6f8ce6c0f2b9d97720ff6e9bce0e65c88bea145e94f76a8a9b04e03b6",
+  "pid": 39792,
+  "run_id": "lfm25-wolof-production-v1",
+  "schema_version": 1,
+  "stages": {
+    "hub_write_scope": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/41_verify_write_scope.py"
+      ],
+      "command_env_sha256": "2a15ba2dab19e73420898f82edc758f2e9cb3c80fd7026029840a388e15d54fb",
+      "completed_at": "2026-09-16T19:13:05.270075+00:00",
+      "resources_before": {
+        "free_disk_gb": 596.0,
+        "gpu_free_mib": [
+          5529
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T19:13:05.263016+00:00",
+      "status": "complete"
+    },
+    "trackio_space": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/44_setup_trackio_space.py"
+      ],
+      "command_env_sha256": "8d1499ffd92dd46d167a97ec2386bb9ebc9ea352b27e573abda1cbaed80dfbf2",
+      "completed_at": "2026-09-16T19:13:05.111338+00:00",
+      "resources_before": {
+        "free_disk_gb": 596.0,
+        "gpu_free_mib": [
+          5529
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T19:13:05.106542+00:00",
+      "status": "complete"
+    }
+  },
+  "status": "dry_run",
+  "updated_at": "2026-09-16T19:13:05.270075+00:00"
+}

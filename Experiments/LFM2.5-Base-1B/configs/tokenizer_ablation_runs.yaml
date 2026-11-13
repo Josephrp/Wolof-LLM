@@ -1,0 +1,7 @@
+sizes:
+  350m:
+    enabled: true
+    configs:
+      - configs/scaling/mini_350m_ext2000_lora.yaml
+      - configs/scaling/mini_350m_ext_lora.yaml
+      - configs/scaling/mini_350m_ext8000_lora.yaml

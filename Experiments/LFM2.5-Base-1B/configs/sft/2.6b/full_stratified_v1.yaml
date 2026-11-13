@@ -1,0 +1,29 @@
+run: lfm_2.6b_sft_full_stratified_v1
+model: models/lfm_2.6b_v2_ext4000_lora-merged
+starts_from: merged_cpt
+dataset: data/sft/prepared_stratified_v1_128k
+mixture_id: stratified_v1
+task_weights: {translation: 0.30, tool_use: 0.20, instruction: 0.20, qa: 0.08, classification: 0.12, intent: 0.06, ner: 0.04}
+output_dir: runs/sft/2.6b_full_stratified_v1
+extended_tokenizer: true
+tokenizer_family: 128k-ext
+eos_token_id: 128900
+assistant_only_loss: true
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj]
+  modules_to_save: [embed_tokens, lm_head]
+training:
+  max_steps: 12000
+  seq_len: 4096
+  micro_bs: 1
+  grad_acc: 16
+  lr: 1.5e-4
+  logging_steps: 25
+  eval_steps: 250
+  save_steps: 250
+  save_total_limit: 2
+  packing: false
+  seed: 42

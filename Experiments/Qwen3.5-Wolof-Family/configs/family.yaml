@@ -1,0 +1,38 @@
+namespace: Tonic
+sizes:
+  - key: 08b
+    base_id: Qwen/Qwen3.5-0.8B-Base
+    instruct_id: Qwen/Qwen3.5-0.8B
+    lora_r: 16
+    methode: lora
+  - key: 2b
+    base_id: Qwen/Qwen3.5-2B-Base
+    instruct_id: Qwen/Qwen3.5-2B
+    lora_r: 16
+    methode: lora
+  - key: 4b
+    base_id: Qwen/Qwen3.5-4B-Base
+    instruct_id: Qwen/Qwen3.5-4B
+    lora_r: 32
+    methode: lora
+  - key: 9b
+    base_id: Qwen/Qwen3.5-9B-Base
+    instruct_id: Qwen/Qwen3.5-9B
+    lora_r: 32
+    methode: qlora
+
+datasets:
+  ntp_source: galsenai/ntp_data_for_multilingual
+  ntp_variant: NTP_data_for_multilingual_70_20_10
+  sft_source: galsenai/wolof_sft_cleaned_v1_stratified
+  hub_cpt: Tonic/Qwen3.5-Wolof-NTP-ortho_ns_mixed_v1
+  hub_sft: Tonic/Qwen3.5-Wolof-SFT-ortho_ns_mixed_stratified_v1
+  hub_prepared: Tonic/Qwen3.5-Wolof-SFT-prepared_anchored_v1
+
+epochs:
+  cpt: 3
+  sft: 3
+
+ortho:
+  keep: [non_standard, mixed]
+  drop_formal: standard

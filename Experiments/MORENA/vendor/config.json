@@ -1,0 +1,44 @@
+{
+ "_comment": "Morena-1.5B target: 28L x 2048d, GQA 16/4 (head_dim 128), SwiGLU 6144, tied 64k embeddings, RoPE 5e5, seq 4096 -> 1.48B params (1.35B non-embedding). GLOBAL BATCH = global_batch_seqs 1024 x 4096 = 4.19M tokens/step, independent of node count: train.py sets grad_accum = round(1024 / (micro_batch * n_gpus)). 64 GPUs: accum 4 (exact). 48 GPUs: 5.33 -> 5 (3.9M). 40 GPUs: 6.4 -> 6 (3.9M). 12 GPUs: 21.3 -> 21 (4.1M). Keep the realized global batch constant across resumes (log line [data] prints it). 250B tokens = ~60k steps. fsdp_shard_size 4 = HSDP: parameters sharded inside each 4-GPU node (NVLink all-gathers), gradients all-reduced across nodes -- per-GPU state for 1.48B fp32 master+grad+Muon momentum+Adam (embed only) ~ 19 GB/4 = 5 GB, fits 64 GB with act_ckpt on. Set fsdp_shard_size 0 for full FSDP across all GPUs (lower memory, more inter-node traffic). LR 1e-3 shared (Moonlight scaling), warmup 2k, WSD decay over the last ~10% -- launch the anneal explicitly with --anneal from any stable checkpoint.",
+ "model": {
+  "vocab_size": 65536,
+  "n_layer": 28,
+  "d_model": 2048,
+  "n_head": 16,
+  "n_kv_head": 4,
+  "d_ff": 6144,
+  "rope_theta": 500000.0,
+  "norm_eps": 1e-05,
+  "tie_embeddings": true,
+  "init_std": 0.02
+ },
+ "train": {
+  "seq_len": 4096,
+  "micro_batch": 4,
+  "grad_accum": 4,
+  "lr": 0.001,
+  "min_lr_ratio": 0.1,
+  "weight_decay": 0.1,
+  "muon_momentum": 0.95,
+  "muon_ns_steps": 5,
+  "muon_ns_mode": "roundrobin",
+  "adam_betas": [
+   0.9,
+   0.95
+  ],
+  "adam_eps": 1e-08,
+  "grad_clip": 1.0,
+  "warmup_steps": 2000,
+  "total_steps": 60000,
+  "decay_steps": 6000,
+  "decay_start": -1,
+  "decay_shape": "1-sqrt",
+  "attn": "auto",
+  "act_ckpt": true,
+  "compile": false,
+  "seed": 1234,
+  "global_batch_seqs": 1024,
+  "fsdp_shard_size": 4,
+  "optimizer": "muon"
+ }
+}

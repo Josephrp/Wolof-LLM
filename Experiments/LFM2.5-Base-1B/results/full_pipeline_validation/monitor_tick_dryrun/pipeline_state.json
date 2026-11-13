@@ -1,0 +1,3724 @@
+{
+  "completed_at": "2026-09-16T20:36:06.038204+00:00",
+  "created_at": "2026-09-16T20:35:51.820329+00:00",
+  "manifest": "C:\\Users\\claud\\galsenai\\Wolof-LLM-main\\Experiments\\LFM2.5-Base-1B\\configs\\production_pipeline.yaml",
+  "manifest_sha256": "6ed0f2ce79d1559a4acde33c1642cd8ebd9b5e190b0187fb9be5169da77ea826",
+  "pid": 43856,
+  "run_id": "lfm25-wolof-production-v1",
+  "schema_version": 1,
+  "stages": {
+    "cpt_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/family/30_run_family.py",
+        "--size",
+        "1.2b",
+        "--resume"
+      ],
+      "command_env_sha256": "889c74a8d049b84c1112e4a73f220c70ccc3c48139c3f6c81d558c33b06cdd18",
+      "completed_at": "2026-09-16T20:35:56.797143+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:56.786617+00:00",
+      "status": "complete"
+    },
+    "cpt_230m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/family/30_run_family.py",
+        "--size",
+        "230m",
+        "--resume"
+      ],
+      "command_env_sha256": "5a3ef3f2b00c0cf4c668eb547314f0397467bfa6c1e0293f37d5b9ffda78df37",
+      "completed_at": "2026-09-16T20:35:59.265060+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:59.250740+00:00",
+      "status": "complete"
+    },
+    "cpt_2_6b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/family/30_run_family.py",
+        "--size",
+        "2.6b",
+        "--resume"
+      ],
+      "command_env_sha256": "1ab1a629209e45caff97b249b0694f4f7dba1b1375ca976649f63431e1f2ae9f",
+      "completed_at": "2026-09-16T20:36:01.940588+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:01.924817+00:00",
+      "status": "complete"
+    },
+    "cpt_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/family/30_run_family.py",
+        "--size",
+        "350m",
+        "--resume"
+      ],
+      "command_env_sha256": "8d1c4c79b9c69257aa4dc3d4d8f6dbff63cd3e721c78302b5c3980fc4825deda",
+      "completed_at": "2026-09-16T20:35:54.705460+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:54.695924+00:00",
+      "status": "complete"
+    },
+    "cpt_8b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/family/30_run_family.py",
+        "--size",
+        "8b",
+        "--resume"
+      ],
+      "command_env_sha256": "201f1477fd53e5e082b58569099737cf0b8414eefeee59ced7e7aae8a09f11cc",
+      "completed_at": "2026-09-16T20:36:04.352579+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:04.338472+00:00",
+      "status": "complete"
+    },
+    "environment": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/env/00_verify_env.py"
+      ],
+      "command_env_sha256": "80c4357c311c9787e4079ab298241ee8e4f60c08dc58dd2224e44ba08fa0fd24",
+      "completed_at": "2026-09-16T20:35:52.394844+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5524
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:52.385784+00:00",
+      "status": "complete"
+    },
+    "eval_sft_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/12_evaluate_sft.py",
+        "--model",
+        "models/lfm25-1.2b-wolof-instruct-merged",
+        "--data",
+        "data/sft/prepared_mixture_v1",
+        "--output",
+        "results/full_pipeline/eval/1.2b"
+      ],
+      "command_env_sha256": "48f280c0211f735e6e8a05a57caeb66c5d879142ff44f1ac034d3fd8c7723e56",
+      "completed_at": "2026-09-16T20:35:58.072234+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:58.059548+00:00",
+      "status": "complete"
+    },
+    "eval_sft_230m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/12_evaluate_sft.py",
+        "--model",
+        "models/lfm25-230m-wolof-instruct-merged",
+        "--data",
+        "data/sft/prepared_mixture_v1",
+        "--output",
+        "results/full_pipeline/eval/230m"
+      ],
+      "command_env_sha256": "38aa260c36ded697b3dccc48180906f95e2ff16ff116a9c57c04efa2da4d11e5",
+      "completed_at": "2026-09-16T20:36:00.058297+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:00.032590+00:00",
+      "status": "complete"
+    },
+    "eval_sft_2_6b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/12_evaluate_sft.py",
+        "--model",
+        "models/lfm25-2.6b-wolof-instruct-merged",
+        "--data",
+        "data/sft/prepared_mixture_v1_128k",
+        "--output",
+        "results/full_pipeline/eval/2.6b"
+      ],
+      "command_env_sha256": "65386260ae06c4b3fe057134fb7bf49948a423583d9142d451556c360b2b4ecd",
+      "completed_at": "2026-09-16T20:36:02.803564+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:02.784175+00:00",
+      "status": "complete"
+    },
+    "eval_sft_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/12_evaluate_sft.py",
+        "--model",
+        "models/lfm25-350m-wolof-instruct-merged",
+        "--data",
+        "data/sft/prepared_mixture_v1",
+        "--output",
+        "results/full_pipeline/eval/350m"
+      ],
+      "command_env_sha256": "316a5782e71687c61630113e91fbead392e1114351a319f379f630fcecf9303b",
+      "completed_at": "2026-09-16T20:35:56.035481+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:56.024815+00:00",
+      "status": "complete"
+    },
+    "eval_sft_8b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/12_evaluate_sft.py",
+        "--model",
+        "models/lfm25-8b-a1b-wolof-instruct-merged",
+        "--data",
+        "data/sft/prepared_mixture_v1_128k",
+        "--output",
+        "results/full_pipeline/eval/8b-a1b"
+      ],
+      "command_env_sha256": "7156a46c969238d0bceddba02a886b22397050914e855477e5a93ffd3c6e91d2",
+      "completed_at": "2026-09-16T20:36:05.144499+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:05.125430+00:00",
+      "status": "complete"
+    },
+    "full_sft_mixture": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/data/21_build_sft_mixture.py",
+        "--config",
+        "configs/sft/mixture_v1.yaml"
+      ],
+      "command_env_sha256": "e60508b6a9087256a6c8e62d6372a17fedf5729ead4440885c410a5a72cc3bad",
+      "completed_at": "2026-09-16T20:35:52.567886+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5524
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:52.560323+00:00",
+      "status": "complete"
+    },
+    "hub_write_scope": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/41_verify_write_scope.py"
+      ],
+      "command_env_sha256": "2a15ba2dab19e73420898f82edc758f2e9cb3c80fd7026029840a388e15d54fb",
+      "completed_at": "2026-09-16T20:35:52.269018+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5524
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:52.262246+00:00",
+      "status": "complete"
+    },
+    "merge_cpt_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/05_merge_adapter.py",
+        "--run",
+        "v2_1.2b_ext4000_lora"
+      ],
+      "command_env_sha256": "e2a3b96d1aa605acbaf4ac082637dc1424af94f80e460523aab109fa488d13bb",
+      "completed_at": "2026-09-16T20:35:57.002510+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:56.990467+00:00",
+      "status": "complete"
+    },
+    "merge_cpt_230m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/05_merge_adapter.py",
+        "--run",
+        "v2_230m_ext_lora"
+      ],
+      "command_env_sha256": "e939b0930d2d2513fb5e05790d33124aeaf0eff8e2cec7ea361387abd3ffb7ff",
+      "completed_at": "2026-09-16T20:35:59.457904+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:59.444371+00:00",
+      "status": "complete"
+    },
+    "merge_cpt_2_6b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/05_merge_adapter.py",
+        "--run",
+        "lfm_2.6b_v2_ext4000_lora"
+      ],
+      "command_env_sha256": "291136a4bb71f053c52ca33da6c520b2568694a04a517efee50b015e16fb47be",
+      "completed_at": "2026-09-16T20:36:02.148832+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:02.137595+00:00",
+      "status": "complete"
+    },
+    "merge_cpt_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/05_merge_adapter.py",
+        "--run",
+        "v2_350m_ext4000_lora"
+      ],
+      "command_env_sha256": "dd23bd8a4dd851ca9d0a6843284235811bed17cfbfc626e45f0c3dd7668e01ef",
+      "completed_at": "2026-09-16T20:35:54.894526+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:54.884086+00:00",
+      "status": "complete"
+    },
+    "merge_cpt_8b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/05_merge_adapter.py",
+        "--run",
+        "lfm_8b_a1b_v2_moe_lora"
+      ],
+      "command_env_sha256": "6c031c044588c6857363e609af329746a4617e82db6dbef4d5accedb74f4fb0c",
+      "completed_at": "2026-09-16T20:36:04.563586+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:04.552256+00:00",
+      "status": "complete"
+    },
+    "merge_sft_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/13_merge_sft.py",
+        "--base",
+        "models/v2_1.2b_ext4000_lora-merged",
+        "--adapter",
+        "runs/sft/1.2b_full_mixture_v1/adapter",
+        "--output",
+        "models/lfm25-1.2b-wolof-instruct-merged",
+        "--expected-eos",
+        "7"
+      ],
+      "command_env_sha256": "fae42ec631bb33edbae163229562545e03b4c9d13832fbeb42244b83f85a4d3f",
+      "completed_at": "2026-09-16T20:35:57.868859+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:57.853556+00:00",
+      "status": "complete"
+    },
+    "merge_sft_230m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/13_merge_sft.py",
+        "--base",
+        "models/v2_230m_ext_lora-merged",
+        "--adapter",
+        "runs/sft/230m_full_mixture_v1/adapter",
+        "--output",
+        "models/lfm25-230m-wolof-instruct-merged",
+        "--expected-eos",
+        "7"
+      ],
+      "command_env_sha256": "103d99f3de5cac1737c2b607ce6ef4240f7548a6b4281ce1f593ec3e483c1986",
+      "completed_at": "2026-09-16T20:35:59.803551+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:59.788553+00:00",
+      "status": "complete"
+    },
+    "merge_sft_2_6b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/13_merge_sft.py",
+        "--base",
+        "models/lfm_2.6b_v2_ext4000_lora-merged",
+        "--adapter",
+        "runs/sft/2.6b_full_mixture_v1/adapter",
+        "--output",
+        "models/lfm25-2.6b-wolof-instruct-merged",
+        "--expected-eos",
+        "124900"
+      ],
+      "command_env_sha256": "72cb0c6e44a112f540e73f72d4e67ffaf41629db89c2446b3ef69dca3d2d03a1",
+      "completed_at": "2026-09-16T20:36:02.596282+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:02.579202+00:00",
+      "status": "complete"
+    },
+    "merge_sft_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/13_merge_sft.py",
+        "--base",
+        "models/v2_350m_ext4000_lora-merged",
+        "--adapter",
+        "runs/sft/350m_full_mixture_v1/adapter",
+        "--output",
+        "models/lfm25-350m-wolof-instruct-merged",
+        "--expected-eos",
+        "7"
+      ],
+      "command_env_sha256": "c22d74a9dc30cfa5228d4fefdd0838345f8057232234371a81620c48e756a749",
+      "completed_at": "2026-09-16T20:35:55.857305+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:55.848826+00:00",
+      "status": "complete"
+    },
+    "merge_sft_8b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/13_merge_sft.py",
+        "--base",
+        "models/lfm_8b_a1b_v2_moe_lora-merged",
+        "--adapter",
+        "runs/sft/8b_a1b_full_mixture_v1/adapter",
+        "--output",
+        "models/lfm25-8b-a1b-wolof-instruct-merged",
+        "--expected-eos",
+        "124900"
+      ],
+      "command_env_sha256": "292eb88c87671b5972f2357625ae28d0607a55449e80ce40a038c8b76d138f40",
+      "completed_at": "2026-09-16T20:36:04.923737+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:04.906739+00:00",
+      "status": "complete"
+    },
+    "prepare_cpt_1_2b_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/v2_1.2b_ext4000_lora-merged",
+        "--metrics",
+        "models/v2_1.2b_ext4000_lora-merged/fusion_meta.json",
+        "--run-manifest",
+        "runs/clm/1.2b/v2_ext4000_lora/journal.json",
+        "--model-name",
+        "LFM2.5-1.2B-Wolof-CPT",
+        "--base-model",
+        "LiquidAI/LFM2.5-1.2B-Base",
+        "--tokenizer-family",
+        "65k-ext",
+        "--training-stage",
+        "CPT"
+      ],
+      "command_env_sha256": "fa59b681a0cdceca5ce7fc258379db2cc8e5292de9a3905e799d105336c7a3c4",
+      "completed_at": "2026-09-16T20:35:58.269242+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:58.254719+00:00",
+      "status": "complete"
+    },
+    "prepare_cpt_230m_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/v2_230m_ext_lora-merged",
+        "--metrics",
+        "models/v2_230m_ext_lora-merged/fusion_meta.json",
+        "--run-manifest",
+        "runs/clm/230m/v2_ext_lora/journal.json",
+        "--model-name",
+        "LFM2.5-230M-Wolof-CPT",
+        "--base-model",
+        "LiquidAI/LFM2.5-230M-Base",
+        "--tokenizer-family",
+        "65k-ext",
+        "--training-stage",
+        "CPT"
+      ],
+      "command_env_sha256": "126c2b2cdb70b5a90bb255e029c9b4c71a3a43bef42f8df9a2c1fbd385562b57",
+      "completed_at": "2026-09-16T20:36:00.265360+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:00.252408+00:00",
+      "status": "complete"
+    },
+    "prepare_cpt_2_6b_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/lfm_2.6b_v2_ext4000_lora-merged",
+        "--metrics",
+        "models/lfm_2.6b_v2_ext4000_lora-merged/fusion_meta.json",
+        "--run-manifest",
+        "runs/clm/2.6b/v2_ext4000_lora/journal.json",
+        "--model-name",
+        "LFM2.5-2.6B-Wolof-CPT",
+        "--base-model",
+        "LiquidAI/LFM2.5-2.6B-Base",
+        "--tokenizer-family",
+        "128k-ext",
+        "--training-stage",
+        "CPT"
+      ],
+      "command_env_sha256": "70af1e58a2163161015a9d10087d6eee99cf983e5f05b0c2dec75dbe378e8797",
+      "completed_at": "2026-09-16T20:36:03.018202+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:03.008644+00:00",
+      "status": "complete"
+    },
+    "prepare_cpt_350m_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/v2_350m_ext4000_lora-merged",
+        "--metrics",
+        "models/v2_350m_ext4000_lora-merged/fusion_meta.json",
+        "--run-manifest",
+        "runs/clm/350m/v2_ext4000_lora/journal.json",
+        "--model-name",
+        "LFM2.5-350M-Wolof-CPT",
+        "--base-model",
+        "LiquidAI/LFM2.5-350M-Base",
+        "--tokenizer-family",
+        "65k-ext",
+        "--training-stage",
+        "CPT"
+      ],
+      "command_env_sha256": "1d76fe121fe1b098b04d3f58c0fc64968a1d47e9d32c88a5ab02f089205860d0",
+      "completed_at": "2026-09-16T20:35:55.282591+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:55.274171+00:00",
+      "status": "complete"
+    },
+    "prepare_cpt_8b_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/lfm_8b_a1b_v2_moe_lora-merged",
+        "--metrics",
+        "models/lfm_8b_a1b_v2_moe_lora-merged/fusion_meta.json",
+        "--run-manifest",
+        "runs/clm/8b/v2_moe_lora/journal.json",
+        "--model-name",
+        "LFM2.5-8B-A1B-Wolof-CPT",
+        "--base-model",
+        "LiquidAI/LFM2.5-8B-A1B-Base",
+        "--tokenizer-family",
+        "128k-ext",
+        "--training-stage",
+        "CPT"
+      ],
+      "command_env_sha256": "1f403fa94056209e5bf706a5ec554b153997d29391c2affd7fa49d92d6d9b7bb",
+      "completed_at": "2026-09-16T20:36:05.361122+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:05.343447+00:00",
+      "status": "complete"
+    },
+    "prepare_instruct_1_2b_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/lfm25-1.2b-wolof-instruct-merged",
+        "--metrics",
+        "results/full_pipeline/eval/1.2b/evaluation.json",
+        "--run-manifest",
+        "runs/sft/1.2b_full_mixture_v1/journal_sft.json",
+        "--model-name",
+        "LFM2.5-1.2B-Wolof-Instruct",
+        "--base-model",
+        "LiquidAI/LFM2.5-1.2B-Base",
+        "--tokenizer-family",
+        "65k-ext",
+        "--training-stage",
+        "Instruct"
+      ],
+      "command_env_sha256": "714f2a1acfa7d4b3248dc2cef5bdf96c9f0499bc905ec427ac4268da02d8afa0",
+      "completed_at": "2026-09-16T20:35:58.764223+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:58.752721+00:00",
+      "status": "complete"
+    },
+    "prepare_instruct_230m_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/lfm25-230m-wolof-instruct-merged",
+        "--metrics",
+        "results/full_pipeline/eval/230m/evaluation.json",
+        "--run-manifest",
+        "runs/sft/230m_full_mixture_v1/journal_sft.json",
+        "--model-name",
+        "LFM2.5-230M-Wolof-Instruct",
+        "--base-model",
+        "LiquidAI/LFM2.5-230M-Base",
+        "--tokenizer-family",
+        "65k-ext",
+        "--training-stage",
+        "Instruct"
+      ],
+      "command_env_sha256": "55e9af8ccd2035d294bfbd6f94c921c0f40f991a7a85088ee8c4e85d750b1e56",
+      "completed_at": "2026-09-16T20:36:00.749398+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:00.734838+00:00",
+      "status": "complete"
+    },
+    "prepare_instruct_2_6b_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/lfm25-2.6b-wolof-instruct-merged",
+        "--metrics",
+        "results/full_pipeline/eval/2.6b/evaluation.json",
+        "--run-manifest",
+        "runs/sft/2.6b_full_mixture_v1/journal_sft.json",
+        "--model-name",
+        "LFM2.5-2.6B-Wolof-Instruct",
+        "--base-model",
+        "LiquidAI/LFM2.5-2.6B-Base",
+        "--tokenizer-family",
+        "128k-ext",
+        "--training-stage",
+        "Instruct"
+      ],
+      "command_env_sha256": "81d0d57ac459d012b28bc6ce691683290067e13d3e40ce52cb09357d9e4147a4",
+      "completed_at": "2026-09-16T20:36:03.385834+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:03.371199+00:00",
+      "status": "complete"
+    },
+    "prepare_instruct_350m_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/lfm25-350m-wolof-instruct-merged",
+        "--metrics",
+        "results/full_pipeline/eval/350m/evaluation.json",
+        "--run-manifest",
+        "runs/sft/350m_full_mixture_v1/journal_sft.json",
+        "--model-name",
+        "LFM2.5-350M-Wolof-Instruct",
+        "--base-model",
+        "LiquidAI/LFM2.5-350M-Base",
+        "--tokenizer-family",
+        "65k-ext",
+        "--training-stage",
+        "Instruct"
+      ],
+      "command_env_sha256": "8af074645447e6bf9a0a161dc68b6ad0c1a85ae3558bc648b308ee4b23f041d5",
+      "completed_at": "2026-09-16T20:35:56.202236+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:56.189175+00:00",
+      "status": "complete"
+    },
+    "prepare_instruct_8b_publication": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/43_prepare_artifact.py",
+        "--artifact",
+        "models/lfm25-8b-a1b-wolof-instruct-merged",
+        "--metrics",
+        "results/full_pipeline/eval/8b-a1b/evaluation.json",
+        "--run-manifest",
+        "runs/sft/8b_a1b_full_mixture_v1/journal_sft.json",
+        "--model-name",
+        "LFM2.5-8B-A1B-Wolof-Instruct",
+        "--base-model",
+        "LiquidAI/LFM2.5-8B-A1B-Base",
+        "--tokenizer-family",
+        "128k-ext",
+        "--training-stage",
+        "Instruct"
+      ],
+      "command_env_sha256": "259efef27f78a2adca3063f962664ad7ed8cdb74b1930140d137fa3c8d5d73a7",
+      "completed_at": "2026-09-16T20:36:05.830436+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:05.817628+00:00",
+      "status": "complete"
+    },
+    "prepare_sft_128k": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/10_prepare_sft.py",
+        "--input",
+        "data/sft/mixture_v1",
+        "--output",
+        "data/sft/prepared_mixture_v1_128k",
+        "--template-model",
+        "LiquidAI/LFM2.5-2.6B-Instruct",
+        "--tokenizer-model",
+        "models/lfm25-2.6b-wolof-ext4000-init"
+      ],
+      "command_env_sha256": "06df898f213503a70ffb079b066a022dfca2de9122798694871be082ffde1ae0",
+      "completed_at": "2026-09-16T20:36:01.528463+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:01.513268+00:00",
+      "status": "complete"
+    },
+    "prepare_sft_65k": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/10_prepare_sft.py",
+        "--input",
+        "data/sft/mixture_v1",
+        "--output",
+        "data/sft/prepared_mixture_v1",
+        "--tokenizer-model",
+        "models/lfm25-wolof-ext4000-init"
+      ],
+      "command_env_sha256": "43e03984dd7e135ec4a828e1a38f39a5dc349b0e00f897fe0c3980894a97e7cf",
+      "completed_at": "2026-09-16T20:35:55.078813+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:55.069337+00:00",
+      "status": "complete"
+    },
+    "probe_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/06_probe_modules.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-1.2B-Base",
+        "--out",
+        "results/full_pipeline/probes/1.2b.txt",
+        "--json-out",
+        "results/full_pipeline/probes/1.2b.json"
+      ],
+      "command_env_sha256": "08424351372feeba6877c5649acf8f3d80307af608ccc109c1b40297dc9ca9cc",
+      "completed_at": "2026-09-16T20:35:52.915682+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5518
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:52.905350+00:00",
+      "status": "complete"
+    },
+    "probe_2_6b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/06_probe_modules.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-2.6B-Base",
+        "--out",
+        "results/full_pipeline/probes/2.6b.txt",
+        "--json-out",
+        "results/full_pipeline/probes/2.6b.json"
+      ],
+      "command_env_sha256": "f0eb685ea6f8b1ce547d0b6416bb1c6387324dfd360045f203c00fb87f5c7b14",
+      "completed_at": "2026-09-16T20:36:01.131030+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:01.114340+00:00",
+      "status": "complete"
+    },
+    "probe_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/06_probe_modules.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-350M-Base",
+        "--out",
+        "results/full_pipeline/probes/350m.txt",
+        "--json-out",
+        "results/full_pipeline/probes/350m.json"
+      ],
+      "command_env_sha256": "2cf23799f7a2dc82f4d5bdb9fdd22be8051675517e62a761cb08fdaa2c544566",
+      "completed_at": "2026-09-16T20:35:52.762353+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5518
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:52.758730+00:00",
+      "status": "complete"
+    },
+    "probe_8b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/06_probe_modules.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-8B-A1B-Base",
+        "--out",
+        "results/full_pipeline/probes/8b-a1b.txt",
+        "--json-out",
+        "results/full_pipeline/probes/8b-a1b.json"
+      ],
+      "command_env_sha256": "83829cec3c88769a0d743794de39b179e370b49edc2495531ff9d5a0d8839373",
+      "completed_at": "2026-09-16T20:36:03.725907+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:03.716685+00:00",
+      "status": "complete"
+    },
+    "publish_cpt_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/v2_1.2b_ext4000_lora-merged",
+        "--size",
+        "1.2b",
+        "--stage",
+        "CPT",
+        "--repo-name",
+        "LFM2.5-1.2B-Wolof-CPT"
+      ],
+      "command_env_sha256": "86700b589e4a889131a7e08b3de208d69ba148dd9327afdf81628e94275b6e51",
+      "completed_at": "2026-09-16T20:35:58.526224+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:58.509132+00:00",
+      "status": "complete"
+    },
+    "publish_cpt_230m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/v2_230m_ext_lora-merged",
+        "--size",
+        "230m",
+        "--stage",
+        "CPT",
+        "--repo-name",
+        "LFM2.5-230M-Wolof-CPT"
+      ],
+      "command_env_sha256": "438e3278ce90bfa898d060bc4651cfac210f73a4f967c54d01cf046bde02a73d",
+      "completed_at": "2026-09-16T20:36:00.522196+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:00.501532+00:00",
+      "status": "complete"
+    },
+    "publish_cpt_2_6b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/lfm_2.6b_v2_ext4000_lora-merged",
+        "--size",
+        "2.6b",
+        "--stage",
+        "CPT",
+        "--repo-name",
+        "LFM2.5-2.6B-Wolof-CPT"
+      ],
+      "command_env_sha256": "72ea0cc69580ef94f438a23335e39bb9e6d8a84cf3f2a8bfe2d7ef0630b88656",
+      "completed_at": "2026-09-16T20:36:03.196431+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:03.181034+00:00",
+      "status": "complete"
+    },
+    "publish_cpt_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/v2_350m_ext4000_lora-merged",
+        "--size",
+        "350m",
+        "--stage",
+        "CPT",
+        "--repo-name",
+        "LFM2.5-350M-Wolof-CPT"
+      ],
+      "command_env_sha256": "61cc19027a8c0bb82e54ab57914b0aaf28ff41ffe71fe2104def6089033cdf5a",
+      "completed_at": "2026-09-16T20:35:55.458265+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:55.446628+00:00",
+      "status": "complete"
+    },
+    "publish_cpt_8b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/lfm_8b_a1b_v2_moe_lora-merged",
+        "--size",
+        "8b-a1b",
+        "--stage",
+        "CPT",
+        "--repo-name",
+        "LFM2.5-8B-A1B-Wolof-CPT"
+      ],
+      "command_env_sha256": "580b1ac40bbf4005d44945edef59e42640eee16465469e195d86d92cb5a73534",
+      "completed_at": "2026-09-16T20:36:05.605717+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:05.587576+00:00",
+      "status": "complete"
+    },
+    "publish_instruct_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/lfm25-1.2b-wolof-instruct-merged",
+        "--size",
+        "1.2b",
+        "--stage",
+        "Instruct",
+        "--repo-name",
+        "LFM2.5-1.2B-Wolof-Instruct"
+      ],
+      "command_env_sha256": "e2ac59ce44de92f916aa997ae935621b73845da919eb1b7da42eba6a5d1c1308",
+      "completed_at": "2026-09-16T20:35:58.942543+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:58.924192+00:00",
+      "status": "complete"
+    },
+    "publish_instruct_230m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/lfm25-230m-wolof-instruct-merged",
+        "--size",
+        "230m",
+        "--stage",
+        "Instruct",
+        "--repo-name",
+        "LFM2.5-230M-Wolof-Instruct"
+      ],
+      "command_env_sha256": "d8832403181357b60e2e20eebacfab858827e949344ec391c593f9007fc60535",
+      "completed_at": "2026-09-16T20:36:00.929525+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:00.918977+00:00",
+      "status": "complete"
+    },
+    "publish_instruct_2_6b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/lfm25-2.6b-wolof-instruct-merged",
+        "--size",
+        "2.6b",
+        "--stage",
+        "Instruct",
+        "--repo-name",
+        "LFM2.5-2.6B-Wolof-Instruct"
+      ],
+      "command_env_sha256": "617cb06044f273820f8fb28ec9e7c562da904f71a0a3d456ff6635f31deaef6f",
+      "completed_at": "2026-09-16T20:36:03.567557+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:03.558875+00:00",
+      "status": "complete"
+    },
+    "publish_instruct_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/lfm25-350m-wolof-instruct-merged",
+        "--size",
+        "350m",
+        "--stage",
+        "Instruct",
+        "--repo-name",
+        "LFM2.5-350M-Wolof-Instruct"
+      ],
+      "command_env_sha256": "1ae5d12d2e8dbec5bda755958613b752733b2e4796a298aff1d3602da449ce09",
+      "completed_at": "2026-09-16T20:35:56.394799+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:56.382245+00:00",
+      "status": "complete"
+    },
+    "publish_instruct_8b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/42_publish_private.py",
+        "--artifact",
+        "models/lfm25-8b-a1b-wolof-instruct-merged",
+        "--size",
+        "8b-a1b",
+        "--stage",
+        "Instruct",
+        "--repo-name",
+        "LFM2.5-8B-A1B-Wolof-Instruct"
+      ],
+      "command_env_sha256": "bdd6019dafa6ab8a6ab3d6d39c516afd070bf6a1b4bb2d7dca8e1a8d13fb0660",
+      "completed_at": "2026-09-16T20:36:06.022276+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:06.006924+00:00",
+      "status": "complete"
+    },
+    "resize_230m_ext4000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02b_resize_ext_to_size.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-230M-Base",
+        "--source-tokenizer",
+        "tokenizers/lfm25_wolof_ext_4000",
+        "--output-dir",
+        "models/lfm25-230m-wolof-ext4000-init"
+      ],
+      "command_env_sha256": "7c633faebeb4c99d6ebbb19676f6c5fa680f94bbf76c365103093a77900bd56b",
+      "completed_at": "2026-09-16T20:35:59.113504+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:59.102967+00:00",
+      "status": "complete"
+    },
+    "resize_350m_ext2000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02b_resize_ext_to_size.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-350M-Base",
+        "--source-tokenizer",
+        "tokenizers/lfm25_wolof_ext_2000",
+        "--output-dir",
+        "models/lfm25-350m-wolof-ext2000-init"
+      ],
+      "command_env_sha256": "b6067d17389b249f7f2bef6c62eecf76b0b8720cc00915a65a69c3933c512f69",
+      "completed_at": "2026-09-16T20:35:53.902448+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:53.891754+00:00",
+      "status": "complete"
+    },
+    "resize_350m_ext4000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02b_resize_ext_to_size.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-350M-Base",
+        "--source-tokenizer",
+        "tokenizers/lfm25_wolof_ext_4000",
+        "--output-dir",
+        "models/lfm25-350m-wolof-ext4000-init"
+      ],
+      "command_env_sha256": "38e1fccb9ff2b7708c18aff2730cdecd2068168ba31422cd8298554b2f8a140b",
+      "completed_at": "2026-09-16T20:35:53.695316+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:53.687241+00:00",
+      "status": "complete"
+    },
+    "resize_350m_ext8000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02b_resize_ext_to_size.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-350M-Base",
+        "--source-tokenizer",
+        "tokenizers/lfm25_wolof_ext_8000",
+        "--output-dir",
+        "models/lfm25-350m-wolof-ext8000-init"
+      ],
+      "command_env_sha256": "627f74e32eaecdeb2c5ac398bdfa8f208db19251f96097a9816553784aa64062",
+      "completed_at": "2026-09-16T20:35:54.079311+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:54.069722+00:00",
+      "status": "complete"
+    },
+    "resize_8b_ext4000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02b_resize_ext_to_size.py",
+        "--base-id",
+        "LiquidAI/LFM2.5-8B-A1B-Base",
+        "--source-tokenizer",
+        "tokenizers/lfm25_wolof_ext_4000_128k",
+        "--output-dir",
+        "models/lfm25-8b-a1b-wolof-ext4000-init",
+        "--expected-eos",
+        "124900"
+      ],
+      "command_env_sha256": "cc0fd0c61eda949e244e341bdde71822dbccde278ef46711883aa58822bdb9f6",
+      "completed_at": "2026-09-16T20:36:03.895523+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:03.875389+00:00",
+      "status": "complete"
+    },
+    "sft_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/11_train_sft.py",
+        "--config",
+        "configs/sft/1.2b/full_mixture_v1.yaml",
+        "--resume"
+      ],
+      "command_env_sha256": "4233e17397973886253692462925cb962a89ff1438a316954f22d0a36f139074",
+      "completed_at": "2026-09-16T20:35:57.647829+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:57.631536+00:00",
+      "status": "complete"
+    },
+    "sft_230m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/11_train_sft.py",
+        "--config",
+        "configs/sft/230m/full_mixture_v1.yaml",
+        "--resume"
+      ],
+      "command_env_sha256": "df2cc4b4a0c8b5b0ba87e1aa769149b57cf192b42eda0bcd63216e3c4fd66338",
+      "completed_at": "2026-09-16T20:35:59.611127+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:59.599391+00:00",
+      "status": "complete"
+    },
+    "sft_2_6b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/11_train_sft.py",
+        "--config",
+        "configs/sft/2.6b/full_mixture_v1.yaml",
+        "--resume"
+      ],
+      "command_env_sha256": "72f8e0039019beb5f093742fd85de937c8ddb08b38798eb6aa18d7819030f9b5",
+      "completed_at": "2026-09-16T20:36:02.379400+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:02.363552+00:00",
+      "status": "complete"
+    },
+    "sft_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/11_train_sft.py",
+        "--config",
+        "configs/sft/350m/full_mixture_v1.yaml",
+        "--resume"
+      ],
+      "command_env_sha256": "f62be07ce6a6beaa166761a29405d295fe52ff52a28b3fed55a8f4c6a2168e17",
+      "completed_at": "2026-09-16T20:35:55.680336+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:55.667765+00:00",
+      "status": "complete"
+    },
+    "sft_8b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/11_train_sft.py",
+        "--config",
+        "configs/sft/8b/full_mixture_v1.yaml",
+        "--resume"
+      ],
+      "command_env_sha256": "86e3c8bf0757e96079470f40d984e9ba7135df9f5d4f0b7c73ff7da3080d5683",
+      "completed_at": "2026-09-16T20:36:04.736384+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:04.723625+00:00",
+      "status": "complete"
+    },
+    "sft_mini_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/11_train_sft.py",
+        "--config",
+        "configs/sft/1.2b/mini_mixture_v1.yaml",
+        "--resume"
+      ],
+      "command_env_sha256": "46c07f76d9def7209dceabaab322f58603b5510252b1a27aec699e459d661eab",
+      "completed_at": "2026-09-16T20:35:57.395177+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:57.383991+00:00",
+      "status": "complete"
+    },
+    "sft_smoke_1_2b": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/sft/11_train_sft.py",
+        "--config",
+        "configs/sft/1.2b/smoke.yaml",
+        "--resume"
+      ],
+      "command_env_sha256": "b9f797ceca02c06c19721786c9abb13c33faf21d3446ed06362840f7d87d440d",
+      "completed_at": "2026-09-16T20:35:57.191368+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:57.180831+00:00",
+      "status": "complete"
+    },
+    "tokenizer_128k_ext4000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02_build_tokenizer.py",
+        "--config",
+        "configs/tokenizer-ext4000-128k.yaml"
+      ],
+      "command_env_sha256": "4cc8bb4c897ca2afab137718e1d3e58ee1b5012cac6c9e218a76a05ddae1834d",
+      "completed_at": "2026-09-16T20:36:01.305712+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:01.285741+00:00",
+      "status": "complete"
+    },
+    "tokenizer_65k_ext2000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02_build_tokenizer.py",
+        "--config",
+        "configs/tokenizer-ext2000-65k.yaml"
+      ],
+      "command_env_sha256": "1ce0c3955d67deadd8bc917ae5ab4f8e2aa7817f7a9c0063cd2f608deaab468e",
+      "completed_at": "2026-09-16T20:35:53.266617+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5518
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:53.259450+00:00",
+      "status": "complete"
+    },
+    "tokenizer_65k_ext4000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02_build_tokenizer.py",
+        "--config",
+        "configs/tokenizer-ext4000-65k.yaml"
+      ],
+      "command_env_sha256": "b7ca60d130dcac388b8d1b65b860e7a5eecb0b2c3877d838914136871205296e",
+      "completed_at": "2026-09-16T20:35:53.113225+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5518
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:53.105689+00:00",
+      "status": "complete"
+    },
+    "tokenizer_65k_ext8000": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/02_build_tokenizer.py",
+        "--config",
+        "configs/tokenizer-ext8000-65k.yaml"
+      ],
+      "command_env_sha256": "d2334994d70d45127eeed645b543edd1423f2a72c967d9c828b06c0aaf3380ed",
+      "completed_at": "2026-09-16T20:35:53.522257+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5518
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:53.509395+00:00",
+      "status": "complete"
+    },
+    "tokenizer_ablation_350m": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/family/30_run_family.py",
+        "--manifest",
+        "configs/tokenizer_ablation_runs.yaml",
+        "--size",
+        "350m",
+        "--resume"
+      ],
+      "command_env_sha256": "cff35fe7968ab5efc9329b36b6349d8bec3d35e116fd3e464351f8780d9cf5a7",
+      "completed_at": "2026-09-16T20:35:54.463930+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:54.456415+00:00",
+      "status": "complete"
+    },
+    "trackio_space": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/publication/44_setup_trackio_space.py",
+        "--paused-dashboard-status",
+        "paused_quota"
+      ],
+      "command_env_sha256": "d528192bdf10397ad596007231e6e10f53233f2d7855c3e4d08ce698b1d457d2",
+      "completed_at": "2026-09-16T20:35:52.042568+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5524
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:52.021539+00:00",
+      "status": "complete"
+    },
+    "validate_1_2b_targets": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/07_validate_probe_targets.py",
+        "--probe",
+        "results/full_pipeline/probes/1.2b.json",
+        "--config",
+        "configs/clm/1.2b/v2_ext4000_lora.yaml"
+      ],
+      "command_env_sha256": "95689799ddc618117462a71d4faedf3dd2bf9e5df290c18569f710b95c5da1af",
+      "completed_at": "2026-09-16T20:35:56.633543+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:56.626957+00:00",
+      "status": "complete"
+    },
+    "validate_2_6b_targets": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/07_validate_probe_targets.py",
+        "--probe",
+        "results/full_pipeline/probes/2.6b.json",
+        "--config",
+        "configs/clm/2.6b/v2_ext4000_lora.yaml"
+      ],
+      "command_env_sha256": "51cab6a325391c86f87cf7797e6fcd7862a42849c242699e4cb84c80b1295338",
+      "completed_at": "2026-09-16T20:36:01.746465+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:01.734690+00:00",
+      "status": "complete"
+    },
+    "validate_350m_targets": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/07_validate_probe_targets.py",
+        "--probe",
+        "results/full_pipeline/probes/350m.json",
+        "--config",
+        "configs/scaling/smoke_350m_default_lora.yaml",
+        "--config",
+        "configs/scaling/smoke_350m_ext_lora.yaml",
+        "--config",
+        "configs/clm/350m/v2_ext4000_lora.yaml"
+      ],
+      "command_env_sha256": "9ebfb46e0c572be8c5aa2cf52248c9d1d0e1567d39b602d9cec32a76ac07674a",
+      "completed_at": "2026-09-16T20:35:54.260990+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5522
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:35:54.250510+00:00",
+      "status": "complete"
+    },
+    "validate_8b_targets": {
+      "attempt": 1,
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/clm/07_validate_probe_targets.py",
+        "--probe",
+        "results/full_pipeline/probes/8b-a1b.json",
+        "--config",
+        "configs/clm/8b/v2_moe_lora.yaml",
+        "--config",
+        "configs/sft/8b/full_mixture_v1.yaml"
+      ],
+      "command_env_sha256": "a20fdd46b61ed9ece1f8b373ef0d2e4748c94bbc91583d93aacaeca2a04e6057",
+      "completed_at": "2026-09-16T20:36:04.133780+00:00",
+      "resources_before": {
+        "free_disk_gb": 595.8,
+        "gpu_free_mib": [
+          5526
+        ],
+        "gpu_processes": [
+          {
+            "name": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.908.4834.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+            "pid": "30944",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\cursor\\Cursor.exe",
+            "pid": "27840",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "[Insufficient Permissions]",
+            "pid": "1716",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "pid": "25592",
+            "used_memory_mib": "[N/A]"
+          },
+          {
+            "name": "C:\\Program Files\\Dell\\DellOptimizer\\Console\\DellOptimizer.Systray.exe",
+            "pid": "22372",
+            "used_memory_mib": "[N/A]"
+          }
+        ]
+      },
+      "started_at": "2026-09-16T20:36:04.114660+00:00",
+      "status": "complete"
+    }
+  },
+  "status": "dry_run_complete",
+  "updated_at": "2026-09-16T20:36:06.038204+00:00"
+}

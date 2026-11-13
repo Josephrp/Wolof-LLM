@@ -1,0 +1,9 @@
+{
+  "sources": {
+    "wolof_sft": {
+      "path": "wolof_sft",
+      "weight": 1.0,
+      "required": true
+    }
+  }
+}

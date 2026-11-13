@@ -1,0 +1,14 @@
+﻿base_model_id: vamboai/morena-1.5b-instruct
+corpus_csv: ../data/corpus_test_clm.csv
+text_column: text
+n_texts: all
+apply_verbalization: true
+bpb_max_len: 1024
+compute_bleu: true
+bleu_n_texts: 100
+bleu_seed: 0
+bleu_prompt_ratio: 0.5
+bleu_length_ratio: 1.3
+attn_mode: sdpa
+allow_cpu: false
+output_json: metrics/morena/stock_1.5b_instruct.json

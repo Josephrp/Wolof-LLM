@@ -1,0 +1,71 @@
+# Durable MORENA Wolof family continuum
+schema_version: 1
+python: null
+wolof_corpus: ../../Evaluation/data/corpus_test_clm.csv
+sft_source: null  # set to a prompt/response parquet or jsonl when available
+pack_max_docs: 0
+upload_manifest: configs/publication/hub_uploads.yaml
+
+stock_gguf:
+  - name: 1.5b-instruct
+    hub_repo: vamboai/morena-1.5b-instruct-gguf
+    filename: morena-1.5b-instruct-Q4_K_M.gguf
+    gguf_dir: results/gguf/stock/1.5b-instruct
+    eval_config: configs/gguf/morena_1.5b_instruct_q4_k_m.yaml
+  - name: 0.5b-mini
+    hub_repo: vamboai/morena-0.5b-mini-gguf
+    filename: morena-0.5b-mini-Q4_K_M.gguf
+    gguf_dir: results/gguf/stock/0.5b-mini
+    eval_config: configs/gguf/morena_0.5b_mini_q4_k_m.yaml
+  - name: 0.2b-nano
+    hub_repo: vamboai/morena-0.2b-nano-gguf
+    filename: morena-0.2b-nano-Q4_K_M.gguf
+    gguf_dir: results/gguf/stock/0.2b-nano
+    eval_config: configs/gguf/morena_0.2b_nano_q4_k_m.yaml
+
+cpt:
+  0.2b:
+    config: configs/cpt/0.2b_wolof_cpt.json
+    out: runs/cpt/0.2b_wolof
+    hub_init: vamboai/morena-0.2b-nano
+    nproc: 1
+  0.5b:
+    config: configs/cpt/0.5b_wolof_cpt.json
+    out: runs/cpt/0.5b_wolof
+    hub_init: vamboai/morena-0.5b-mini
+    nproc: 1
+  1.5b:
+    config: configs/cpt/1.5b_wolof_cpt.json
+    out: runs/cpt/1.5b_wolof
+    hub_init: vamboai/morena-1.5b-base
+    nproc: 1
+
+sft:
+  1.5b:
+    config: configs/sft/1.5b_wolof_instruct.json
+    out: runs/sft/1.5b_wolof
+    init_weights: models/hub_cache/vamboai__morena-1.5b-base/model.safetensors
+    hub_init: vamboai/morena-1.5b-base
+  0.5b:
+    config: configs/sft/0.5b_wolof_instruct.json
+    out: runs/sft/0.5b_wolof
+    init_weights: models/distilled/0.5b-mini/model.safetensors
+
+distill:
+  teacher_weights: models/hub_cache/vamboai__morena-1.5b-base/model.safetensors
+  teacher_config: configs/cpt/1.5b_wolof_cpt.json
+  steps: 1000
+
+gguf_targets:
+  - name: stock-1.5b-instruct
+    hub_repo: vamboai/morena-1.5b-instruct-gguf
+    filename: morena-1.5b-instruct-Q4_K_M.gguf
+    out: results/gguf/published/1.5b-instruct
+  - name: stock-0.5b-mini
+    hub_repo: vamboai/morena-0.5b-mini-gguf
+    filename: morena-0.5b-mini-Q4_K_M.gguf
+    out: results/gguf/published/0.5b-mini
+  - name: stock-0.2b-nano
+    hub_repo: vamboai/morena-0.2b-nano-gguf
+    filename: morena-0.2b-nano-Q4_K_M.gguf
+    out: results/gguf/published/0.2b-nano

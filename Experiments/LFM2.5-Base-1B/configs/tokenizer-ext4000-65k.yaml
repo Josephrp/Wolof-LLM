@@ -1,0 +1,12 @@
+# Compatibility pointer for plan path `configs/tokenizer-ext4000-65k.yaml`.
+# Canonical file: configs/tokenizer/tokenizer-ext4000-65k.yaml
+
+base_id: LiquidAI/LFM2.5-1.2B-Base
+family: 65k
+n_tokens: 4000
+n_echantillon: 300000
+seed: 42
+eos_token_id: 7
+
+tokenizer_path: tokenizers/lfm25_wolof_ext_4000
+model_path: models/lfm25-wolof-ext4000-init

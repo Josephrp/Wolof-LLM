@@ -1,0 +1,14 @@
+model: models/lfm_1.2b_sft_full-merged
+dataset: data/sft/preferences_v1.parquet
+output_dir: runs/sft/1.2b_dpo
+gated: SYN-G0,SYN-G1,S11
+lora:
+  r: 16
+  alpha: 32
+  target_modules: [q_proj, k_proj, v_proj, o_proj]
+training:
+  max_steps: 1000
+  micro_bs: 1
+  grad_acc: 16
+  lr: 5.0e-7
+  beta: 0.1

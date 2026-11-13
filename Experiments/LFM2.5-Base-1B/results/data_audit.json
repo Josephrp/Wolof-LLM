@@ -1,0 +1,219 @@
+{
+  "max_rows": null,
+  "token_env": "HF_TOKEN",
+  "clm": {
+    "dataset_id": "galsenai/cleaned_data_for_clm",
+    "splits": {
+      "train": 958646,
+      "test": 4282
+    },
+    "columns": {
+      "train": [
+        "text"
+      ],
+      "test": [
+        "text"
+      ]
+    },
+    "length": {
+      "n": 962928,
+      "chars": {
+        "mean": 307.5570696874533,
+        "p50": 89,
+        "p90": 832,
+        "p99": 1965
+      },
+      "whitespace_tokens": {
+        "mean": 59.52844449429241,
+        "p50": 18,
+        "p90": 159,
+        "p99": 375
+      }
+    },
+    "samples_path": "results\\audit\\clm_samples.jsonl",
+    "checks": [
+      {
+        "ok": true,
+        "message": "clm.train: got 958,646, expected 958,646 (±0)"
+      },
+      {
+        "ok": true,
+        "message": "clm.test: got 4,282, expected 4,282 (±0)"
+      },
+      {
+        "ok": true,
+        "soft": false,
+        "message": "train null text rate: 0/958646"
+      },
+      {
+        "ok": true,
+        "soft": false,
+        "message": "test null text rate: 0/4282"
+      }
+    ]
+  },
+  "raw": {
+    "dataset_id": "galsenai/wolof_centalized_corpus",
+    "split": "train",
+    "n_rows_full": 1018520,
+    "columns": [
+      "text",
+      "sources"
+    ],
+    "source_freq_top20": [
+      [
+        "michsethowusu/Code-170k-wolof",
+        344137
+      ],
+      [
+        "michsethowusu/wolof-emotions-corpus",
+        130730
+      ],
+      [
+        "michsethowusu/wolof-sentiments-corpus",
+        130730
+      ],
+      [
+        "ZigZeug/Baatukaay-wolof-translated-dataset",
+        105976
+      ],
+      [
+        "ngia/alpaca-data-in-wolof",
+        90865
+      ],
+      [
+        "sudoping01/english-wolof-translation",
+        81382
+      ],
+      [
+        "bilalfaye/english-wolof-french-dataset",
+        68197
+      ],
+      [
+        "soynade-research/Wolof-ASR-Data",
+        60980
+      ],
+      [
+        "cis-lmu/Glot500",
+        58335
+      ],
+      [
+        "galsenai/wolof_corpus",
+        52705
+      ],
+      [
+        "soynade-research/FineWeb2-HQ-50k-Wolof",
+        50692
+      ],
+      [
+        "galsenai/wolof_tts",
+        33719
+      ],
+      [
+        "AfriNLP/AfriNLLB-train",
+        29945
+      ],
+      [
+        "MaroneAI/French-Wolof_Translation-Dataset",
+        26072
+      ],
+      [
+        "MaroneAI/Wolof-to-French_Translation-Dataset",
+        26072
+      ],
+      [
+        "yigagilbert/kallaama-trs-dataset-19hr",
+        25856
+      ],
+      [
+        "bilalfaye/wolof-english-french",
+        22985
+      ],
+      [
+        "galsenai/french-wolof-translation",
+        16375
+      ],
+      [
+        "skonteye/French-Wolof-Dataset-With-Sources",
+        13890
+      ],
+      [
+        "karim155/WolBanking77",
+        9773
+      ]
+    ],
+    "long_context": {
+      "pct_len_gt_2000": 2.691945175352472,
+      "pct_len_gt_8000": 0.09386168165573577,
+      "n_sampled": 1018520
+    },
+    "code_source_rows_sampled": 344137,
+    "orthography_note": "Mixed standard / non-standard Latin Wolof orthography; GlotLID ~97% Wolof on card sample — optional LID pass later.",
+    "checks": [
+      {
+        "ok": true,
+        "message": "raw.rows: got 1,018,520, expected 1,018,520 (±5000)"
+      }
+    ]
+  },
+  "sft": {
+    "dataset_id": "galsenai/wolof_sft",
+    "splits": {
+      "train": 990320,
+      "test": 2250
+    },
+    "task_histogram": {
+      "translation": 573832,
+      "tool_use": 206557,
+      "classification": 120701,
+      "instruction": 63899,
+      "intent": 15012,
+      "ner": 7505,
+      "qa": 2814
+    },
+    "translation_pct": 57.94409887713062,
+    "prompt_lang_histogram": {
+      "wo": 479177,
+      "fr": 364586,
+      "en": 146557
+    },
+    "multi_turn_count": 81014,
+    "tool_call_count": 184541,
+    "json_parse_sample": {
+      "n": 1000,
+      "meta_ok": 1000,
+      "meta_fail": 0,
+      "tool_args_ok": 0,
+      "tool_args_fail": 0
+    },
+    "test_sources": {
+      "facebook/belebele": 900,
+      "masakhane/afrixnli": 600,
+      "masakhane/afrimmlu": 500,
+      "masakhane/afrimgsm": 250
+    },
+    "leakage_caveat": "Hub test includes belebele / afrimmlu / afrimgsm / afrixnli held out of SFT train, but source sentences may still appear in the pretrain corpus. Do not claim zero leakage without an explicit CLM↔SFT overlap study.",
+    "checks": [
+      {
+        "ok": true,
+        "message": "sft.train: got 990,320, expected 990,320 (±9903)"
+      },
+      {
+        "ok": true,
+        "message": "sft.test: got 2,250, expected 2,250 (±22)"
+      },
+      {
+        "ok": false,
+        "soft": true,
+        "message": "WARN translation=57.9% > 50% (soft — reweight mixture required)"
+      }
+    ]
+  },
+  "overlap": {
+    "n_clm_test_sampled": 2000,
+    "n_sft_assistant_sampled": 2000,
+    "n_hits": 0,
+    "rate": 0.0,
+    "note": "Exact string match on truncated assistant content vs CLM test sample."
+  }
+}

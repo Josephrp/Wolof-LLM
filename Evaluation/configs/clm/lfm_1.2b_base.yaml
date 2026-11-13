@@ -1,0 +1,34 @@
+# Test corpus and name of the column in the CSV that holds the text
+corpus_csv: "../data/corpus_test_clm.csv"
+text_column: "text"
+
+# Number of texts to evaluate on. Set to "all" (or leave empty / null) to evaluate on the full corpus.
+n_texts: null
+
+# Apply the Wolof verbalizer to normalize text before computing any metric
+apply_verbalization: true
+
+# Context window for BPB/perplexity, in tokens
+bpb_max_len: 1024
+
+# Number of texts used for BLEU/chrF and seed for that subset
+bleu_n_texts: 100
+bleu_seed: 0
+
+# Fraction of each text used as the generation prompt for BLEU/chrF
+bleu_prompt_ratio: 0.5
+
+# Generation budget per text = bleu_length_ratio x reference length
+bleu_length_ratio: 1.3
+bleu_min_new_tokens: 16
+
+# Safety ceiling on generation, not the operative constraint.
+bleu_max_new_tokens: 256
+
+# Stock LiquidAI base (no Wolof CPT yet)
+base_model_id: "LiquidAI/LFM2.5-1.2B-Base"
+subfolder: null
+tokenizer_subfolder: null
+
+# Where to write the results JSON
+output_json: "../metrics/clm/lfm_1.2b_base.json"

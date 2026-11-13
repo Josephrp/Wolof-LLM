@@ -1,0 +1,29 @@
+run: v2_350m_default_full
+stage: v2
+size: 350m
+base_id: LiquidAI/LFM2.5-350M-Base
+tokenizer: null
+model: null
+output_root: runs/clm/350m/v2_default_full
+data_root: null
+methode: full
+attention: sdpa
+tokenizer_family: 65k
+eos_token_id: 7
+entrainement:
+  max_steps: 3000
+  seq_len: 2048
+  micro_bs: 2
+  grad_acc: 8
+  lr: 1.0e-5
+  scheduler: cosine
+  warmup_ratio: 0.03
+  patience: 5
+  seuil_amelioration: 0.001
+  logging_steps: 25
+  eval_steps: 100
+  save_steps: 100
+  save_total_limit: 2
+  gradient_checkpointing: true
+  optim: adamw_torch
+  seed: 42

@@ -1,0 +1,41 @@
+# SFT mixture v1 — reweight wolof_sft so translation does not dominate.
+# Hub test split is NEVER used for training/val; carve val from train only.
+# Afri* benchmark caveat: see docs/DATASETS.md (pretrain may still have seen text).
+
+dataset_id: galsenai/wolof_sft
+seed: 42
+val_pct: 0.02
+
+# Soft target: translation <= 35% of mixture rows after caps.
+translation_max_pct: 0.35
+
+# Absolute caps per task (null = take all remaining after other caps).
+# Tuned so translation is capped hard; instruction/qa/ner/intent boosted.
+task_caps:
+  translation: 120000
+  tool_use: 80000
+  classification: 60000
+  instruction: 60000
+  intent: 15000
+  ner: 7500
+  qa: 2814
+
+# Optional relative weights used when building (caps win if both set).
+task_weights:
+  translation: 0.30
+  tool_use: 0.20
+  classification: 0.12
+  instruction: 0.20
+  intent: 0.06
+  ner: 0.04
+  qa: 0.08
+
+output_dir: data/sft/mixture_v1
+stratify_by:
+  - task
+  # - source  # enable when script supports joint strata
+
+notes: |
+  Cap translation <= 35%. Boost instruction/qa/ner/intent.
+  Keep tool_use ~15-25% for agentic LFM story.
+  Do not touch Hub test (belebele / afrimmlu / afrimgsm / afrixnli).

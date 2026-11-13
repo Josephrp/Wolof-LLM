@@ -1,0 +1,11 @@
+# Fertility ablation — +2000 tokens (65k family)
+
+base_id: LiquidAI/LFM2.5-1.2B-Base
+family: 65k
+n_tokens: 2000
+n_echantillon: 300000
+seed: 42
+eos_token_id: 7
+
+tokenizer_path: tokenizers/lfm25_wolof_ext_2000
+model_path: models/lfm25-wolof-ext2000-init

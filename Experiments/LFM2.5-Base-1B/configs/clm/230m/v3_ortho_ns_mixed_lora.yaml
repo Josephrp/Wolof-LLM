@@ -1,0 +1,37 @@
+run: v3_230m_ortho_ns_mixed_lora
+stage: v3
+size: 230m
+base_id: LiquidAI/LFM2.5-230M-Base
+tokenizer: tokenizers/lfm25_230m_wolof_ext_4000_ortho_ns_mixed_v1
+model: models/lfm25-230m-wolof-ext4000-ortho-ns-mixed-init
+output_root: runs/clm/230m/v3_ortho_ns_mixed_lora
+data_root: data/clm/ortho_ns_mixed_v1
+dataset_id: Tonic/LFM2.5-Wolof-CPT-ortho_ns_mixed_v1
+methode: lora
+attention: sdpa
+tokenizer_family: 65k-ext
+eos_token_id: 7
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens, lm_head]
+entrainement:
+  max_steps: 2000
+  seq_len: 2048
+  micro_bs: 4
+  grad_acc: 4
+  lr: 1.0e-4
+  lr_embeddings: 5.0e-4
+  scheduler: cosine
+  warmup_ratio: 0.03
+  patience: 5
+  seuil_amelioration: 0.001
+  logging_steps: 25
+  eval_steps: 100
+  save_steps: 100
+  save_total_limit: 2
+  gradient_checkpointing: true
+  optim: adamw_torch
+  seed: 42

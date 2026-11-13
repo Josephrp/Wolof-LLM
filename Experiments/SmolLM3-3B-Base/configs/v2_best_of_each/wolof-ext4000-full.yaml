@@ -1,0 +1,38 @@
+
+#run: wolof-ext4000-full
+run: wolof-ext4000-full-v2
+base_id: HuggingFaceTB/SmolLM3-3B-Base
+tokenizer: tokenizers/smollm3_wolof_ext_4000
+model: models/smollm3-wolof-ext4000-init
+output_root: /mnt/volume_w2l8nkp/galsenllm/OutputOfSmolLM_Model
+data_root: /mnt/volume_w2l8nkp/galsenllm/data
+methode: full          
+
+attention: sdpa               
+                              
+                              
+                       
+
+entrainement:
+  max_steps: 4270            
+                             
+  seq_len: 2048              
+  micro_bs: 4
+  grad_acc: 8              
+  lr: 2.0e-5                 
+  
+  lr_embeddings: 2.0e-4      
+ 
+  warmup_embeddings_steps: 150
+  
+  patience: 4
+  seuil_amelioration: 0.001
+  scheduler: cosine
+  warmup_ratio: 0.03
+  logging_steps: 25
+  eval_steps: 100            
+  save_steps: 500           
+  save_total_limit: 3
+  gradient_checkpointing: true
+  optim: adamw_torch
+  seed: 42

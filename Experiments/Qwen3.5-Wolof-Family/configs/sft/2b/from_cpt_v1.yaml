@@ -1,0 +1,29 @@
+run: qwen35_2b_sft_from_cpt_v1
+size: 2b
+model: models/qwen35-2b-cpt-v1-merged
+starts_from: merged_cpt
+dataset: data/sft/prepared_anchored_v1
+output_dir: runs/sft/2b_from_cpt_v1
+extended_tokenizer: true
+assistant_only_loss: true
+methode: lora
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens, lm_head]
+training:
+  num_train_epochs: 3
+  seq_len: 2048
+  micro_bs: 4
+  grad_acc: 4
+  lr: 2.0e-4
+  eval_steps: 100
+  save_steps: 100
+  logging_steps: 10
+  packing: false
+  seed: 42
+  patience: 5
+  save_total_limit: 3
+  best_pool_keep: 15

@@ -1,0 +1,75 @@
+[project]
+name = "galsenai-qwen35-wolof-family"
+version = "0.1.0"
+description = "Qwen3.5 Wolof family (≤9B): ortho-filtered NTP CPT, dual SFT, DPO"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "pyyaml",
+    "pandas",
+    "pyarrow",
+    "numpy",
+    "tqdm",
+    "huggingface_hub",
+    "datasets",
+    "jinja2",
+]
+
+[dependency-groups]
+train = [
+    # Match train-host driver (CUDA 12.8). cu130 wheels cannot init on this machine.
+    "torch==2.11.0",
+    "transformers>=4.57",
+    "accelerate",
+    "peft",
+    "trl",
+    "bitsandbytes",
+    "safetensors",
+    "sentencepiece",
+    "protobuf",
+    "trackio",
+    # FA3 via Hub kernels (no local FA build) — full-attn layers of Qwen3.5 hybrid.
+    "kernels",
+    # Liger qwen3_5: RMSNorm / SwiGLU / FusedLinearCrossEntropy (H200-tested).
+    "liger-kernel",
+    # Optional GDN path (install FlashQLA separately on Hopper when ready).
+    "flash-linear-attention",
+    "causal-conv1d",
+]
+eval = [
+    "sacrebleu",
+    "torch==2.11.0",
+    "transformers>=4.57",
+    "accelerate",
+    "trackio",
+]
+data = [
+    "datasets",
+    "pandas",
+    "pyarrow",
+]
+remote = [
+    "paramiko",
+    "rapidocr-onnxruntime",
+]
+dev = [
+    "ruff",
+    "pytest",
+]
+
+[tool.uv]
+package = false
+# torch==2.11.0+cu128 pins triton==3.6.0, but FLA on Hopper needs >=3.7.1 (#640).
+override-dependencies = ["triton>=3.7.1"]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

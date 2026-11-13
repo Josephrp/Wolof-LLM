@@ -1,0 +1,24 @@
+# model path is overridden by 50_run_family.py after pick_best (best Instruct merge)
+model: models/tinyaya-3.35b-instruct-from-earth-merged
+dataset: data/sft/preferences_v1.parquet
+output_dir: runs/sft/3b35_dpo_v1
+gated: G6
+hub_model: Tonic/TinyAya-3.35B-Wolof-DPO-v1
+attn_implementation: flash_attention_3
+fused_ce: true
+lora:
+  r: 32
+  alpha: 64
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+training:
+  num_train_epochs: 3
+  micro_bs: 1
+  grad_acc: 16
+  lr: 5.0e-7
+  beta: 0.1
+  seed: 42
+  eval_steps: 200
+  save_steps: 200
+  logging_steps: 25
+  save_total_limit: 3
+  eval_size: 128

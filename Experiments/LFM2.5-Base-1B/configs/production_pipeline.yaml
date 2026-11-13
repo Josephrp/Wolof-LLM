@@ -1,0 +1,559 @@
+run_id: lfm25-wolof-production-v1
+stages:
+  - name: trackio_space
+    size: common
+    tracking: false
+    command: [uv, run, python, scripts/publication/44_setup_trackio_space.py, --paused-dashboard-status, paused_quota]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/trackio_space.json, results/full_pipeline/trackio_env.json]
+    export_env_json: results/full_pipeline/trackio_env.json
+    tracking_metadata_json: results/full_pipeline/trackio_space.json
+    resources: {min_disk_gb: 200}
+
+  - name: hub_write_scope
+    size: common
+    requires: [trackio_space]
+    command: [uv, run, python, scripts/publication/41_verify_write_scope.py]
+    hash_env: [HF_TOKEN]
+    outputs: [results/full_pipeline/hub_write_scope.json]
+    resources: {min_disk_gb: 200}
+
+  - name: environment
+    size: common
+    requires: [hub_write_scope]
+    command: [uv, run, python, scripts/env/00_verify_env.py]
+    outputs: []
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: full_sft_mixture
+    size: common
+    requires: [environment]
+    command: [uv, run, python, scripts/data/21_build_sft_mixture.py, --config, configs/sft/mixture_v1.yaml]
+    hash_env: [HF_TOKEN]
+    outputs: [data/sft/mixture_v1/train.parquet, data/sft/mixture_v1/val.parquet, data/sft/mixture_v1/mixture_meta.json]
+    resources: {min_disk_gb: 200}
+
+  - name: probe_350m
+    size: 350m
+    requires: [full_sft_mixture]
+    command: [uv, run, python, scripts/clm/06_probe_modules.py, --base-id, LiquidAI/LFM2.5-350M-Base, --out, results/full_pipeline/probes/350m.txt, --json-out, results/full_pipeline/probes/350m.json]
+    hash_env: [HF_TOKEN]
+    outputs: [results/full_pipeline/probes/350m.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: probe_1_2b
+    size: 1.2b
+    requires: [probe_350m]
+    command: [uv, run, python, scripts/clm/06_probe_modules.py, --base-id, LiquidAI/LFM2.5-1.2B-Base, --out, results/full_pipeline/probes/1.2b.txt, --json-out, results/full_pipeline/probes/1.2b.json]
+    hash_env: [HF_TOKEN]
+    outputs: [results/full_pipeline/probes/1.2b.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: tokenizer_65k_ext4000
+    size: common
+    requires: [probe_1_2b]
+    command: [uv, run, python, scripts/clm/02_build_tokenizer.py, --config, configs/tokenizer-ext4000-65k.yaml]
+    hash_env: [HF_TOKEN]
+    outputs: [tokenizers/lfm25_wolof_ext_4000/extension_meta.json, models/lfm25-wolof-ext4000-init/config.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: tokenizer_65k_ext2000
+    size: 350m
+    requires: [tokenizer_65k_ext4000]
+    command: [uv, run, python, scripts/clm/02_build_tokenizer.py, --config, configs/tokenizer-ext2000-65k.yaml]
+    hash_env: [HF_TOKEN]
+    outputs: [tokenizers/lfm25_wolof_ext_2000/extension_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: tokenizer_65k_ext8000
+    size: 350m
+    requires: [tokenizer_65k_ext2000]
+    command: [uv, run, python, scripts/clm/02_build_tokenizer.py, --config, configs/tokenizer-ext8000-65k.yaml]
+    hash_env: [HF_TOKEN]
+    outputs: [tokenizers/lfm25_wolof_ext_8000/extension_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: resize_350m_ext4000
+    size: 350m
+    requires: [tokenizer_65k_ext8000]
+    command: [uv, run, python, scripts/clm/02b_resize_ext_to_size.py, --base-id, LiquidAI/LFM2.5-350M-Base, --source-tokenizer, tokenizers/lfm25_wolof_ext_4000, --output-dir, models/lfm25-350m-wolof-ext4000-init]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-350m-wolof-ext4000-init/resize_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: resize_350m_ext2000
+    size: 350m
+    requires: [resize_350m_ext4000]
+    command: [uv, run, python, scripts/clm/02b_resize_ext_to_size.py, --base-id, LiquidAI/LFM2.5-350M-Base, --source-tokenizer, tokenizers/lfm25_wolof_ext_2000, --output-dir, models/lfm25-350m-wolof-ext2000-init]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-350m-wolof-ext2000-init/resize_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: resize_350m_ext8000
+    size: 350m
+    requires: [resize_350m_ext2000]
+    command: [uv, run, python, scripts/clm/02b_resize_ext_to_size.py, --base-id, LiquidAI/LFM2.5-350M-Base, --source-tokenizer, tokenizers/lfm25_wolof_ext_8000, --output-dir, models/lfm25-350m-wolof-ext8000-init]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-350m-wolof-ext8000-init/resize_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: validate_350m_targets
+    size: 350m
+    requires: [resize_350m_ext8000]
+    command: [uv, run, python, scripts/clm/07_validate_probe_targets.py, --probe, results/full_pipeline/probes/350m.json, --config, configs/scaling/smoke_350m_default_lora.yaml, --config, configs/scaling/smoke_350m_ext_lora.yaml, --config, configs/clm/350m/v2_ext4000_lora.yaml]
+    outputs: []
+    resources: {min_disk_gb: 200}
+
+  - name: tokenizer_ablation_350m
+    size: 350m
+    requires: [validate_350m_targets]
+    command: [uv, run, python, scripts/family/30_run_family.py, --manifest, configs/tokenizer_ablation_runs.yaml, --size, 350m, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/mini/350m_ext2000_lora/journal.json, runs/mini/350m_ext_lora/journal.json, runs/mini/350m_ext8000_lora/journal.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: cpt_350m
+    size: 350m
+    requires: [tokenizer_ablation_350m]
+    command: [uv, run, python, scripts/family/30_run_family.py, --size, 350m, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/clm/350m/v2_ext4000_lora/journal.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: merge_cpt_350m
+    size: 350m
+    requires: [cpt_350m]
+    command: [uv, run, python, scripts/clm/05_merge_adapter.py, --run, v2_350m_ext4000_lora]
+    hash_env: [HF_TOKEN]
+    outputs: [models/v2_350m_ext4000_lora-merged/fusion_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: prepare_sft_65k
+    size: common
+    requires: [merge_cpt_350m]
+    command: [uv, run, python, scripts/sft/10_prepare_sft.py, --input, data/sft/mixture_v1, --output, data/sft/prepared_mixture_v1, --tokenizer-model, models/lfm25-wolof-ext4000-init]
+    hash_env: [HF_TOKEN]
+    outputs: [data/sft/prepared_mixture_v1/train.parquet, data/sft/prepared_mixture_v1/prepare_meta.json]
+    resources: {min_disk_gb: 200}
+
+  - name: prepare_cpt_350m_publication
+    size: 350m
+    requires: [prepare_sft_65k]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/v2_350m_ext4000_lora-merged, --metrics, models/v2_350m_ext4000_lora-merged/fusion_meta.json, --run-manifest, runs/clm/350m/v2_ext4000_lora/journal.json, --model-name, LFM2.5-350M-Wolof-CPT, --base-model, LiquidAI/LFM2.5-350M-Base, --tokenizer-family, 65k-ext, --training-stage, CPT]
+    outputs: [models/v2_350m_ext4000_lora-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_cpt_350m
+    size: 350m
+    requires: [prepare_cpt_350m_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/v2_350m_ext4000_lora-merged, --size, 350m, --stage, CPT, --repo-name, LFM2.5-350M-Wolof-CPT]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: sft_350m
+    size: 350m
+    requires: [publish_cpt_350m]
+    command: [uv, run, python, scripts/sft/11_train_sft.py, --config, configs/sft/350m/full_mixture_v1.yaml, --resume]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [runs/sft/350m_full_mixture_v1/journal_sft.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: merge_sft_350m
+    size: 350m
+    requires: [sft_350m]
+    command: [uv, run, python, scripts/sft/13_merge_sft.py, --base, models/v2_350m_ext4000_lora-merged, --adapter, runs/sft/350m_full_mixture_v1/adapter, --output, models/lfm25-350m-wolof-instruct-merged, --expected-eos, "7"]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [models/lfm25-350m-wolof-instruct-merged/sft_merge_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: eval_sft_350m
+    size: 350m
+    requires: [merge_sft_350m]
+    command: [uv, run, python, scripts/sft/12_evaluate_sft.py, --model, models/lfm25-350m-wolof-instruct-merged, --data, data/sft/prepared_mixture_v1, --output, results/full_pipeline/eval/350m]
+    outputs: [results/full_pipeline/eval/350m/evaluation.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: prepare_instruct_350m_publication
+    size: 350m
+    requires: [eval_sft_350m]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/lfm25-350m-wolof-instruct-merged, --metrics, results/full_pipeline/eval/350m/evaluation.json, --run-manifest, runs/sft/350m_full_mixture_v1/journal_sft.json, --model-name, LFM2.5-350M-Wolof-Instruct, --base-model, LiquidAI/LFM2.5-350M-Base, --tokenizer-family, 65k-ext, --training-stage, Instruct]
+    outputs: [models/lfm25-350m-wolof-instruct-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_instruct_350m
+    size: 350m
+    requires: [prepare_instruct_350m_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/lfm25-350m-wolof-instruct-merged, --size, 350m, --stage, Instruct, --repo-name, LFM2.5-350M-Wolof-Instruct]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: validate_1_2b_targets
+    size: 1.2b
+    requires: [publish_instruct_350m]
+    command: [uv, run, python, scripts/clm/07_validate_probe_targets.py, --probe, results/full_pipeline/probes/1.2b.json, --config, configs/clm/1.2b/v2_ext4000_lora.yaml]
+    outputs: []
+    resources: {min_disk_gb: 200}
+
+  - name: cpt_1_2b
+    size: 1.2b
+    requires: [validate_1_2b_targets]
+    command: [uv, run, python, scripts/family/30_run_family.py, --size, 1.2b, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/clm/1.2b/v2_ext4000_lora/journal.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 40000}
+
+  - name: merge_cpt_1_2b
+    size: 1.2b
+    requires: [cpt_1_2b]
+    command: [uv, run, python, scripts/clm/05_merge_adapter.py, --run, v2_1.2b_ext4000_lora]
+    hash_env: [HF_TOKEN]
+    outputs: [models/v2_1.2b_ext4000_lora-merged/fusion_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 40000}
+
+  - name: sft_smoke_1_2b
+    size: 1.2b
+    requires: [merge_cpt_1_2b]
+    command: [uv, run, python, scripts/sft/11_train_sft.py, --config, configs/sft/1.2b/smoke.yaml, --resume]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [runs/sft/1.2b_smoke/journal_sft.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 40000}
+
+  - name: sft_mini_1_2b
+    size: 1.2b
+    requires: [sft_smoke_1_2b]
+    command: [uv, run, python, scripts/sft/11_train_sft.py, --config, configs/sft/1.2b/mini_mixture_v1.yaml, --resume]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [runs/sft/1.2b_mini_mixture_v1/journal_sft.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 40000}
+
+  - name: sft_1_2b
+    size: 1.2b
+    requires: [sft_mini_1_2b]
+    command: [uv, run, python, scripts/sft/11_train_sft.py, --config, configs/sft/1.2b/full_mixture_v1.yaml, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/sft/1.2b_full_mixture_v1/journal_sft.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 40000}
+
+  - name: merge_sft_1_2b
+    size: 1.2b
+    requires: [sft_1_2b]
+    command: [uv, run, python, scripts/sft/13_merge_sft.py, --base, models/v2_1.2b_ext4000_lora-merged, --adapter, runs/sft/1.2b_full_mixture_v1/adapter, --output, models/lfm25-1.2b-wolof-instruct-merged, --expected-eos, "7"]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-1.2b-wolof-instruct-merged/sft_merge_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 40000}
+
+  - name: eval_sft_1_2b
+    size: 1.2b
+    requires: [merge_sft_1_2b]
+    command: [uv, run, python, scripts/sft/12_evaluate_sft.py, --model, models/lfm25-1.2b-wolof-instruct-merged, --data, data/sft/prepared_mixture_v1, --output, results/full_pipeline/eval/1.2b]
+    outputs: [results/full_pipeline/eval/1.2b/evaluation.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 40000}
+
+  - name: prepare_cpt_1_2b_publication
+    size: 1.2b
+    requires: [eval_sft_1_2b]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/v2_1.2b_ext4000_lora-merged, --metrics, models/v2_1.2b_ext4000_lora-merged/fusion_meta.json, --run-manifest, runs/clm/1.2b/v2_ext4000_lora/journal.json, --model-name, LFM2.5-1.2B-Wolof-CPT, --base-model, LiquidAI/LFM2.5-1.2B-Base, --tokenizer-family, 65k-ext, --training-stage, CPT]
+    outputs: [models/v2_1.2b_ext4000_lora-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_cpt_1_2b
+    size: 1.2b
+    requires: [prepare_cpt_1_2b_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/v2_1.2b_ext4000_lora-merged, --size, 1.2b, --stage, CPT, --repo-name, LFM2.5-1.2B-Wolof-CPT]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: prepare_instruct_1_2b_publication
+    size: 1.2b
+    requires: [publish_cpt_1_2b]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/lfm25-1.2b-wolof-instruct-merged, --metrics, results/full_pipeline/eval/1.2b/evaluation.json, --run-manifest, runs/sft/1.2b_full_mixture_v1/journal_sft.json, --model-name, LFM2.5-1.2B-Wolof-Instruct, --base-model, LiquidAI/LFM2.5-1.2B-Base, --tokenizer-family, 65k-ext, --training-stage, Instruct]
+    outputs: [models/lfm25-1.2b-wolof-instruct-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_instruct_1_2b
+    size: 1.2b
+    requires: [prepare_instruct_1_2b_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/lfm25-1.2b-wolof-instruct-merged, --size, 1.2b, --stage, Instruct, --repo-name, LFM2.5-1.2B-Wolof-Instruct]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: port_tokenizer_230m_ext4000
+    size: 230m
+    requires: [publish_instruct_1_2b]
+    command: [uv, run, python, scripts/clm/02c_port_ext_tokenizer_to_base.py, --base-id, LiquidAI/LFM2.5-230M-Base, --source-tokenizer, tokenizers/lfm25_wolof_ext_4000, --output-dir, tokenizers/lfm25_230m_wolof_ext_4000]
+    hash_env: [HF_TOKEN]
+    outputs: [tokenizers/lfm25_230m_wolof_ext_4000/port_meta.json]
+    resources: {min_disk_gb: 20}
+
+  - name: resize_230m_ext4000
+    size: 230m
+    requires: [port_tokenizer_230m_ext4000]
+    command: [uv, run, python, scripts/clm/02b_resize_ext_to_size.py, --base-id, LiquidAI/LFM2.5-230M-Base, --source-tokenizer, tokenizers/lfm25_230m_wolof_ext_4000, --output-dir, models/lfm25-230m-wolof-ext4000-init]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-230m-wolof-ext4000-init/resize_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: cpt_230m
+    size: 230m
+    requires: [resize_230m_ext4000]
+    command: [uv, run, python, scripts/family/30_run_family.py, --size, 230m, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/clm/230m/v2_ext_lora/journal.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: merge_cpt_230m
+    size: 230m
+    requires: [cpt_230m]
+    command: [uv, run, python, scripts/clm/05_merge_adapter.py, --run, v2_230m_ext_lora]
+    hash_env: [HF_TOKEN]
+    outputs: [models/v2_230m_ext_lora-merged/fusion_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: sft_230m
+    size: 230m
+    requires: [merge_cpt_230m]
+    command: [uv, run, python, scripts/sft/11_train_sft.py, --config, configs/sft/230m/full_mixture_v1.yaml, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/sft/230m_full_mixture_v1/journal_sft.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: merge_sft_230m
+    size: 230m
+    requires: [sft_230m]
+    command: [uv, run, python, scripts/sft/13_merge_sft.py, --base, models/v2_230m_ext_lora-merged, --adapter, runs/sft/230m_full_mixture_v1/adapter, --output, models/lfm25-230m-wolof-instruct-merged, --expected-eos, "7"]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-230m-wolof-instruct-merged/sft_merge_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: eval_sft_230m
+    size: 230m
+    requires: [merge_sft_230m]
+    command: [uv, run, python, scripts/sft/12_evaluate_sft.py, --model, models/lfm25-230m-wolof-instruct-merged, --data, data/sft/prepared_mixture_v1, --output, results/full_pipeline/eval/230m]
+    outputs: [results/full_pipeline/eval/230m/evaluation.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 30000}
+
+  - name: prepare_cpt_230m_publication
+    size: 230m
+    requires: [eval_sft_230m]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/v2_230m_ext_lora-merged, --metrics, models/v2_230m_ext_lora-merged/fusion_meta.json, --run-manifest, runs/clm/230m/v2_ext_lora/journal.json, --model-name, LFM2.5-230M-Wolof-CPT, --base-model, LiquidAI/LFM2.5-230M-Base, --tokenizer-family, 65k-ext, --training-stage, CPT]
+    outputs: [models/v2_230m_ext_lora-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_cpt_230m
+    size: 230m
+    requires: [prepare_cpt_230m_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/v2_230m_ext_lora-merged, --size, 230m, --stage, CPT, --repo-name, LFM2.5-230M-Wolof-CPT]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: prepare_instruct_230m_publication
+    size: 230m
+    requires: [publish_cpt_230m]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/lfm25-230m-wolof-instruct-merged, --metrics, results/full_pipeline/eval/230m/evaluation.json, --run-manifest, runs/sft/230m_full_mixture_v1/journal_sft.json, --model-name, LFM2.5-230M-Wolof-Instruct, --base-model, LiquidAI/LFM2.5-230M-Base, --tokenizer-family, 65k-ext, --training-stage, Instruct]
+    outputs: [models/lfm25-230m-wolof-instruct-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_instruct_230m
+    size: 230m
+    requires: [prepare_instruct_230m_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/lfm25-230m-wolof-instruct-merged, --size, 230m, --stage, Instruct, --repo-name, LFM2.5-230M-Wolof-Instruct]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: probe_2_6b
+    size: 2.6b
+    requires: [publish_instruct_230m]
+    command: [uv, run, python, scripts/clm/06_probe_modules.py, --base-id, LiquidAI/LFM2.5-2.6B-Base, --out, results/full_pipeline/probes/2.6b.txt, --json-out, results/full_pipeline/probes/2.6b.json]
+    hash_env: [HF_TOKEN]
+    outputs: [results/full_pipeline/probes/2.6b.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 50000}
+
+  - name: tokenizer_128k_ext4000
+    size: 2.6b
+    requires: [probe_2_6b]
+    command: [uv, run, python, scripts/clm/02_build_tokenizer.py, --config, configs/tokenizer-ext4000-128k.yaml]
+    hash_env: [HF_TOKEN]
+    outputs: [tokenizers/lfm25_wolof_ext_4000_128k/extension_meta.json, models/lfm25-2.6b-wolof-ext4000-init/config.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 50000}
+
+  - name: prepare_sft_128k
+    size: 2.6b
+    requires: [tokenizer_128k_ext4000]
+    command: [uv, run, python, scripts/sft/10_prepare_sft.py, --input, data/sft/mixture_v1, --output, data/sft/prepared_mixture_v1_128k, --template-model, LiquidAI/LFM2.5-2.6B, --tokenizer-model, models/lfm25-2.6b-wolof-ext4000-init]
+    hash_env: [HF_TOKEN]
+    outputs: [data/sft/prepared_mixture_v1_128k/train.parquet, data/sft/prepared_mixture_v1_128k/prepare_meta.json]
+    resources: {min_disk_gb: 200}
+
+  - name: validate_2_6b_targets
+    size: 2.6b
+    requires: [prepare_sft_128k]
+    command: [uv, run, python, scripts/clm/07_validate_probe_targets.py, --probe, results/full_pipeline/probes/2.6b.json, --config, configs/clm/2.6b/v2_ext4000_lora.yaml]
+    outputs: []
+    resources: {min_disk_gb: 200}
+
+  - name: cpt_2_6b
+    size: 2.6b
+    requires: [validate_2_6b_targets]
+    command: [uv, run, python, scripts/family/30_run_family.py, --size, 2.6b, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/clm/2.6b/v2_ext4000_lora/journal.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 50000}
+
+  - name: merge_cpt_2_6b
+    size: 2.6b
+    requires: [cpt_2_6b]
+    command: [uv, run, python, scripts/clm/05_merge_adapter.py, --run, lfm_2.6b_v2_ext4000_lora]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm_2.6b_v2_ext4000_lora-merged/fusion_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 50000}
+
+  - name: sft_2_6b
+    size: 2.6b
+    requires: [merge_cpt_2_6b]
+    command: [uv, run, python, scripts/sft/11_train_sft.py, --config, configs/sft/2.6b/full_mixture_v1.yaml, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/sft/2.6b_full_mixture_v1/journal_sft.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 50000}
+
+  - name: merge_sft_2_6b
+    size: 2.6b
+    requires: [sft_2_6b]
+    command: [uv, run, python, scripts/sft/13_merge_sft.py, --base, models/lfm_2.6b_v2_ext4000_lora-merged, --adapter, runs/sft/2.6b_full_mixture_v1/adapter, --output, models/lfm25-2.6b-wolof-instruct-merged, --expected-eos, "128900"]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-2.6b-wolof-instruct-merged/sft_merge_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 50000}
+
+  - name: eval_sft_2_6b
+    size: 2.6b
+    requires: [merge_sft_2_6b]
+    command: [uv, run, python, scripts/sft/12_evaluate_sft.py, --model, models/lfm25-2.6b-wolof-instruct-merged, --data, data/sft/prepared_mixture_v1_128k, --output, results/full_pipeline/eval/2.6b]
+    outputs: [results/full_pipeline/eval/2.6b/evaluation.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 50000}
+
+  - name: prepare_cpt_2_6b_publication
+    size: 2.6b
+    requires: [eval_sft_2_6b]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/lfm_2.6b_v2_ext4000_lora-merged, --metrics, models/lfm_2.6b_v2_ext4000_lora-merged/fusion_meta.json, --run-manifest, runs/clm/2.6b/v2_ext4000_lora/journal.json, --model-name, LFM2.5-2.6B-Wolof-CPT, --base-model, LiquidAI/LFM2.5-2.6B-Base, --tokenizer-family, 128k-ext, --training-stage, CPT]
+    outputs: [models/lfm_2.6b_v2_ext4000_lora-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_cpt_2_6b
+    size: 2.6b
+    requires: [prepare_cpt_2_6b_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/lfm_2.6b_v2_ext4000_lora-merged, --size, 2.6b, --stage, CPT, --repo-name, LFM2.5-2.6B-Wolof-CPT]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: prepare_instruct_2_6b_publication
+    size: 2.6b
+    requires: [publish_cpt_2_6b]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/lfm25-2.6b-wolof-instruct-merged, --metrics, results/full_pipeline/eval/2.6b/evaluation.json, --run-manifest, runs/sft/2.6b_full_mixture_v1/journal_sft.json, --model-name, LFM2.5-2.6B-Wolof-Instruct, --base-model, LiquidAI/LFM2.5-2.6B-Base, --tokenizer-family, 128k-ext, --training-stage, Instruct]
+    outputs: [models/lfm25-2.6b-wolof-instruct-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_instruct_2_6b
+    size: 2.6b
+    requires: [prepare_instruct_2_6b_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/lfm25-2.6b-wolof-instruct-merged, --size, 2.6b, --stage, Instruct, --repo-name, LFM2.5-2.6B-Wolof-Instruct]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: probe_8b
+    size: 8b-a1b
+    requires: [publish_instruct_2_6b]
+    command: [uv, run, python, scripts/clm/06_probe_modules.py, --base-id, LiquidAI/LFM2.5-8B-A1B-Base, --out, results/full_pipeline/probes/8b-a1b.txt, --json-out, results/full_pipeline/probes/8b-a1b.json]
+    hash_env: [HF_TOKEN]
+    outputs: [results/full_pipeline/probes/8b-a1b.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 60000}
+
+  - name: resize_8b_ext4000
+    size: 8b-a1b
+    requires: [probe_8b]
+    command: [uv, run, python, scripts/clm/02b_resize_ext_to_size.py, --base-id, LiquidAI/LFM2.5-8B-A1B-Base, --source-tokenizer, tokenizers/lfm25_wolof_ext_4000_128k, --output-dir, models/lfm25-8b-a1b-wolof-ext4000-init, --expected-eos, "128900"]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-8b-a1b-wolof-ext4000-init/resize_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 60000}
+
+  - name: validate_8b_targets
+    size: 8b-a1b
+    requires: [resize_8b_ext4000]
+    command: [uv, run, python, scripts/clm/07_validate_probe_targets.py, --probe, results/full_pipeline/probes/8b-a1b.json, --config, configs/clm/8b/v2_moe_lora.yaml, --config, configs/sft/8b/full_mixture_v1.yaml]
+    outputs: []
+    resources: {min_disk_gb: 200}
+
+  - name: cpt_8b
+    size: 8b-a1b
+    requires: [validate_8b_targets]
+    command: [uv, run, python, scripts/family/30_run_family.py, --size, 8b, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/clm/8b/v2_moe_lora/journal.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 60000}
+
+  - name: merge_cpt_8b
+    size: 8b-a1b
+    requires: [cpt_8b]
+    command: [uv, run, python, scripts/clm/05_merge_adapter.py, --run, lfm_8b_a1b_v2_moe_lora]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm_8b_a1b_v2_moe_lora-merged/fusion_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 60000}
+
+  - name: sft_8b
+    size: 8b-a1b
+    requires: [merge_cpt_8b]
+    command: [uv, run, python, scripts/sft/11_train_sft.py, --config, configs/sft/8b/full_mixture_v1.yaml, --resume]
+    hash_env: [HF_TOKEN]
+    outputs: [runs/sft/8b_a1b_full_mixture_v1/journal_sft.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 60000}
+
+  - name: merge_sft_8b
+    size: 8b-a1b
+    requires: [sft_8b]
+    command: [uv, run, python, scripts/sft/13_merge_sft.py, --base, models/lfm_8b_a1b_v2_moe_lora-merged, --adapter, runs/sft/8b_a1b_full_mixture_v1/adapter, --output, models/lfm25-8b-a1b-wolof-instruct-merged, --expected-eos, "128900"]
+    hash_env: [HF_TOKEN]
+    outputs: [models/lfm25-8b-a1b-wolof-instruct-merged/sft_merge_meta.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 60000}
+
+  - name: eval_sft_8b
+    size: 8b-a1b
+    requires: [merge_sft_8b]
+    command: [uv, run, python, scripts/sft/12_evaluate_sft.py, --model, models/lfm25-8b-a1b-wolof-instruct-merged, --data, data/sft/prepared_mixture_v1_128k, --output, results/full_pipeline/eval/8b-a1b]
+    outputs: [results/full_pipeline/eval/8b-a1b/evaluation.json]
+    resources: {min_disk_gb: 200, require_gpu: true, min_gpu_free_mib: 60000}
+
+  - name: prepare_cpt_8b_publication
+    size: 8b-a1b
+    requires: [eval_sft_8b]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/lfm_8b_a1b_v2_moe_lora-merged, --metrics, models/lfm_8b_a1b_v2_moe_lora-merged/fusion_meta.json, --run-manifest, runs/clm/8b/v2_moe_lora/journal.json, --model-name, LFM2.5-8B-A1B-Wolof-CPT, --base-model, LiquidAI/LFM2.5-8B-A1B-Base, --tokenizer-family, 128k-ext, --training-stage, CPT]
+    outputs: [models/lfm_8b_a1b_v2_moe_lora-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_cpt_8b
+    size: 8b-a1b
+    requires: [prepare_cpt_8b_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/lfm_8b_a1b_v2_moe_lora-merged, --size, 8b-a1b, --stage, CPT, --repo-name, LFM2.5-8B-A1B-Wolof-CPT]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}
+
+  - name: prepare_instruct_8b_publication
+    size: 8b-a1b
+    requires: [publish_cpt_8b]
+    command: [uv, run, python, scripts/publication/43_prepare_artifact.py, --artifact, models/lfm25-8b-a1b-wolof-instruct-merged, --metrics, results/full_pipeline/eval/8b-a1b/evaluation.json, --run-manifest, runs/sft/8b_a1b_full_mixture_v1/journal_sft.json, --model-name, LFM2.5-8B-A1B-Wolof-Instruct, --base-model, LiquidAI/LFM2.5-8B-A1B-Base, --tokenizer-family, 128k-ext, --training-stage, Instruct]
+    outputs: [models/lfm25-8b-a1b-wolof-instruct-merged/README.md]
+    resources: {min_disk_gb: 200}
+
+  - name: publish_instruct_8b
+    size: 8b-a1b
+    requires: [prepare_instruct_8b_publication]
+    command: [uv, run, python, scripts/publication/42_publish_private.py, --artifact, models/lfm25-8b-a1b-wolof-instruct-merged, --size, 8b-a1b, --stage, Instruct, --repo-name, LFM2.5-8B-A1B-Wolof-Instruct]
+    hash_env: [HF_TOKEN, TRACKIO_SPACE_ID]
+    outputs: [results/full_pipeline/publication_manifest.json]
+    resources: {min_disk_gb: 200}

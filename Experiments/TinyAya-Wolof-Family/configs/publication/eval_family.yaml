@@ -1,0 +1,129 @@
+# Tiny Aya 3.35B Wolof family evaluation matrix
+schema_version: 2
+namespace: Tonic
+license_note: cc-by-nc-4.0 + Cohere Labs AUP
+size_key: 3b35
+remote_root: /mnt/volume_w2l8nkp/Wolof-LLM-main/Experiments/TinyAya-Wolof-Family
+
+# Primary BPB uses the matching ortho NTP test under results/bpb/.
+# Naming: {role}_{ortho}_3b35.json (ortho = ns|std).
+# SFT evals: results/sft/eval_{sft_run_prefix}_{role}/evaluation.json
+#   ns prefix=3b35, std prefix=3b35_std.
+
+stock:
+  - role: base
+    model_id: CohereLabs/tiny-aya-base
+    stage: Base
+    clm_metrics: results/bpb/stock_base_ns_3b35.json
+  - role: earth
+    model_id: CohereLabs/tiny-aya-earth
+    stage: Instruct
+    clm_metrics: results/bpb/stock_earth_ns_3b35.json
+  - role: global
+    model_id: CohereLabs/tiny-aya-global
+    stage: Instruct
+    clm_metrics: results/bpb/stock_global_ns_3b35.json
+
+cpt:
+  - role: cpt
+    local_artifact: models/tinyaya-3.35b-cpt-v1-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-CPT-v1
+    stage: CPT
+    base_model: CohereLabs/tiny-aya-base
+    clm_metrics: results/bpb/cpt_ns_3b35.json
+    run_manifest: runs/clm/3b35/v1_ntp70_ortho_lora/journal_cpt.json
+
+cpt_std:
+  - role: cpt
+    local_artifact: models/tinyaya-3.35b-cpt-std-v1-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-CPT-std-v1
+    stage: CPT
+    base_model: CohereLabs/tiny-aya-base
+    clm_metrics: results/bpb/cpt_std_3b35.json
+    run_manifest: runs/clm/3b35/v1_ntp70_ortho_std_lora/journal_cpt.json
+
+instruct:
+  - role: from_cpt
+    local_artifact: models/tinyaya-3.35b-instruct-from-cpt-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-Instruct-v1
+    stage: Instruct
+    base_model: Tonic/TinyAya-3.35B-Wolof-CPT-v1
+    sft_config: configs/sft/3b35/from_cpt_v1.yaml
+    starts_from: merged_cpt
+    clm_metrics: results/bpb/instruct_from_cpt_ns_3b35.json
+    sft_eval: results/sft/eval_3b35_from_cpt/evaluation.json
+    run_manifest: runs/sft/3b35_from_cpt_v1/journal_sft.json
+  - role: from_earth
+    local_artifact: models/tinyaya-3.35b-instruct-from-earth-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-InstructEarth-v1
+    stage: InstructEarth
+    base_model: CohereLabs/tiny-aya-earth
+    sft_config: configs/sft/3b35/from_earth_v1.yaml
+    starts_from: stock_earth
+    clm_metrics: results/bpb/instruct_from_earth_ns_3b35.json
+    sft_eval: results/sft/eval_3b35_from_earth/evaluation.json
+    run_manifest: runs/sft/3b35_from_earth_v1/journal_sft.json
+  - role: from_global
+    local_artifact: models/tinyaya-3.35b-instruct-from-global-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-InstructGlobal-v1
+    stage: InstructGlobal
+    base_model: CohereLabs/tiny-aya-global
+    sft_config: configs/sft/3b35/from_global_v1.yaml
+    starts_from: stock_global
+    clm_metrics: results/bpb/instruct_from_global_ns_3b35.json
+    sft_eval: results/sft/eval_3b35_from_global/evaluation.json
+    run_manifest: runs/sft/3b35_from_global_v1/journal_sft.json
+
+instruct_std:
+  - role: from_cpt
+    local_artifact: models/tinyaya-3.35b-instruct-from-cpt-std-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-Instruct-std-v1
+    stage: Instruct
+    base_model: Tonic/TinyAya-3.35B-Wolof-CPT-std-v1
+    clm_metrics: results/bpb/instruct_from_cpt_std_3b35.json
+    sft_eval: results/sft/eval_3b35_std_from_cpt/evaluation.json
+    run_manifest: runs/sft/3b35_std_from_cpt_v1/journal_sft.json
+  - role: from_earth
+    local_artifact: models/tinyaya-3.35b-instruct-from-earth-std-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-InstructEarth-std-v1
+    stage: InstructEarth
+    base_model: CohereLabs/tiny-aya-earth
+    clm_metrics: results/bpb/instruct_from_earth_std_3b35.json
+    sft_eval: results/sft/eval_3b35_std_from_earth/evaluation.json
+    run_manifest: runs/sft/3b35_from_earth_std_v1/journal_sft.json
+  - role: from_global
+    local_artifact: models/tinyaya-3.35b-instruct-from-global-std-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-InstructGlobal-std-v1
+    stage: InstructGlobal
+    base_model: CohereLabs/tiny-aya-global
+    clm_metrics: results/bpb/instruct_from_global_std_3b35.json
+    sft_eval: results/sft/eval_3b35_std_from_global/evaluation.json
+    run_manifest: runs/sft/3b35_from_global_std_v1/journal_sft.json
+
+dpo:
+  - role: dpo
+    local_artifact: models/tinyaya-3.35b-dpo-v1-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-DPO-v1
+    stage: DPO
+    base_model: Tonic/TinyAya-3.35B-Wolof-InstructGlobal-v1
+    clm_metrics: results/bpb/dpo_ns_3b35.json
+    sft_eval: results/sft/eval_3b35_dpo/evaluation.json
+    run_manifest: runs/sft/3b35_dpo_v1/journal_dpo.json
+
+dpo_std:
+  - role: dpo
+    local_artifact: models/tinyaya-3.35b-dpo-std-v1-merged
+    hub_repo: Tonic/TinyAya-3.35B-Wolof-DPO-std-v1
+    stage: DPO
+    base_model: Tonic/TinyAya-3.35B-Wolof-InstructEarth-std-v1
+    clm_metrics: results/bpb/dpo_std_3b35.json
+    sft_eval: results/sft/eval_3b35_std_dpo/evaluation.json
+    run_manifest: runs/sft/3b35_std_dpo_v1/journal_dpo.json
+
+datasets:
+  cpt_test_ns: data/ortho_ns_mixed_v1/cpt/test_ortho_kept.parquet
+  cpt_test_std: data/ortho_std_mixed_v1/cpt/test_ortho_kept.parquet
+  sft_val_ns: data/sft/prepared_anchored_v1/val.parquet
+  sft_val_std: data/sft/prepared_anchored_std_v1/val.parquet
+
+metrics_out: docs/FAMILY_EVAL.md

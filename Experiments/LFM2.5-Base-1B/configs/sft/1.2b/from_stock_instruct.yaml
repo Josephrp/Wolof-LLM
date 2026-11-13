@@ -1,0 +1,23 @@
+run: lfm_1.2b_sft_stock_instruct_ablation
+model: LiquidAI/LFM2.5-1.2B-Instruct
+starts_from: stock_instruct
+dataset: data/sft/prepared_mixture_v1
+mixture_id: mixture_v1
+output_dir: runs/sft/1.2b_stock_instruct
+extended_tokenizer: false
+assistant_only_loss: true
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj]
+  modules_to_save: []
+training:
+  max_steps: 12000
+  seq_len: 2048
+  micro_bs: 1
+  grad_acc: 16
+  lr: 2.0e-4
+  eval_steps: 250
+  save_steps: 250
+  seed: 42

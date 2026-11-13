@@ -1,0 +1,96 @@
+# Tiny Aya 3.35B complete GGUF matrix (BF16 + LiquidAI-parity quants).
+# K-quants are imatrix-calibrated on the matching ortho NTP test CSV.
+schema_version: 1
+llamacpp_root: /mnt/volume_w2l8nkp/tools/llama.cpp
+output_root: results/gguf/v1
+quant_set: [BF16, Q8_0, Q6_K, Q5_K_M, Q4_K_M, Q4_0]
+imatrix_quants: [Q6_K, Q5_K_M, Q4_K_M, Q4_0]
+verify_quant: Q4_K_M
+namespace_preferred: Tonic
+publication_manifest: results/full_pipeline/publication_manifest_gguf.json
+cleanup_after_publish: true
+smoke_prompt: "Salaam aleekum, naka nga def?"
+smoke_n_predict: 48
+calib:
+  text_column: text
+  apply_verbalization: true
+  n_texts: 512
+  ctx_size: 1024
+  n_gpu_layers: 99
+  chunks: 128
+  eval_root: /mnt/volume_w2l8nkp/Wolof-LLM-main/Evaluation
+  corpus_ns: data/corpus_test_clm_ortho_ns_mixed_tinyaya.csv
+  corpus_std: data/corpus_test_clm_ortho_std_mixed_tinyaya.csv
+
+models:
+  - size: 3b35
+    stage: CPT
+    ortho: ns
+    artifact: models/tinyaya-3.35b-cpt-v1-merged
+    base_repo: Tonic/TinyAya-3.35B-Wolof-CPT-v1
+    gguf_repo_name: TinyAya-3.35B-Wolof-CPT-v1-GGUF
+    file_stem: TinyAya-3.35B-Wolof-CPT-v1
+    clm_metrics: results/bpb/clm_cpt_ns_3b35.json
+
+  - size: 3b35
+    stage: CPT
+    ortho: std
+    artifact: models/tinyaya-3.35b-cpt-std-v1-merged
+    base_repo: Tonic/TinyAya-3.35B-Wolof-CPT-std-v1
+    gguf_repo_name: TinyAya-3.35B-Wolof-CPT-std-v1-GGUF
+    file_stem: TinyAya-3.35B-Wolof-CPT-std-v1
+    clm_metrics: results/bpb/clm_cpt_std_3b35.json
+
+  - size: 3b35
+    stage: InstructEarth
+    ortho: ns
+    artifact: models/tinyaya-3.35b-instruct-from-earth-merged
+    base_repo: Tonic/TinyAya-3.35B-Wolof-InstructEarth-v1
+    gguf_repo_name: TinyAya-3.35B-Wolof-InstructEarth-v1-GGUF
+    file_stem: TinyAya-3.35B-Wolof-InstructEarth-v1
+    clm_metrics: results/bpb/clm_from_earth_ns_3b35.json
+
+  - size: 3b35
+    stage: InstructEarth
+    ortho: std
+    artifact: models/tinyaya-3.35b-instruct-from-earth-std-merged
+    base_repo: Tonic/TinyAya-3.35B-Wolof-InstructEarth-std-v1
+    gguf_repo_name: TinyAya-3.35B-Wolof-InstructEarth-std-v1-GGUF
+    file_stem: TinyAya-3.35B-Wolof-InstructEarth-std-v1
+    clm_metrics: results/bpb/clm_from_earth_std_3b35.json
+
+  - size: 3b35
+    stage: InstructGlobal
+    ortho: ns
+    artifact: models/tinyaya-3.35b-instruct-from-global-merged
+    base_repo: Tonic/TinyAya-3.35B-Wolof-InstructGlobal-v1
+    gguf_repo_name: TinyAya-3.35B-Wolof-InstructGlobal-v1-GGUF
+    file_stem: TinyAya-3.35B-Wolof-InstructGlobal-v1
+    clm_metrics: results/bpb/clm_from_global_ns_3b35.json
+
+  - size: 3b35
+    stage: InstructGlobal
+    ortho: std
+    artifact: models/tinyaya-3.35b-instruct-from-global-std-merged
+    base_repo: Tonic/TinyAya-3.35B-Wolof-InstructGlobal-std-v1
+    gguf_repo_name: TinyAya-3.35B-Wolof-InstructGlobal-std-v1-GGUF
+    file_stem: TinyAya-3.35B-Wolof-InstructGlobal-std-v1
+    clm_metrics: results/bpb/clm_from_global_std_3b35.json
+
+  - size: 3b35
+    stage: DPO
+    ortho: ns
+    artifact: models/tinyaya-3.35b-dpo-v1-merged
+    base_repo: Tonic/TinyAya-3.35B-Wolof-DPO-v1
+    gguf_repo_name: TinyAya-3.35B-Wolof-DPO-v1-GGUF
+    file_stem: TinyAya-3.35B-Wolof-DPO-v1
+    clm_metrics: results/bpb/clm_dpo_ns_3b35.json
+
+  - size: 3b35
+    stage: DPO
+    ortho: std
+    artifact: models/tinyaya-3.35b-dpo-std-v1-merged
+    base_repo: Tonic/TinyAya-3.35B-Wolof-DPO-std-v1
+    gguf_repo_name: TinyAya-3.35B-Wolof-DPO-std-v1-GGUF
+    file_stem: TinyAya-3.35B-Wolof-DPO-std-v1
+    clm_metrics: results/bpb/clm_dpo_std_3b35.json

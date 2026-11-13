@@ -1,0 +1,29 @@
+run: tinyaya_3b35_sft_from_cpt_std_v1
+size: 3b35
+ortho: std
+model: models/tinyaya-3.35b-cpt-std-v1-merged
+starts_from: merged_cpt
+dataset: data/sft/prepared_anchored_std_v1
+output_dir: runs/sft/3b35_std_from_cpt_v1
+extended_tokenizer: true
+assistant_only_loss: true
+methode: lora
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens]
+training:
+  num_train_epochs: 3
+  seq_len: 2048
+  micro_bs: 1
+  grad_acc: 16
+  lr: 2.0e-4
+  eval_steps: 250
+  save_steps: 250
+  logging_steps: 25
+  packing: false
+  seed: 42
+  patience: 0
+  save_total_limit: 3

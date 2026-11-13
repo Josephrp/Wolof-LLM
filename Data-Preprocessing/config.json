@@ -1,0 +1,28 @@
+{
+  "raw_dataset": {
+    "hub_repo_id": "galsenai/wolof_centalized_corpus",
+    "private": true,
+    "hf_token_env_var": "HF_TOKEN",
+    "split": "train"
+  },
+  "input": {
+    "text_column": "text"
+  },
+  "cleaning": {
+    "drop_columns": ["sources"],
+    "remove_nan": true,
+    "remove_empty_or_whitespace": true,
+    "remove_numeric_only_lines": true,
+    "remove_single_word_lines": true,
+    "remove_quotes": true,
+    "remove_html_tags": true,
+    "remove_urls": false,
+    "lowercase": true,
+    "min_char_length": 5
+  },
+  "output": {
+    "version": "v1",
+    "local_output_dir": "outputs/processed",
+    "stats_dir": "outputs/stats"
+  }
+}

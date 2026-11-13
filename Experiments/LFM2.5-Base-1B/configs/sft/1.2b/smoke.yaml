@@ -1,0 +1,25 @@
+run: lfm_1.2b_sft_smoke
+model: models/v2_1.2b_ext4000_lora-merged
+starts_from: merged_cpt
+dataset: data/sft/prepared_mixture_v1
+mixture_id: mixture_v1
+output_dir: runs/sft/1.2b_smoke
+extended_tokenizer: true
+tokenizer_family: 65k-ext
+eos_token_id: 7
+assistant_only_loss: true
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj]
+  modules_to_save: [embed_tokens, lm_head]
+training:
+  max_steps: 10
+  seq_len: 1024
+  micro_bs: 1
+  grad_acc: 8
+  lr: 2.0e-4
+  eval_steps: 10
+  save_steps: 10
+  seed: 42

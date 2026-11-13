@@ -1,0 +1,49 @@
+# Virtual env / tooling
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+
+# Experiment artifacts (keep uv.lock + pyproject.toml)
+runs/
+models/
+tokenizers/
+data/**/*.parquet
+!data/**/.gitkeep
+*.pt
+*.bin
+*.safetensors
+*.onnx
+*.gguf
+
+# Hugging Face / uv caches (local symlinks or dirs)
+.cache/
+hf_cache/
+huggingface/
+UV_CACHE/
+*.arrow
+
+# Large local dumps
+*.parquet
+!configs/**/*.yaml
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Temp todo sync payloads (local agent helpers)
+_todo_*.json
+_todo_*.ndjson
+_todo_merge_*
+_todo_sync.json
+_todo_write_payload.json

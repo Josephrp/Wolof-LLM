@@ -1,0 +1,32 @@
+run: tinyaya_3b35_cpt_std_smoke
+stage: smoke
+size: 3b35
+ortho: std
+base_id: CohereLabs/tiny-aya-base
+tokenizer: tokenizers/tinyaya-wolof-ext-anchors
+model: models/tinyaya-3.35b-ext-init
+data_root: data/ortho_std_mixed_v1/cpt
+methode: lora
+extended_tokenizer: true
+attn_implementation: flash_attention_3
+fused_ce: true
+output_root: runs/clm/3b35/smoke_std
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: [embed_tokens]
+entrainement:
+  num_train_epochs: 3
+  max_steps: 20
+  seq_len: 1024
+  micro_bs: 1
+  grad_acc: 4
+  lr: 2.0e-4
+  eval_steps: 10
+  save_steps: 10
+  logging_steps: 5
+  gradient_checkpointing: true
+  seed: 42
+  save_total_limit: 1

@@ -1,0 +1,57 @@
+namespace: Tonic
+license_note: cc-by-nc-4.0 + Cohere Labs AUP
+
+size:
+  key: 3b35
+  params: 3.35B
+  base_id: CohereLabs/tiny-aya-base
+  instruct_ids:
+    earth: CohereLabs/tiny-aya-earth    # primary stock Instruct
+    global: CohereLabs/tiny-aya-global
+  lora_r: 32
+  methode: lora   # qlora if VRAM tight
+
+hub_models:
+  cpt: Tonic/TinyAya-3.35B-Wolof-CPT-v1
+  instruct: Tonic/TinyAya-3.35B-Wolof-Instruct-v1
+  instruct_earth: Tonic/TinyAya-3.35B-Wolof-InstructEarth-v1
+  instruct_global: Tonic/TinyAya-3.35B-Wolof-InstructGlobal-v1
+  dpo: Tonic/TinyAya-3.35B-Wolof-DPO-v1
+
+datasets:
+  ntp_source: galsenai/ntp_data_for_multilingual
+  ntp_variant: NTP_data_for_multilingual_70_20_10
+  sft_source: galsenai/wolof_sft_cleaned_v1_stratified
+  hub_cpt: Tonic/TinyAya-Wolof-NTP-ortho_ns_mixed_v1
+  hub_sft: Tonic/TinyAya-Wolof-SFT-ortho_ns_mixed_stratified_v1
+  hub_prepared: Tonic/TinyAya-Wolof-SFT-prepared_anchored_v1
+  hub_prefs: Tonic/TinyAya-Wolof-prefs_v1
+  hub_cpt_std: Tonic/TinyAya-Wolof-NTP-ortho_std_mixed_v1
+  hub_sft_std: Tonic/TinyAya-Wolof-SFT-ortho_std_mixed_stratified_v1
+  hub_prepared_std: Tonic/TinyAya-Wolof-SFT-prepared_anchored_std_v1
+  hub_prefs_std: Tonic/TinyAya-Wolof-prefs_std_v1
+
+epochs:
+  cpt: 3
+  sft: 3
+
+# Dual Wolof orthography tracks (both trained by default).
+ortho:
+  variants: [ns, std]
+  ns:
+    keep: [non_standard, mixed]
+    anchor: "<|ortho_ns|>"
+  std:
+    keep: [standard, mixed]
+    anchor: "<|ortho_std|>"
+
+tokenizer:
+  stock_vocab_size: 262144
+  n_tokens: 3000          # tune after fertility probe
+  bos_token_id: 2
+  eos_token_id: 3
+  pad_token_id: 0
+  tie_word_embeddings: true
+  path: tokenizers/tinyaya-wolof-ext-anchors
+
+remote_root: /mnt/volume_w2l8nkp/Wolof-LLM-main/Experiments/TinyAya-Wolof-Family

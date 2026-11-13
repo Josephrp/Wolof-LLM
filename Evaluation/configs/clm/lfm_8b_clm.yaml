@@ -1,0 +1,15 @@
+corpus_csv: "../data/corpus_test_clm.csv"
+text_column: "text"
+n_texts: null
+apply_verbalization: true
+bpb_max_len: 1024
+bleu_n_texts: 100
+bleu_seed: 0
+bleu_prompt_ratio: 0.5
+bleu_length_ratio: 1.3
+bleu_min_new_tokens: 16
+bleu_max_new_tokens: 256
+base_model_id: "Tonic/LFM2.5-8B-A1B-Wolof-CPT"
+subfolder: null
+tokenizer_subfolder: null
+output_json: "../metrics/clm/lfm_8b_clm.json"

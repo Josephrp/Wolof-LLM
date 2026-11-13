@@ -1,0 +1,33 @@
+run: v1_1.2b_default_lora
+stage: v1
+size: 1.2b
+base_id: LiquidAI/LFM2.5-1.2B-Base
+tokenizer: null
+model: null
+output_root: runs/clm/1.2b/v1_default_lora
+data_root: null
+methode: lora
+attention: sdpa
+tokenizer_family: 65k
+eos_token_id: 7
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  modules_to_save: null
+entrainement:
+  max_steps: 1500
+  seq_len: 2048
+  micro_bs: 1
+  grad_acc: 16
+  lr: 2.0e-4
+  scheduler: cosine
+  warmup_ratio: 0.03
+  logging_steps: 25
+  eval_steps: 100
+  save_steps: 500
+  save_total_limit: 3
+  gradient_checkpointing: true
+  optim: adamw_torch
+  seed: 42
