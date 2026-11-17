@@ -65,7 +65,7 @@ MODELS = [
     ("Orange/Wolof-Qwen3-14B-v2610", "cc3d985809", "Tonic/Wolof-Qwen3-14B-v2610-GGUF"),
 ]
 LLAMA = Path("/tmp/llama.cpp")
-LLAMA_TAG = os.environ.get("LLAMA_CPP_TAG", "b8700")
+LLAMA_TAG = os.environ.get("LLAMA_CPP_TAG", "b8999")  # verified via git ls-remote 2026-11-17
 REPO_URL = os.environ.get("WOLOF_REPO_URL", "https://github.com/Josephrp/Wolof-LLM.git")
 EVAL_DATASET = os.environ.get("EVAL_DATASET", "Tonic/Wolof-Qwen3-v2610-eval")
 
@@ -88,7 +88,7 @@ def ensure_llamacpp() -> Path:
         run(["bash", "-lc", "apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git cmake build-essential"])
     if not LLAMA.is_dir():
         run(["git", "clone", "--depth", "1", "--branch", LLAMA_TAG,
-             "https://github.com/ggerganov/llama.cpp.git", str(LLAMA)])
+             "https://github.com/ggml-org/llama.cpp.git", str(LLAMA)])
     quantize = LLAMA / "build" / "bin" / "llama-quantize"
     if not quantize.is_file():
         run(["cmake", "-B", "build", "-S", ".", "-DGGML_NATIVE=OFF"], cwd=LLAMA)
