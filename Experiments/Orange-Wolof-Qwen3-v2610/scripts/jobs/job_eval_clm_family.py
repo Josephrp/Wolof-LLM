@@ -82,18 +82,18 @@ def main() -> int:
     for stem in CONFIGS:
         if only and only not in stem:
             continue
-        cfg_path = cfg_dir / f"{stem}.yaml"
+        # Always materialize a temp config with absolute paths: evaluate_clm.py
+        # resolves relative paths against Evaluation/configs/, but our configs
+        # live in Experiments/Orange-.../configs/eval/clm/ (path mismatch bug
+        # found by the first pilot job, 2026-11-17).
+        cfg = yaml.safe_load((cfg_dir / f"{stem}.yaml").read_text(encoding="utf-8"))
+        cfg["corpus_csv"] = str(eval_dir / "data/corpus_test_clm.csv")
+        cfg["output_json"] = str(OUT / f"{stem}.json")
         if smoke:
-            # evaluate_clm.py reads YAML only; smoke = shrink corpus via a temp copy.
-            cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8"))
             cfg["n_texts"] = 32
             cfg["bleu_n_texts"] = 16
-            cfg_path = Path(f"/tmp/{stem}_smoke.yaml")
-            # Corpus/output paths are resolved relative to Evaluation/ by evaluate_clm.py;
-            # point them at absolute locations inside the clone.
-            cfg["corpus_csv"] = str(eval_dir / "data/corpus_test_clm.csv")
-            cfg["output_json"] = str(OUT / f"{stem}.json")
-            cfg_path.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
+        cfg_path = Path(f"/tmp/{stem}_eval.yaml")
+        cfg_path.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
         print(f"EVAL {stem} smoke={smoke}", flush=True)
         run([sys.executable, str(eval_dir / "scripts/evaluate_clm.py"), "--config", str(cfg_path)], cwd=eval_dir)
         # Non-smoke runs write into Evaluation/metrics/clm/ per config; collect either way.

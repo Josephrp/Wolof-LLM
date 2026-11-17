@@ -13,8 +13,11 @@ import argparse
 import json
 import subprocess
 import sys
+import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
+
+import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 REPO = ROOT.parents[1]
@@ -55,9 +58,20 @@ def main() -> int:
             continue
         print(f"+ evaluate_clm {stem}", flush=True)
         try:
+            # Materialize a temp config with absolute paths: evaluate_clm.py
+            # resolves relative paths against Evaluation/configs/, not our tree.
+            cfg = yaml.safe_load((CFG_DIR / f"{stem}.yaml").read_text(encoding="utf-8"))
+            cfg["corpus_csv"] = str(EVAL_ROOT / "data" / "corpus_test_clm.csv")
+            cfg["output_json"] = str(out_json)
+            if args.smoke:
+                cfg["n_texts"] = 32
+                cfg["bleu_n_texts"] = 16
+            with tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False, encoding="utf-8") as handle:
+                yaml.safe_dump(cfg, handle, sort_keys=False)
+                tmp_cfg = handle.name
             subprocess.run(
                 [sys.executable, str(EVAL_ROOT / "scripts" / "evaluate_clm.py"),
-                 "--config", str(CFG_DIR / f"{stem}.yaml")],
+                 "--config", tmp_cfg],
                 cwd=str(EVAL_ROOT), check=True)
             state["jobs"][stem] = {"status": "complete", "at": utc_now()}
         except Exception as exc:  # noqa: BLE001
