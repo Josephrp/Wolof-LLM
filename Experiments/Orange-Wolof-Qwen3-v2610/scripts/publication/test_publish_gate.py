@@ -55,9 +55,10 @@ class GateTest(unittest.TestCase):
             pq.validate_gguf(self.staging, self.eval_dir, self.tier1)
 
     def test_f16_far_below_tier1_blocks(self) -> None:
-        # F16 master implausibly below Tier-1 chrF => conversion suspect.
-        self.write_quant("F16", 20.0, 10.0)
-        self.write_quant("Q4_K_M", 19.5, 10.4)
+        # F16 master perplexity implausibly above Tier-1 (>1.5x) => the
+        # conversion itself is suspect and no quant verdict can be trusted.
+        self.write_quant("F16", 30.0, 30.0)
+        self.write_quant("Q4_K_M", 29.0, 30.4)
         with self.assertRaises(pq.GateError):
             pq.validate_gguf(self.staging, self.eval_dir, self.tier1)
 

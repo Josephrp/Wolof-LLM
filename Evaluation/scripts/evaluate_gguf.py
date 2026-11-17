@@ -140,7 +140,12 @@ def run_bleu_chrf(cfg: dict, texts: list[str]) -> dict:
     n_samples = cfg.get("bleu_n_texts", 100)
     seed = int(cfg.get("bleu_seed", 0))
 
-    eligible = [t for t in texts if len(str(t).split()) >= 4]
+    # Optional cap (bleu_max_text_words): without it, a single very long text
+    # in the sample yields a multi-thousand-word prompt/reference that no
+    # bounded generation can match, collapsing corpus chrF for every quant.
+    max_words = cfg.get("bleu_max_text_words")
+    eligible = [t for t in texts if len(str(t).split()) >= 4
+                and (not max_words or len(str(t).split()) <= int(max_words))]
     if n_samples is not None and str(n_samples).lower() != "all":
         n = int(n_samples)
         if 0 < n < len(eligible):
@@ -223,6 +228,7 @@ def main() -> int:
         "ppl_ctx_size": ppl["ppl_ctx_size"],
         "ppl_chunks": ppl["ppl_chunks"],
         "bleu_seed": int(cfg.get("bleu_seed", 0)),
+        "bleu_max_text_words": cfg.get("bleu_max_text_words"),
         "note": "Not HF-BPB-equivalent; compare PPL only within same GGUF/tokenizer family.",
     }
     out = Path(cfg["output_json"])

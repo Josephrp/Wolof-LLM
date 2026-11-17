@@ -181,6 +181,7 @@ def evaluate_quant(repo: Path, staging: Path, gguf: Path, quant: str) -> None:
            "apply_verbalization": True,
            "ctx_size": 1024, "n_gpu_layers": 0, "llamacpp_root": str(LLAMA),
            "bleu_n_texts": int(os.environ.get("GGUF_BLEU_N", "100")), "bleu_seed": 0,
+           "bleu_max_text_words": int(os.environ.get("GGUF_BLEU_MAX_WORDS", "200")),
            "bleu_prompt_ratio": 0.5,
            "bleu_length_ratio": 1.3, "bleu_min_new_tokens": 16, "bleu_max_new_tokens": 256,
            "output_json": str(staging / "eval" / f"{quant}_gguf_eval.json")}

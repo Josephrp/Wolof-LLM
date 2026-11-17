@@ -60,10 +60,13 @@ GGUF_THRESHOLDS = {
     "F16": (0.5, 1.0, "pass"),  # reference master; evaluated but never uploaded
 }
 ONNX_MAX_DCHRF = {"fp16": 1.0, "quantized": 1.5, "q4": 2.0, "q4f16": 2.0}
-# The evaluated F16 GGUF master must sit within this many chrF points of the
-# Tier-1 HF score; a larger gap means the conversion itself is suspect
-# (wrong tokenizer/template) and no quant verdict can be trusted.
-F16_TIER1_MAX_CHRF_GAP = 3.0
+# The evaluated F16 GGUF master must score within this perplexity ratio of
+# the Tier-1 HF model; beyond it the conversion itself is suspect (wrong
+# tokenizer/template) and no quant verdict can be trusted. Perplexity is
+# used for this band (not chrF) because it is computed over every eval text,
+# while chrF comes from a small sampled generation subset whose absolute
+# level swings with the draw; observed healthy ratios are ~1.1-1.3x.
+F16_TIER1_MAX_PPL_RATIO = 1.5
 TEXT_SUFFIXES = {".md", ".json", ".txt", ".yaml", ".yml", ".jinja"}
 
 
@@ -155,18 +158,18 @@ def validate_gguf(staging: Path, eval_dir: Path, tier1: dict) -> list[dict]:
         evals[str(ev.get("quant"))] = ev
     # F16 reference eval (master evaluated, never uploaded). Fail closed
     # without it: quant verdicts are deltas against this reference, and its
-    # chrF must also sit within a sanity band of the Tier-1 HF score.
+    # perplexity must sit within a sanity ratio of the Tier-1 HF score.
     f16_ref = evals.get("F16")
     if f16_ref is None:
         raise GateError("missing F16 reference eval JSON; every quant must be "
                         "gated against the evaluated F16 master")
-    tier1_chrf = tier1.get("chrF")
-    if isinstance(tier1_chrf, (int, float)):
-        gap = float(tier1_chrf) - float(f16_ref["chrF"])
-        if gap > F16_TIER1_MAX_CHRF_GAP:
+    tier1_ppl = tier1.get("perplexity")
+    if isinstance(tier1_ppl, (int, float)) and float(tier1_ppl) > 0:
+        ratio = float(f16_ref["perplexity"]) / float(tier1_ppl)
+        if ratio > F16_TIER1_MAX_PPL_RATIO:
             raise GateError(
-                f"F16 GGUF chrF {f16_ref['chrF']} is {gap:.2f}pt below Tier-1 "
-                f"chrF {tier1_chrf} (band {F16_TIER1_MAX_CHRF_GAP}pt); "
+                f"F16 GGUF perplexity {f16_ref['perplexity']} is {ratio:.2f}x "
+                f"Tier-1 perplexity {tier1_ppl} (band {F16_TIER1_MAX_PPL_RATIO}x); "
                 "conversion suspect, no quant verdict can be trusted")
     records: list[dict] = []
     for path in files:
@@ -294,8 +297,8 @@ BLEU {tier1.get('BLEU')}, chrF {tier1.get('chrF')}.
 Thresholds: GGUF ΔchrF and ΔPPL vs the evaluated F16 GGUF master on the
 identical eval subset and llama.cpp protocol (Q8_0/Q6_K ≤0.5pt/+1%,
 Q5_K_M ≤1pt/+3%, Q4_K_M ≤1.5pt/+5%, Q4_0 ≤2.5pt/+8% compat-only); the F16
-master itself is sanity-checked within 3 chrF points of the Tier-1 HF score
-above. ONNX: ΔchrF vs the evaluated fp16 dtype (q4f16 ≤ 2pts) + generation
+master itself is sanity-checked at ≤1.5× the Tier-1 HF perplexity above.
+ONNX: ΔchrF vs the evaluated fp16 dtype (q4f16 ≤ 2pts) + generation
 parity. Recommended default: **{default['quant']}**.
 
 ## Usage
