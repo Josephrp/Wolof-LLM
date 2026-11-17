@@ -44,7 +44,13 @@ sys.path.insert(0, str(ROOT))
 
 from common.hub_utils import build_checksums, scan_for_secrets, select_namespace, sha256_file  # noqa: E402
 
-# quant -> (max dchrF pts vs Tier-1, max dPPL % vs F16 GGUF, verdict label if within)
+# quant -> (max dchrF pts vs F16 GGUF, max dPPL % vs F16 GGUF, verdict label if within)
+# Both deltas are measured against the evaluated F16 GGUF master on the
+# identical eval subset and llama.cpp protocol. Comparing GGUF chrF against
+# the Tier-1 HF chrF instead would be unsound: the F16 master itself scores
+# ~1.3pt below Tier-1 purely from protocol/subset effects, which would fail
+# every quant regardless of quantization quality. Tier-1 remains a hard gate
+# via existence + source-SHA match and the F16 sanity band below.
 GGUF_THRESHOLDS = {
     "Q8_0": (0.5, 1.0, "pass"),
     "Q6_K": (0.5, 1.0, "pass"),
@@ -54,6 +60,10 @@ GGUF_THRESHOLDS = {
     "F16": (0.5, 1.0, "pass"),  # reference master; evaluated but never uploaded
 }
 ONNX_MAX_DCHRF = {"fp16": 1.0, "quantized": 1.5, "q4": 2.0, "q4f16": 2.0}
+# The evaluated F16 GGUF master must sit within this many chrF points of the
+# Tier-1 HF score; a larger gap means the conversion itself is suspect
+# (wrong tokenizer/template) and no quant verdict can be trusted.
+F16_TIER1_MAX_CHRF_GAP = 3.0
 TEXT_SUFFIXES = {".md", ".json", ".txt", ".yaml", ".yml", ".jinja"}
 
 
@@ -85,17 +95,22 @@ def check_tier1(path: Path, src_sha: str) -> dict:
     return tier1
 
 
-def gguf_verdict(quant: str, ev: dict, tier1: dict, f16_ppl: float | None) -> str:
+def gguf_verdict(quant: str, ev: dict, f16_ref: dict) -> str:
+    """Verdict for one quant vs the evaluated F16 GGUF master.
+
+    Both metrics come from the same eval subset and llama.cpp protocol, so
+    the deltas isolate quantization loss from protocol/subset effects.
+    """
     if quant not in GGUF_THRESHOLDS:
         raise GateError(f"no thresholds defined for quant {quant}")
     max_dchrf, max_dppl, label = GGUF_THRESHOLDS[quant]
-    dchrf = float(tier1["chrF"]) - float(ev["chrF"])
+    dchrf = float(f16_ref["chrF"]) - float(ev["chrF"])
     if dchrf > max_dchrf:
         return "fail"
-    if f16_ppl:
-        dppl = 100.0 * (float(ev["perplexity"]) - f16_ppl) / f16_ppl
-        if dppl > max_dppl:
-            return "fail"
+    f16_ppl = float(f16_ref["perplexity"])
+    dppl = 100.0 * (float(ev["perplexity"]) - f16_ppl) / f16_ppl
+    if dppl > max_dppl:
+        return "fail"
     return label
 
 
@@ -138,10 +153,21 @@ def validate_gguf(staging: Path, eval_dir: Path, tier1: dict) -> list[dict]:
     for path in sorted(eval_dir.glob("*_gguf_eval.json")):
         ev = load_json(path)
         evals[str(ev.get("quant"))] = ev
-    # F16 reference PPL (master evaluated, never uploaded).
-    f16_ppl = None
-    if "F16" in evals:
-        f16_ppl = float(evals["F16"]["perplexity"])
+    # F16 reference eval (master evaluated, never uploaded). Fail closed
+    # without it: quant verdicts are deltas against this reference, and its
+    # chrF must also sit within a sanity band of the Tier-1 HF score.
+    f16_ref = evals.get("F16")
+    if f16_ref is None:
+        raise GateError("missing F16 reference eval JSON; every quant must be "
+                        "gated against the evaluated F16 master")
+    tier1_chrf = tier1.get("chrF")
+    if isinstance(tier1_chrf, (int, float)):
+        gap = float(tier1_chrf) - float(f16_ref["chrF"])
+        if gap > F16_TIER1_MAX_CHRF_GAP:
+            raise GateError(
+                f"F16 GGUF chrF {f16_ref['chrF']} is {gap:.2f}pt below Tier-1 "
+                f"chrF {tier1_chrf} (band {F16_TIER1_MAX_CHRF_GAP}pt); "
+                "conversion suspect, no quant verdict can be trusted")
     records: list[dict] = []
     for path in files:
         quant = path.stem.rsplit("-", 1)[-1]
@@ -154,7 +180,7 @@ def validate_gguf(staging: Path, eval_dir: Path, tier1: dict) -> list[dict]:
         if ev.get("file_sha256") != digest:
             raise GateError(f"eval/file SHA mismatch for {path.name}: "
                             f"json={ev.get('file_sha256')} file={digest}")
-        verdict = gguf_verdict(quant, ev, tier1, f16_ppl)
+        verdict = gguf_verdict(quant, ev, f16_ref)
         records.append({"file": path.name, "quant": quant, "size": path.stat().st_size,
                         "sha256": digest, "eval": ev, "verdict": verdict,
                         "gguf_meta": validate_gguf_metadata(path)})
@@ -175,6 +201,9 @@ def validate_onnx(staging: Path, eval_dir: Path, tier1: dict) -> list[dict]:
     dtype_of = {"model.onnx": "fp32", "model_fp16.onnx": "fp16",
                 "model_quantized.onnx": "quantized", "model_q4.onnx": "q4",
                 "model_q4f16.onnx": "q4f16"}
+    # Quantized dtypes are gated on chrF delta vs the evaluated fp16 dtype
+    # (same prompts/protocol), not vs Tier-1 HF chrF; fail closed without it.
+    fp16_ref = evals.get("fp16")
     records: list[dict] = []
     for path in files:
         dtype = dtype_of.get(path.name)
@@ -188,7 +217,13 @@ def validate_onnx(staging: Path, eval_dir: Path, tier1: dict) -> list[dict]:
             raise GateError(f"eval/file SHA mismatch for {path.name}")
         if ev.get("parity") != "pass":
             raise GateError(f"ONNX parity not pass for {dtype}")
-        dchrf = float(tier1["chrF"]) - float(ev["chrf"])
+        if dtype == "fp16":
+            dchrf = 0.0  # reference dtype; parity above is its gate
+        else:
+            if fp16_ref is None:
+                raise GateError("missing fp16 reference eval JSON; quantized "
+                                "dtypes must be gated against the evaluated fp16 dtype")
+            dchrf = float(fp16_ref["chrf"]) - float(ev["chrf"])
         verdict = "pass" if dchrf <= ONNX_MAX_DCHRF.get(dtype, 2.0) else "fail"
         records.append({"file": f"onnx/{path.name}", "quant": dtype, "size": path.stat().st_size,
                         "sha256": digest, "eval": ev, "verdict": verdict})
@@ -256,9 +291,12 @@ BLEU {tier1.get('BLEU')}, chrF {tier1.get('chrF')}.
 {rows}
 {failed_note}
 
-Thresholds: GGUF ΔchrF vs HF / ΔPPL vs F16 per tier (Q8_0/Q6_K ≤0.5pt/+1%,
-Q5_K_M ≤1pt/+3%, Q4_K_M ≤1.5pt/+5%, Q4_0 ≤2.5pt/+8% compat-only); ONNX q4f16
-ΔchrF ≤ 2pts + generation parity. Recommended default: **{default['quant']}**.
+Thresholds: GGUF ΔchrF and ΔPPL vs the evaluated F16 GGUF master on the
+identical eval subset and llama.cpp protocol (Q8_0/Q6_K ≤0.5pt/+1%,
+Q5_K_M ≤1pt/+3%, Q4_K_M ≤1.5pt/+5%, Q4_0 ≤2.5pt/+8% compat-only); the F16
+master itself is sanity-checked within 3 chrF points of the Tier-1 HF score
+above. ONNX: ΔchrF vs the evaluated fp16 dtype (q4f16 ≤ 2pts) + generation
+parity. Recommended default: **{default['quant']}**.
 
 ## Usage
 

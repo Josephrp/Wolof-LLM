@@ -47,6 +47,20 @@ class GateTest(unittest.TestCase):
         with self.assertRaises(pq.GateError):
             pq.validate_gguf(self.staging, self.eval_dir, self.tier1)
 
+    def test_missing_f16_reference_blocks(self) -> None:
+        # Quant verdicts are deltas vs the evaluated F16 master; without its
+        # eval JSON the gate must fail closed even if the quant eval exists.
+        self.write_quant("Q4_K_M", 29.0, 10.4)
+        with self.assertRaises(pq.GateError):
+            pq.validate_gguf(self.staging, self.eval_dir, self.tier1)
+
+    def test_f16_far_below_tier1_blocks(self) -> None:
+        # F16 master implausibly below Tier-1 chrF => conversion suspect.
+        self.write_quant("F16", 20.0, 10.0)
+        self.write_quant("Q4_K_M", 19.5, 10.4)
+        with self.assertRaises(pq.GateError):
+            pq.validate_gguf(self.staging, self.eval_dir, self.tier1)
+
     def test_stale_tier1_blocks(self) -> None:
         with self.assertRaises(pq.GateError):
             pq.check_tier1(self.tmp / "tier1.json", "ffffffff99")

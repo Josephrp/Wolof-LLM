@@ -218,7 +218,7 @@ def convert_one(src: str, sha: str, dst: str, token: str, convert: Path) -> None
     f16 = staging / f"{stem}-F16.gguf"
     run([sys.executable, str(convert), str(src_dir), "--outfile", str(f16), "--outtype", "f16"])
     shutil.rmtree(src_dir)  # free disk before the quant matrix
-    evaluate_quant(repo, staging, f16, "F16")  # reference for dPPL; never uploaded
+    evaluate_quant(repo, staging, f16, "F16")  # gate reference for dPPL/dchrF; never uploaded
     imatrix_decision = None
     for qtype in quants:
         if qtype == "F16":
