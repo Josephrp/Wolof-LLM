@@ -9,8 +9,12 @@ Full plan: `docs/EVALUATION_AND_QUANTIZATION_PLAN.md`.
 |---|---|---:|---:|---:|---:|---:|
 | 0.6B | — vs — | — | — | — | — (Q4_K_M) | — |
 | 1.7B | ⛔ BLOCKED — no weights on Hub | — | — | — | — | — |
-| 4B | — vs — | — | — | — | — (Q4_K_M) | — |
+| 4B | 1.3889 vs 2.8448 | 5.55 | 24.22 | 17.09 | — (Q4_K_M) | — |
 | 8B | — vs — | — | — | — | — (Q4_K_M) | — |
 | 14B | — vs — | — | — | — | — (Q4_K_M) | — |
 
-Updated: 2026-11-17T13:44:49.982658+00:00
+Updated: 2026-11-17T16:14:11.227293+00:00
+
+## ⚠️ Warnings
+
+- SHA MISMATCH Orange/Wolof-Qwen3-1.7B-v2610: pinned f83fe208ca != live 4199c1d515

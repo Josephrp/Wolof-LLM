@@ -171,11 +171,17 @@ def evaluate_quant(repo: Path, staging: Path, gguf: Path, quant: str) -> None:
     """Run repo evaluate_gguf.py (CPU) and stamp file_sha256 into the eval JSON."""
     import yaml
 
+    # Pilot runs may bound the eval (GGUF_EVAL_N_TEXTS / GGUF_BLEU_N) to fit CPU
+    # job timeouts; default is the full corpus, and the subset size is recorded
+    # in the eval JSON (n_texts_evaluated) that the publish gate consumes.
+    n_texts = os.environ.get("GGUF_EVAL_N_TEXTS")
     cfg = {"run": f"{gguf.stem}", "gguf_path": str(gguf), "quant": quant,
            "hf_repo": None, "corpus_csv": str(repo / "Evaluation/data/corpus_test_clm.csv"),
-           "text_column": "text", "n_texts": None, "apply_verbalization": True,
+           "text_column": "text", "n_texts": int(n_texts) if n_texts else None,
+           "apply_verbalization": True,
            "ctx_size": 1024, "n_gpu_layers": 0, "llamacpp_root": str(LLAMA),
-           "bleu_n_texts": 100, "bleu_seed": 0, "bleu_prompt_ratio": 0.5,
+           "bleu_n_texts": int(os.environ.get("GGUF_BLEU_N", "100")), "bleu_seed": 0,
+           "bleu_prompt_ratio": 0.5,
            "bleu_length_ratio": 1.3, "bleu_min_new_tokens": 16, "bleu_max_new_tokens": 256,
            "output_json": str(staging / "eval" / f"{quant}_gguf_eval.json")}
     cfg_path = Path(f"/tmp/gguf_eval_{quant}.yaml")
