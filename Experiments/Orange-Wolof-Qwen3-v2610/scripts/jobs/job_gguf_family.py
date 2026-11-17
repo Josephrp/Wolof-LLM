@@ -200,7 +200,10 @@ def convert_one(src: str, sha: str, dst: str, token: str, convert: Path) -> None
     stem = dst.split("/")[-1].removesuffix("-GGUF")
     size_label = stem.split("-")[2]
     size_key = {"0.6B": "06b", "4B": "4b", "8B": "8b", "14B": "14b"}[size_label]
-    quants = QUANTS + EXTRA_QUANTS.get(size_label, [])
+    # GGUF_QUANTS (comma list) trims the matrix, e.g. for pilots on slow CPU
+    # hosts; F16 is always evaluated separately as the gate reference.
+    only_q = [q.strip() for q in os.environ.get("GGUF_QUANTS", "").split(",") if q.strip()]
+    quants = only_q or (QUANTS + EXTRA_QUANTS.get(size_label, []))
     repo = ensure_repo()
     api = HfApi(token=token)
     tier1 = fetch_tier1(api, token, size_key)
