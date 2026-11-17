@@ -1,0 +1,82 @@
+# v2611 training recipes — implements docs/TRAINING_IMPROVEMENT_PLAN.md.
+# Format mirrors Qwen3.5-Wolof-Family configs (clm/sft/dpo) so repo trainers transfer:
+#   CPT  <- Experiments/Qwen3.5-Wolof-Family/scripts/clm/03_train_cpt.py
+#   SFT  <- Experiments/Qwen3.5-Wolof-Family/scripts/sft/11_train_sft.py
+#   DPO  <- Experiments/Qwen3.5-Wolof-Family/scripts/sft/14_train_dpo.py
+#   merge/golden-select <- scripts/clm/05_merge_adapter.py, scripts/publication/61_golden_eval_select.py
+schema_version: 1
+pilot_order: [4b, 06b, 8b, 14b]     # 17b blocked until Orange uploads weights
+
+shared:
+  tokenizer:
+    probe: Experiments/TinyAya-Wolof-Family/scripts/clm/02c_fertility_probe.py  # adapt to Qwen3 tokenizer
+    extension_gate: "Wolof fertility >= 1.25x French fertility -> build ext2000/ext4000 (pretok-chunk append, mean-pool init)"
+    anchors: [<|lang_wo|>, <|ortho_ns|>]
+  cpt:
+    data: galsenai/ntp_data_for_multilingual  # NTP 70_20_10, ortho-labelled; arms: B-std (all) / B-ns (drop standard)
+    epochs: 3
+    seq_len: 2048
+    lr_lora: 2.0e-4
+    gate: "BPB -10% rel vs Orange start on corpus_test_clm.csv; FR/EN BPB regression <= 3%"
+  sft:
+    mixture_target_samples: 450000
+    blocks:
+      bilingual_fr_wo: {share: 0.30, note: "verified subset upsampled x2"}
+      translated_general_filtered: {share: 0.28, note: "drop worst quartile: back-translation chrF + langID + translationese filter"}
+      conversation_multiturn_wo: {share: 0.12, note: ">=30K samples (Orange: 7K)"}
+      function_calling: {share: 0.12, note: "EN + WO/FR tool prompts, >=20% no-tool negatives"}
+      fr_en_replay: {share: 0.13, note: "forgetting brake"}
+      codeswitch_ortho_ns: {share: 0.05, note: "repo ortho_ns_mixed slice, <|ortho_ns|> anchor"}
+    epochs: 3
+    assistant_only_loss: true
+    tracks: [from_orange, from_cpt_merged]   # dual-track, golden-BPB select per track
+  dpo:
+    pairs_target: 120000
+    mix: {wolof_onpolicy: 0.40, fr_en_dolci: 0.40, function_calling_pairs: 0.20}
+    beta_sweep: [0.1, 0.2]
+    lr: 5.0e-6        # full-model equivalent; LoRA 5e-5..1e-4
+    epochs: [1, 2]
+    seq_len: 2048     # Orange used 1024 — do not truncate Wolof chosen responses
+    gate: "Tier-2 IF + FC false-positive improve vs SFT; Wolof judge drop <= 1pt else revert"
+  merge:
+    ingredients: [orange_v2610, sft_best, dpo_best]   # + stock Qwen3 for 06b/17b
+    grid: [[0.34, 0.33, 0.33], [0.25, 0.50, 0.25], [0.50, 0.25, 0.25], [0.50, 0.0, 0.50]]
+    fallback: "TIES/DARE (mergekit) if linear sweep shows interference"
+    select: "golden BPB (200 texts) -> Tier-1+Tier-2 on top-2"
+  long_context:
+    stages: [8192, 16384]
+    gate: "Tier-2 long-context block >= stock Qwen3 at same length; advertise only validated lengths"
+
+sizes:
+  06b:
+    start: Orange/Wolof-Qwen3-0.6B-v2610
+    cpt: {methode: lora, r: 16, alpha: 32, epochs: 2}
+    sft: {methode: lora, r: 16, alpha: 32}          # LoRA, not full — protect general skills (diagnosis D3)
+    dpo: skip_or_wolof_only_tiny                    # Orange: EN-DPO hurt this size; decide by gate
+    merge: {extra_ingredient: Qwen/Qwen3-0.6B}
+    hf_job_flavor: l40sx1
+  17b:
+    start: BLOCKED_no_weights
+    fallback_start: Qwen/Qwen3-1.7B                # full repo recipe if weights never appear
+  4b:
+    start: Orange/Wolof-Qwen3-4B-v2610
+    cpt: {methode: lora, r: 32, alpha: 64}
+    sft: {methode: lora, r: 32, alpha: 64}
+    dpo: {methode: lora, r: 32, alpha: 64}
+    merge: sweep                                    # Orange skipped merge here — test properly
+    hf_job_flavor: a100-large
+    role: pilot (run first, 2 seeds)
+  8b:
+    start: Orange/Wolof-Qwen3-8B-v2610
+    cpt: {methode: lora, r: 32, alpha: 64}
+    sft: {methode: lora, r: 32, alpha: 64}
+    dpo: {methode: lora, r: 32, alpha: 64}
+    merge: sweep_around_equal_thirds
+    hf_job_flavor: h200
+  14b:
+    start: Orange/Wolof-Qwen3-14B-v2610
+    cpt: {methode: qlora, r: 32, alpha: 64}
+    sft: {methode: qlora, r: 32, alpha: 64}
+    dpo: {methode: qlora, r: 32, alpha: 64}
+    merge: sweep_around_equal_thirds
+    hf_job_flavor: h200   # or rtx-pro-6000 ($2.75/h)

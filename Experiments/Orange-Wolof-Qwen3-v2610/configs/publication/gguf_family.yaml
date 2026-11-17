@@ -1,0 +1,51 @@
+# GGUF matrix for Orange Wolof-Qwen3 v2610 (pattern: Qwen3.5-Wolof-Family/configs/publication/gguf_family.yaml)
+schema_version: 1
+llamacpp_root: /mnt/volume_w2l8nkp/tools/llama.cpp
+output_root: results/gguf/v2610
+quant_set: [F16, Q8_0, Q5_K_M, Q4_K_M, Q4_0]   # Q6_K added per-model where listed
+verify_quant: Q4_K_M
+namespace_preferred: Tonic
+private: true
+include_master: false   # F16 evaluated as reference, never uploaded
+eval_gate: required     # publish_quant.py fails closed without per-quant eval JSONs (Eval Plan 2b)
+cleanup_after_publish: true
+license: cc-by-nc-sa-4.0
+smoke_prompt: "Salaam aleekum, naka nga def?"
+smoke_n_predict: 48
+cache_root: results/hub_cache
+models:
+  - size: 06b
+    stage: Instruct
+    flavor: cpu-basic
+    hub_source: Orange/Wolof-Qwen3-0.6B-v2610
+    hub_sha: a296360960
+    base_repo: Orange/Wolof-Qwen3-0.6B-v2610
+    gguf_repo_name: Wolof-Qwen3-0.6B-v2610-GGUF
+    file_stem: Wolof-Qwen3-0.6B-v2610
+  - size: 4b
+    stage: Instruct
+    flavor: cpu-upgrade
+    hub_source: Orange/Wolof-Qwen3-4B-v2610
+    hub_sha: 64314c62da
+    base_repo: Orange/Wolof-Qwen3-4B-v2610
+    gguf_repo_name: Wolof-Qwen3-4B-v2610-GGUF
+    file_stem: Wolof-Qwen3-4B-v2610
+  - size: 8b
+    stage: Instruct
+    flavor: cpu-xl
+    hub_source: Orange/Wolof-Qwen3-8B-v2610
+    hub_sha: eacd4f3428
+    base_repo: Orange/Wolof-Qwen3-8B-v2610
+    gguf_repo_name: Wolof-Qwen3-8B-v2610-GGUF
+    file_stem: Wolof-Qwen3-8B-v2610
+    extra_quants: [Q6_K]
+  - size: 14b
+    stage: Instruct
+    flavor: cpu-xl
+    hub_source: Orange/Wolof-Qwen3-14B-v2610
+    hub_sha: cc3d985809
+    base_repo: Orange/Wolof-Qwen3-14B-v2610
+    gguf_repo_name: Wolof-Qwen3-14B-v2610-GGUF
+    file_stem: Wolof-Qwen3-14B-v2610
+    extra_quants: [Q6_K]
+# 1.7B intentionally absent: no weights on Hub at audit (see configs/family.yaml).

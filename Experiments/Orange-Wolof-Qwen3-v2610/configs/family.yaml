@@ -1,0 +1,85 @@
+# Orange Wolof-Qwen3 v2610 family — source of truth for eval + quantization + v2611 training.
+# Hub audit: 2026-11-17 via `hf models info` (user Tonic). SHAs pin the audited revisions;
+# a silent re-upload must fail loudly in scripts/publication/aggregate_eval.py.
+schema_version: 1
+namespace_preferred: Tonic          # derived artifacts publish here; Orange/ is read-only for us
+eval_dataset_repo: Tonic/Wolof-Qwen3-v2610-eval
+license: cc-by-nc-sa-4.0            # inherited by every GGUF/ONNX/fine-tune derivative
+
+sizes:
+  - key: 06b
+    label: 0.6B
+    hub_id: Orange/Wolof-Qwen3-0.6B-v2610
+    sha: a296360960
+    baseline_id: Qwen/Qwen3-0.6B
+    params: 596049920
+    dtype: bfloat16
+    recipe: sft_only                # DPO + merge tried by Orange, rejected
+    weights_present: true
+    gguf: true
+    onnx: true                      # browser tier
+  - key: 17b
+    label: 1.7B
+    hub_id: Orange/Wolof-Qwen3-1.7B-v2610
+    sha: f83fe208ca
+    baseline_id: Qwen/Qwen3-1.7B
+    params: null                    # config/tokenizer only on Hub at audit time
+    dtype: bfloat16
+    recipe: sft_dpo
+    weights_present: false          # BLOCKED: no safetensors in repo (11 MB total)
+    blocked_reason: "No weight files uploaded; tokenizer/config only. See Eval Plan Gate 0."
+    gguf: false
+    onnx: false                     # enable the day weights exist (best browser size)
+  - key: 4b
+    label: 4B
+    hub_id: Orange/Wolof-Qwen3-4B-v2610
+    sha: 64314c62da
+    baseline_id: Qwen/Qwen3-4B
+    params: 4022468096
+    dtype: bfloat16
+    recipe: sft_dpo
+    weights_present: true
+    gguf: true
+    onnx: true
+  - key: 8b
+    label: 8B
+    hub_id: Orange/Wolof-Qwen3-8B-v2610
+    sha: eacd4f3428
+    baseline_id: Qwen/Qwen3-8B
+    params: 8190735360
+    dtype: float16                  # linear-merge output
+    recipe: sft_dpo_merge
+    weights_present: true
+    gguf: true
+    onnx: false                     # excluded from browser matrix (size)
+  - key: 14b
+    label: 14B
+    hub_id: Orange/Wolof-Qwen3-14B-v2610
+    sha: cc3d985809
+    baseline_id: Qwen/Qwen3-14B
+    params: 14768307200
+    dtype: float16                  # linear-merge output
+    recipe: sft_dpo_merge
+    weights_present: true
+    gguf: true
+    onnx: false
+
+extra_baselines:
+  - hub_id: soynade-research/Oolel-v0.1
+    role: prior Wolof specialist (already in Evaluation/metrics/clm/oolel.json)
+
+eval:
+  corpus_csv: Evaluation/data/corpus_test_clm.csv   # 4,282 verbalized Wolof texts
+  protocol_clm: Evaluation/scripts/evaluate_clm.py  # BPB gold; BLEU/chrF seed 0, n=100
+  protocol_gguf: Evaluation/scripts/evaluate_gguf.py
+  chat_suite: Tonic/wolof-qwen3-v2610-chatbench-v1  # Tier-2, to be built (Eval Plan §3.3)
+
+quantization:
+  gguf_quants: [F16, Q8_0, Q5_K_M, Q4_K_M, Q4_0]   # + Q6_K for 8B/14B; F16 = eval reference only
+  gguf_default: Q4_K_M
+  onnx_dtypes: [fp16, quantized, q4, q4f16]
+  onnx_sizes: [06b, 4b]
+  private: true
+  include_master: false
+  eval_gate: required   # no repo creation without Tier-1 + per-quant/dtype eval on the card
+  flavors: {gguf_06b: cpu-basic, gguf_4b: cpu-upgrade, gguf_8b: cpu-xl, gguf_14b: cpu-xl, onnx_06b: cpu-basic, onnx_4b: cpu-xl}
