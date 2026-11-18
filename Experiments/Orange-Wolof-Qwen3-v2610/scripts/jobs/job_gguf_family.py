@@ -120,14 +120,8 @@ def ensure_repo() -> Path:
     return repo
 
 
-def imatrix_pilot(repo: Path, staging: Path, f16: Path, stem: str) -> dict:
-    """Quantize Q4_K_M with and without a Wolof imatrix; keep the winner as canonical.
-
-    Both candidates are fully evaluated (evaluate_gguf.py); the loser's file is
-    deleted and the winner is renamed to {stem}-Q4_K_M.gguf with its eval JSON
-    stamped as the canonical Q4_K_M eval. Returns the decision record.
-    """
-    quantize = LLAMA / "build" / "bin" / "llama-quantize"
+def _build_wolof_imatrix(repo: Path, f16: Path) -> Path:
+    """Build a Wolof-corpus imatrix; returns the .dat/.gguf path."""
     if not (LLAMA / "build" / "bin" / "llama-imatrix").is_file():
         run(["cmake", "--build", "build", "--target", "llama-imatrix",
              "-j", str(os.cpu_count() or 4)], cwd=LLAMA)
@@ -138,6 +132,36 @@ def imatrix_pilot(repo: Path, staging: Path, f16: Path, stem: str) -> dict:
     imatrix = Path("/tmp/imatrix.dat")
     run([str(LLAMA / "build" / "bin" / "llama-imatrix"), "-m", str(f16),
          "-f", str(slice_file), "-o", str(imatrix), "--chunks", "20", "-c", "512"])
+    return imatrix
+
+
+def quantize_q4km_imatrix(repo: Path, staging: Path, f16: Path, stem: str) -> dict:
+    """Quantize Q4_K_M with the adopted Wolof imatrix (no A/B). Set IMATRIX=1."""
+    quantize = LLAMA / "build" / "bin" / "llama-quantize"
+    imatrix = _build_wolof_imatrix(repo, f16)
+    out_gguf = staging / f"{stem}-Q4_K_M.gguf"
+    run([str(quantize), "--imatrix", str(imatrix), str(f16), str(out_gguf), "Q4_K_M"])
+    evaluate_quant(repo, staging, out_gguf, "Q4_K_M")
+    ev = json.loads((staging / "eval" / "Q4_K_M_gguf_eval.json").read_text())
+    ev["imatrix"] = True
+    (staging / "eval" / "Q4_K_M_gguf_eval.json").write_text(
+        json.dumps(ev, indent=2) + "\n", encoding="utf-8")
+    decision = {"winner": "imatrix", "adopted": True,
+                "chrF": {"imatrix": ev.get("chrF")},
+                "perplexity": {"imatrix": ev.get("perplexity")}}
+    print(f"IMATRIX_ADOPTED {decision}", flush=True)
+    return decision
+
+
+def imatrix_pilot(repo: Path, staging: Path, f16: Path, stem: str) -> dict:
+    """A/B: Q4_K_M with vs without Wolof imatrix; keep the winner as canonical.
+
+    Both candidates are fully evaluated (evaluate_gguf.py); the loser's file is
+    deleted and the winner is renamed to {stem}-Q4_K_M.gguf with its eval JSON
+    stamped as the canonical Q4_K_M eval. Returns the decision record.
+    """
+    quantize = LLAMA / "build" / "bin" / "llama-quantize"
+    imatrix = _build_wolof_imatrix(repo, f16)
     candidates = {}
     for label, extra in (("plain", []), ("imatrix", ["--imatrix", str(imatrix)])):
         cand = staging / f"{stem}-Q4_K_M-{label}.gguf"
@@ -239,6 +263,10 @@ def convert_one(src: str, sha: str, dst: str, token: str, convert: Path) -> None
             continue
         if qtype == "Q4_K_M" and os.environ.get("IMATRIX_PILOT"):
             imatrix_decision = imatrix_pilot(repo, staging, f16, stem)
+            continue
+        if qtype == "Q4_K_M" and os.environ.get("IMATRIX") not in (None, "", "0"):
+            # Family rollout: imatrix adopted from the 4B pilot (no A/B).
+            imatrix_decision = quantize_q4km_imatrix(repo, staging, f16, stem)
             continue
         out_gguf = staging / f"{stem}-{qtype}.gguf"
         run([str(quantize), str(f16), str(out_gguf), qtype])
