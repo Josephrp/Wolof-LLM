@@ -155,9 +155,11 @@ def convert_one(src: str, sha: str, dst: str, token: str) -> None:
 
     export_dtype = "fp16" if "-4B-" in src else None  # ORT/WebGPU reject bfloat16
     print(f"exporting via main_export (dtype={export_dtype})...", flush=True)
+    # no_post_process: Qwen3-4B hits google.protobuf.message.EncodeError during
+    # optimum's ONNX post-process (model too large for a single protobuf message).
     kwargs: dict = {"model_name_or_path": str(src_dir), "output": str(export_tmp),
                     "task": "text-generation-with-past", "trust_remote_code": True,
-                    "do_validation": False, "device": "cpu"}
+                    "do_validation": False, "device": "cpu", "no_post_process": True}
     if export_dtype:
         kwargs["dtype"] = export_dtype
     main_export(**kwargs)
