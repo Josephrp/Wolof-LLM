@@ -51,7 +51,9 @@ def main() -> int:
     if not model_file.is_file():
         raise SystemExit(f"missing {model_file}")
     tokenizer = AutoTokenizer.from_pretrained(str(args.onnx_dir))
-    model = ORTModelForCausalLM.from_pretrained(str(args.onnx_dir), file_name=f"onnx/{args.file}")
+    # Optimum matches file_name inside subfolder; do NOT pass "onnx/<file>".
+    model = ORTModelForCausalLM.from_pretrained(
+        str(args.onnx_dir), file_name=args.file, subfolder="onnx")
 
     texts = [verbalize_text(t) for t in pd.read_csv(args.corpus)["text"].dropna().astype(str).tolist()]
     eligible = [t for t in texts if len(str(t).split()) >= 4]
