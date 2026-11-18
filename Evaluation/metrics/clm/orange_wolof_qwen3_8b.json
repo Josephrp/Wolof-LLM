@@ -1,0 +1,22 @@
+{
+  "run": "Orange/Wolof-Qwen3-8B-v2610",
+  "base_model_id": "Orange/Wolof-Qwen3-8B-v2610",
+  "subfolder": null,
+  "vocab_size": 151669,
+  "device": "NVIDIA A10G",
+  "BPB": 1.3656,
+  "perplexity": 11.85,
+  "BLEU": 5.54,
+  "chrF": 23.29,
+  "n_texts_evaluated": 4282,
+  "n_texts_scored": 4282,
+  "n_bleu_pairs": 100,
+  "n_bytes": 1642295,
+  "n_tokens": 628698,
+  "bpb_max_len": 1024,
+  "bleu_prompt_ratio": 0.5,
+  "bleu_length_ratio": 1.3,
+  "bleu_n_texts": 100,
+  "bleu_seed": 0,
+  "src_sha": "eacd4f3428"
+}
