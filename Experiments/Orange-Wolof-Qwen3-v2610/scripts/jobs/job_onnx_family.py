@@ -45,12 +45,21 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 from huggingface_hub import HfApi, hf_hub_download, snapshot_download
+
+
+def _name_tokens(*names: str) -> set[str]:
+    """Size tokens of repo ids, so ONLY=4b matches '4B' but not '14B'."""
+    tokens: set[str] = set()
+    for name in names:
+        tokens.update(re.split(r"[^a-z0-9.]+", name.lower()))
+    return tokens
 
 MODELS = [
     ("Orange/Wolof-Qwen3-0.6B-v2610", "a296360960", "Tonic/Wolof-Qwen3-0.6B-v2610-ONNX"),
@@ -215,7 +224,7 @@ def main() -> int:
         raise SystemExit("HF_TOKEN required")
     only = os.environ.get("ONLY", "").strip().lower()
     for src, sha, dst in MODELS:
-        if only and only not in src.lower() and only not in dst.lower():
+        if only and only not in _name_tokens(src, dst):
             continue
         convert_one(src, sha, dst, token)
     print("ONNX_FAMILY_JOB_OK", flush=True)

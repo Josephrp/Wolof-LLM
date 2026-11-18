@@ -30,12 +30,21 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 import yaml
 from huggingface_hub import HfApi
+
+
+def _name_tokens(*names: str) -> set[str]:
+    """Size tokens of config stems, so ONLY=4b matches '4b' but not '14b'."""
+    tokens: set[str] = set()
+    for name in names:
+        tokens.update(re.split(r"[^a-z0-9.]+", name.lower()))
+    return tokens
 
 REPO_URL = os.environ.get("WOLOF_REPO_URL", "https://github.com/Josephrp/Wolof-LLM.git")
 REPO_REF = os.environ.get("WOLOF_REPO_REF", "main")
@@ -80,7 +89,7 @@ def main() -> int:
 
     done: list[str] = []
     for stem in CONFIGS:
-        if only and only not in stem:
+        if only and only not in _name_tokens(stem):
             continue
         # Always materialize a temp config with absolute paths: evaluate_clm.py
         # resolves relative paths against Evaluation/configs/, but our configs

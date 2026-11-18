@@ -48,6 +48,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -55,6 +56,15 @@ from pathlib import Path
 
 import pandas as pd
 from huggingface_hub import HfApi, snapshot_download
+
+
+def _name_tokens(*names: str) -> set[str]:
+    """Size tokens of repo ids, so ONLY=4b matches '4B' but not '14B'
+    (plain substring matching selected 14B for ONLY=4b in the 4B pilot)."""
+    tokens: set[str] = set()
+    for name in names:
+        tokens.update(re.split(r"[^a-z0-9.]+", name.lower()))
+    return tokens
 
 QUANTS = ["F16", "Q8_0", "Q5_K_M", "Q4_K_M", "Q4_0"]
 EXTRA_QUANTS = {"8B": ["Q6_K"], "14B": ["Q6_K"]}
@@ -255,7 +265,7 @@ def main() -> int:
     convert = ensure_llamacpp()
     only = os.environ.get("ONLY", "").strip().lower()
     for src, sha, dst in MODELS:
-        if only and only not in src.lower() and only not in dst.lower():
+        if only and only not in _name_tokens(src, dst):
             continue
         convert_one(src, sha, dst, token, convert)
     print("GGUF_FAMILY_JOB_OK", flush=True)

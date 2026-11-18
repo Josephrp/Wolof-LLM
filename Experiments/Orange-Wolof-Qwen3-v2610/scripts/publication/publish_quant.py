@@ -319,8 +319,8 @@ regressions vs stock Qwen3 reported by Orange; Wolof dialect/orthography coverag
 is incomplete; SFT training context was 2,048 tokens (config advertises 40,960 —
 validate long-context use); not for consequential decisions (medical, legal,
 financial, employment) without human oversight; not validated for autonomous
-tool use. Quantization may further affect Wolof diacritics (ñ/ŋ/à) — see the
-diacritic-slice results in the eval JSONs.
+tool use. Quantization may further affect Wolof diacritics (ñ/ŋ/à); per-file
+eval metrics are recorded in this repo's meta JSON and the family eval archive.
 """
     if "chrF" not in card or tier1.get("chrF") is None:
         raise GateError("card generation produced an empty evaluation section")
