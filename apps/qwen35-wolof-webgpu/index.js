@@ -18,7 +18,12 @@ const MODELS = {
   "4B · Instruct": {
     repo_id: "Tonic/Qwen3.5-4B-Wolof-Instruct-v1-ONNX",
     metrics: { BPB: 1.0987, BLEU: 6.28, chrF: 26.26 },
-    summary: "Largest browser option in this Space (9B stays on ZeroGPU).",
+    summary: "Large Instruct; heavy WebGPU download.",
+  },
+  "9B · Instruct": {
+    repo_id: "Tonic/Qwen3.5-9B-Wolof-Instruct-v1-ONNX",
+    metrics: { BPB: 0.9793, BLEU: 7.87, chrF: 28.52 },
+    summary: "Best quality; may OOM on modest GPUs — prefer ZeroGPU Space if load fails.",
   },
 };
 

@@ -24,7 +24,7 @@
 # [tool.uv.sources]
 # torch = { index = "pytorch-cpu" }
 # ///
-"""HF Jobs (cpu-xl): ONNX export for Instruct 0.8B/2B/4B (qwen3_5_text).
+"""HF Jobs (cpu-xl): ONNX export for Instruct 0.8B/2B/4B/9B (qwen3_5_text).
 
 Installs optimum + optimum-onnx from git with --no-deps so transformers>=5.19
 is not blocked by their published upper bounds.
@@ -46,6 +46,7 @@ MODELS = [
     ("Tonic/Qwen3.5-08B-Wolof-Instruct-v1", "Tonic/Qwen3.5-08B-Wolof-Instruct-v1-ONNX"),
     ("Tonic/Qwen3.5-2B-Wolof-Instruct-v1", "Tonic/Qwen3.5-2B-Wolof-Instruct-v1-ONNX"),
     ("Tonic/Qwen3.5-4B-Wolof-Instruct-v1", "Tonic/Qwen3.5-4B-Wolof-Instruct-v1-ONNX"),
+    ("Tonic/Qwen3.5-9B-Wolof-Instruct-v1", "Tonic/Qwen3.5-9B-Wolof-Instruct-v1-ONNX"),
 ]
 
 
@@ -76,6 +77,25 @@ def ensure_optimum_onnx() -> None:
     print("optimum.exporters.onnx ready (qwen3_5_text)", flush=True)
 
 
+def save_onnx_external(model, path: Path) -> None:
+    """Persist large graphs with external data (avoids 2GB protobuf limit)."""
+    import onnx
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data_name = path.name + "_data"
+    # Drop stale sidecar shards from a previous attempt.
+    for stale in path.parent.glob(data_name + "*"):
+        stale.unlink(missing_ok=True)
+    onnx.save_model(
+        model,
+        str(path),
+        save_as_external_data=True,
+        all_tensors_to_one_file=True,
+        location=data_name,
+        size_threshold=1024,
+    )
+
+
 def quantize(onnx_dir: Path) -> list[str]:
     import onnx
     from onnxruntime.quantization import QuantType, quantize_dynamic
@@ -100,18 +120,26 @@ def quantize(onnx_dir: Path) -> list[str]:
             shutil.copy2(data, onnx_dir / "model.onnx_data")
         base = onnx_dir / "model.onnx"
     logs: list[str] = []
-    model = onnx.load(str(base))
+    # load_external_data=True so weights resolve from *_data sidecars.
+    model = onnx.load(str(base), load_external_data=True)
     if onnx_float16 is not None:
         try:
-            onnx.save(
+            save_onnx_external(
                 onnx_float16.convert_float_to_float16(model, keep_io_types=True),
-                str(onnx_dir / "model_fp16.onnx"),
+                onnx_dir / "model_fp16.onnx",
             )
             logs.append("fp16:ok")
         except Exception as exc:  # noqa: BLE001
             logs.append(f"fp16:{exc}")
     try:
         quantize_dynamic(str(base), str(onnx_dir / "model_quantized.onnx"), weight_type=QuantType.QInt8)
+        # Rewrite with external data if ORT emitted a monolithic proto.
+        qpath = onnx_dir / "model_quantized.onnx"
+        if qpath.is_file() and not (onnx_dir / "model_quantized.onnx_data").is_file():
+            try:
+                save_onnx_external(onnx.load(str(qpath), load_external_data=True), qpath)
+            except Exception as exc:  # noqa: BLE001
+                logs.append(f"quantized-rewrite:{exc}")
         logs.append("quantized:ok")
     except Exception as exc:  # noqa: BLE001
         logs.append(f"quantized:{exc}")
@@ -119,13 +147,13 @@ def quantize(onnx_dir: Path) -> list[str]:
         quantizer = MatMul4BitsQuantizer(model, block_size=32, is_symmetric=True)
         quantizer.process()
         q4_model = quantizer.model.model
-        onnx.save(q4_model, str(onnx_dir / "model_q4.onnx"))
+        save_onnx_external(q4_model, onnx_dir / "model_q4.onnx")
         logs.append("q4:ok")
         if onnx_float16 is not None:
             try:
-                onnx.save(
+                save_onnx_external(
                     onnx_float16.convert_float_to_float16(q4_model, keep_io_types=True),
-                    str(onnx_dir / "model_q4f16.onnx"),
+                    onnx_dir / "model_q4f16.onnx",
                 )
                 logs.append("q4f16:ok")
             except Exception as exc:  # noqa: BLE001
@@ -149,16 +177,21 @@ def convert_one(src: str, dst: str, token: str) -> None:
 
     # PR patcher: dynamo path is the validated one for hybrid Gated-DeltaNet.
     os.environ["QWEN35_DYNAMO"] = "1"
-    print("exporting via main_export (dynamo=True)…", flush=True)
-    main_export(
-        model_name_or_path=str(src_dir),
-        output=str(export_tmp),
-        task="text-generation-with-past",
-        trust_remote_code=True,
-        do_validation=False,
-        device="cpu",
-        dynamo=True,
-    )
+    # fp16 (not bf16): ORT/WebGPU reject bfloat16 Conv. 9B fp16 fits cpu-xl (~124GB).
+    export_dtype = "fp16" if any(x in src for x in ("-4B-", "-9B-")) else None
+    print(f"exporting via main_export (dynamo=True, dtype={export_dtype})…", flush=True)
+    export_kwargs: dict = {
+        "model_name_or_path": str(src_dir),
+        "output": str(export_tmp),
+        "task": "text-generation-with-past",
+        "trust_remote_code": True,
+        "do_validation": False,
+        "device": "cpu",
+        "dynamo": True,
+    }
+    if export_dtype:
+        export_kwargs["dtype"] = export_dtype
+    main_export(**export_kwargs)
 
     onnx_dir = out_dir / "onnx"
     onnx_dir.mkdir(parents=True)

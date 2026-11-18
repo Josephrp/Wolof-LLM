@@ -1,6 +1,6 @@
 # Publication status — Orange Wolof-Qwen3 v2610 (2026-11-18)
 
-All target private repos under `Tonic/` are live. 1.7B remains BLOCKED (no Orange weights).
+All target private repos under `Tonic/` are live (GGUF + ONNX for 0.6B/4B/8B/14B), including ONNX external-data weights. 1.7B remains BLOCKED (no Orange weights).
 
 ## Private Hub repos
 
@@ -10,10 +10,10 @@ All target private repos under `Tonic/` are live. 1.7B remains BLOCKED (no Orang
 | [Tonic/Wolof-Qwen3-4B-v2610-GGUF](https://huggingface.co/Tonic/Wolof-Qwen3-4B-v2610-GGUF) | yes | Q8_0, Q4_K_M (imatrix), Q4_0 | Pilot; recommended **Q4_K_M** |
 | [Tonic/Wolof-Qwen3-8B-v2610-GGUF](https://huggingface.co/Tonic/Wolof-Qwen3-8B-v2610-GGUF) | yes | **Q4_K_M** (imatrix) only | Q8/Q6/Q5/Q4_0 failed ΔchrF on 64-text/24-prompt subset (noisy); job ERROR after publish during smoke download — repo is fine |
 | [Tonic/Wolof-Qwen3-14B-v2610-GGUF](https://huggingface.co/Tonic/Wolof-Qwen3-14B-v2610-GGUF) | yes | Q8_0, Q6_K, Q4_K_M (imatrix), Q4_0 | Q5_K_M failed ΔchrF |
-| [Tonic/Wolof-Qwen3-0.6B-v2610-ONNX](https://huggingface.co/Tonic/Wolof-Qwen3-0.6B-v2610-ONNX) | yes | fp16, q4, q4f16 | session-load smoke (ORT Python generate KV broken for Qwen3) |
-| [Tonic/Wolof-Qwen3-4B-v2610-ONNX](https://huggingface.co/Tonic/Wolof-Qwen3-4B-v2610-ONNX) | yes | fp16, q4, q4f16 | same |
-
-## Tier-1 HF CLM (full 4,282 texts) — gate prerequisite
+| [Tonic/Wolof-Qwen3-0.6B-v2610-ONNX](https://huggingface.co/Tonic/Wolof-Qwen3-0.6B-v2610-ONNX) | yes | fp16, q4, q4f16 (+ `_data`) | re-pub `6afd7ac6…cb13`; q4/q4f16 ~650MB each |
+| [Tonic/Wolof-Qwen3-4B-v2610-ONNX](https://huggingface.co/Tonic/Wolof-Qwen3-4B-v2610-ONNX) | yes | fp16, q4, q4f16 (+ `_data`) | re-pub `6afd7ac6…cb11`; fp16 ~9.6GB, q4 ~3.1GB |
+| [Tonic/Wolof-Qwen3-8B-v2610-ONNX](https://huggingface.co/Tonic/Wolof-Qwen3-8B-v2610-ONNX) | yes | fp16, q4, q4f16 (+ `_data`) | re-pub `6afd7ae9…cb21`; fp16 ~17.6GB, q4 ~5.5GB |
+| [Tonic/Wolof-Qwen3-14B-v2610-ONNX](https://huggingface.co/Tonic/Wolof-Qwen3-14B-v2610-ONNX) | yes | fp16, q4, q4f16 (+ `_data`) | re-pub `6afd7ae9…4310`; fp16 ~31.6GB, q4 ~9.5GB |## Tier-1 HF CLM (full 4,282 texts) — gate prerequisite
 
 | Model | BPB | PPL | BLEU | chrF | src_sha |
 |---|---:|---:|---:|---:|---|
@@ -36,9 +36,12 @@ Dataset: `Tonic/Wolof-Qwen3-v2610-eval` (also has stock Qwen3 baselines).
 | GGUF 14B | cpu-xl | 1.00 |
 | ONNX 0.6B | cpu-basic | 0.01 |
 | ONNX 4B | cpu-xl | 1.00 |
+| ONNX 8B | cpu-xl | 1.00 |
+| ONNX 14B | cpu-xl | 1.00 |
 
 ## Follow-ups (not blocking private publish)
 
 1. Full-corpus GGUF re-eval before any `--promote-public` (subset evals are noisy; 0.6B/8B lost mid quants to ΔchrF/ΔPPL).
 2. Soften post-upload smoke so a smoke download failure does not mark the job ERROR after a successful private publish (8B).
 3. 1.7B: wait for Orange weights, then same pipeline.
+4. Push local `publish_quant.py` / `eval_onnx_dtype.py` sidecar fixes to `orange-wolof-qwen3-v2610` (jobs currently self-patch the clone).

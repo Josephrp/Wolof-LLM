@@ -47,6 +47,33 @@ def main() -> int:
     if model_file.stat().st_size < 1024:
         raise SystemExit(f"too small: {model_file}")
 
+    # Fail closed when the graph references external weights that are missing.
+    # ORT Session() can succeed on graph stubs alone; browsers cannot.
+    import onnx
+    from onnx.external_data_helper import uses_external_data
+
+    graph = onnx.load(str(model_file), load_external_data=False)
+    needs_ext = any(uses_external_data(t) for t in graph.graph.initializer)
+    data_siblings = sorted(model_file.parent.glob(model_file.name + "_data*"))
+    if needs_ext and not data_siblings:
+        parity = "fail"
+        note = "missing external data sidecar(s) for ONNX initializers"
+        print(f"SESSION_LOAD_FAIL {args.dtype} {note}", flush=True)
+        payload = {
+            "dtype": args.dtype,
+            "model_file": args.file,
+            "file_sha256": sha256_file(model_file),
+            "chrf": 0.0,
+            "parity": parity,
+            "n_pairs": 0,
+            "eval_mode": "session_load",
+            "note": note,
+        }
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps(payload, indent=2), flush=True)
+        return 1
+
     # Session create is the load smoke; skip IO binding / generate.
     opts = ort.SessionOptions()
     opts.graph_optimization_level = ort.GraphOptimizationLevel.ORT_DISABLE_ALL
@@ -57,7 +84,8 @@ def main() -> int:
         outputs = [o.name for o in sess.get_outputs()]
         del sess
         parity = "pass"
-        note = f"session_load ok; inputs={len(inputs)} outputs={len(outputs)}"
+        ext_note = f"; external_data={len(data_siblings)}" if data_siblings else ""
+        note = f"session_load ok; inputs={len(inputs)} outputs={len(outputs)}{ext_note}"
         print(f"SESSION_LOAD_OK {args.dtype} {note}", flush=True)
     except Exception as exc:  # noqa: BLE001
         parity = "fail"

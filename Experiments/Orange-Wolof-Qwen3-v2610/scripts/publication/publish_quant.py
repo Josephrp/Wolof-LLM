@@ -398,13 +398,19 @@ def main() -> int:
     # Checksums over uploadable artifacts + card + meta (F16 excluded by construction).
     uploadable = [r for r in records if r["verdict"] in ("pass", "compat-only")]
     files = [staging / r["file"] for r in uploadable]
+    # ONNX external-data sidecars (model_fp16.onnx_data, …) — required for usable
+    # ≥4B artifacts; graph-only .onnx stubs are a few MB without these.
+    for path in list(files):
+        if path.suffix == ".onnx":
+            files.extend(sorted(path.parent.glob(path.name + "_data*")))
     for extra in ("README.md", "LICENSE"):
         files.append(staging / extra)
     if args.meta_json and args.meta_json.is_file():
         args.meta_json.write_text(sanitize_text(args.meta_json.read_text(encoding="utf-8")), encoding="utf-8")
         files.append(args.meta_json)
-    # Tokenizer / chat template files if present (GGUF jobs copy them alongside).
-    for name in ("tokenizer.json", "tokenizer_config.json", "chat_template.jinja"):
+    # Tokenizer / chat template / JS config if present (ONNX + GGUF staging).
+    for name in ("tokenizer.json", "tokenizer_config.json", "chat_template.jinja",
+                 "config.json", "generation_config.json"):
         if (staging / name).is_file():
             files.append(staging / name)
     scan_for_secrets(staging, [p for p in files if p.suffix.lower() in TEXT_SUFFIXES])

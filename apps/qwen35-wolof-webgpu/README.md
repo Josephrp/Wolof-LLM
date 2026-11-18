@@ -11,6 +11,7 @@ models:
 - Tonic/Qwen3.5-08B-Wolof-Instruct-v1-ONNX
 - Tonic/Qwen3.5-2B-Wolof-Instruct-v1-ONNX
 - Tonic/Qwen3.5-4B-Wolof-Instruct-v1-ONNX
+- Tonic/Qwen3.5-9B-Wolof-Instruct-v1-ONNX
 tags:
 - wolof
 - qwen3.5

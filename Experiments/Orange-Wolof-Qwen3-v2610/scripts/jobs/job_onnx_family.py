@@ -26,20 +26,21 @@
 # [tool.uv.sources]
 # torch = { index = "pytorch-cpu" }
 # ///
-"""HF Jobs (cpu-xl): ONNX/Transformers.js export for Wolof-Qwen3 0.6B + 4B (browser sizes).
+"""HF Jobs (cpu-xl): ONNX/Transformers.js export for Wolof-Qwen3 0.6B/4B/8B/14B.
 
 Adapted from Qwen3.5-Wolof-Family/scripts/jobs/job_onnx_family.py with one major
 simplification: stock `qwen3` is supported by upstream optimum, so the Qwen3.5
 optimum-onnx PR fork and dynamo patcher are NOT installed here.
-Dtypes: fp16 (4B export), quantized (QInt8), q4, q4f16 (MatMul4Bits block 32).
+Dtypes: fp16 (export), quantized (QInt8), q4, q4f16 (MatMul4Bits block 32).
 
-Each dtype is evaluated (ORT CPU, chrF + parity) immediately after production;
+Each dtype is evaluated (ORT CPU session-load smoke) immediately after production;
 publishing is delegated to publish_quant.py, which FAILS CLOSED if any
 per-dtype eval JSON is missing/stale/failing (Eval Plan §2b).
 
 Cheapest feasible flavor (artifacts retained until the gate passes):
-  0.6B: --flavor cpu-basic ($0.01/h)   4B: --flavor cpu-xl ($1.00/h)
-Always: --timeout 4h --secrets HF_TOKEN --env ONLY=<size>
+  0.6B: --flavor cpu-basic ($0.01/h)
+  4B/8B/14B: --flavor cpu-xl ($1.00/h)
+Always: --timeout 6h --secrets HF_TOKEN --env ONLY=<size>
 Prerequisite: Tier-1 HF eval for that size in Tonic/Wolof-Qwen3-v2610-eval.
 """
 
@@ -66,7 +67,73 @@ def _name_tokens(*names: str) -> set[str]:
 MODELS = [
     ("Orange/Wolof-Qwen3-0.6B-v2610", "a296360960", "Tonic/Wolof-Qwen3-0.6B-v2610-ONNX"),
     ("Orange/Wolof-Qwen3-4B-v2610", "64314c62da", "Tonic/Wolof-Qwen3-4B-v2610-ONNX"),
+    ("Orange/Wolof-Qwen3-8B-v2610", "eacd4f3428", "Tonic/Wolof-Qwen3-8B-v2610-ONNX"),
+    ("Orange/Wolof-Qwen3-14B-v2610", "cc3d985809", "Tonic/Wolof-Qwen3-14B-v2610-ONNX"),
 ]
+
+SIZE_KEYS = {
+    "0.6B": "06b",
+    "4B": "4b",
+    "8B": "8b",
+    "14B": "14b",
+}
+
+
+def _patch_onnx_publish_tools(repo: Path) -> None:
+    """Ensure cloned publish/eval tools upload ONNX external-data sidecars.
+
+    HF Jobs only ships this UV script; publication helpers come from the git
+    clone and may lag. Without sidecars, ≥4B Hub repos are unusable graph stubs.
+    """
+    publisher = repo / "Experiments/Orange-Wolof-Qwen3-v2610/scripts/publication/publish_quant.py"
+    text = publisher.read_text(encoding="utf-8")
+    if 'path.name + "_data*"' not in text:
+        needle = '    files = [staging / r["file"] for r in uploadable]\n'
+        insert = (
+            '    files = [staging / r["file"] for r in uploadable]\n'
+            '    # ONNX external-data sidecars (model_fp16.onnx_data, …).\n'
+            '    for path in list(files):\n'
+            '        if path.suffix == ".onnx":\n'
+            '            files.extend(sorted(path.parent.glob(path.name + "_data*")))\n'
+        )
+        if needle not in text:
+            raise SystemExit("publish_quant.py: cannot patch ONNX sidecar upload")
+        text = text.replace(needle, insert, 1)
+        old_tok = (
+            '    for name in ("tokenizer.json", "tokenizer_config.json", "chat_template.jinja"):\n'
+            '        if (staging / name).is_file():\n'
+            '            files.append(staging / name)\n'
+        )
+        new_tok = (
+            '    for name in ("tokenizer.json", "tokenizer_config.json", "chat_template.jinja",\n'
+            '                 "config.json", "generation_config.json"):\n'
+            '        if (staging / name).is_file():\n'
+            '            files.append(staging / name)\n'
+        )
+        if old_tok in text:
+            text = text.replace(old_tok, new_tok, 1)
+        publisher.write_text(text, encoding="utf-8")
+        print("PATCHED publish_quant.py for ONNX _data sidecars", flush=True)
+
+    evaluator = repo / "Experiments/Orange-Wolof-Qwen3-v2610/scripts/publication/eval_onnx_dtype.py"
+    etext = evaluator.read_text(encoding="utf-8")
+    if "uses_external_data" not in etext:
+        marker = "    # Session create is the load smoke; skip IO binding / generate.\n"
+        check = (
+            "    import onnx\n"
+            "    from onnx.external_data_helper import uses_external_data\n"
+            "    graph = onnx.load(str(model_file), load_external_data=False)\n"
+            "    needs_ext = any(uses_external_data(t) for t in graph.graph.initializer)\n"
+            "    data_siblings = sorted(model_file.parent.glob(model_file.name + \"_data*\"))\n"
+            "    if needs_ext and not data_siblings:\n"
+            "        raise SystemExit(\"missing external data sidecar(s) for ONNX initializers\")\n"
+            "\n"
+            "    # Session create is the load smoke; skip IO binding / generate.\n"
+        )
+        if marker not in etext:
+            raise SystemExit("eval_onnx_dtype.py: cannot patch external-data check")
+        evaluator.write_text(etext.replace(marker, check, 1), encoding="utf-8")
+        print("PATCHED eval_onnx_dtype.py for external-data check", flush=True)
 
 
 def run(cmd: list[str]) -> None:
@@ -115,7 +182,7 @@ def quantize(onnx_dir: Path, *, export_already_fp16: bool = False) -> list[str]:
         base = onnx_dir / "model.onnx"
     logs: list[str] = []
     model = onnx.load(str(base), load_external_data=True)
-    # 4B is exported as fp16 via main_export(dtype=fp16); converting again
+    # Export is already fp16 via main_export(dtype=fp16); converting again
     # hits protobuf EncodeError / "already float16". Treat the export as fp16.
     if export_already_fp16:
         _copy_onnx_pair(base, onnx_dir / "model_fp16.onnx")
@@ -171,17 +238,16 @@ def convert_one(src: str, sha: str, dst: str, token: str) -> None:
 
     from optimum.exporters.onnx import main_export
 
-    # Export both browser sizes as fp16: ORT/WebGPU reject bfloat16, and the
-    # float32→fp16 post-convert hits protobuf EncodeError / broken Cast nodes.
-    export_dtype = "fp16" if any(x in src for x in ("-4B-", "-0.6B-")) else None
+    # Always export fp16: ORT/WebGPU reject bfloat16, and float32→fp16
+    # post-convert hits protobuf EncodeError / broken Cast nodes on ≥4B.
+    export_dtype = "fp16"
     print(f"exporting via main_export (dtype={export_dtype})...", flush=True)
-    # no_post_process: Qwen3-4B hits google.protobuf.message.EncodeError during
+    # no_post_process: ≥4B hits google.protobuf.message.EncodeError during
     # optimum's ONNX post-process (model too large for a single protobuf message).
     kwargs: dict = {"model_name_or_path": str(src_dir), "output": str(export_tmp),
                     "task": "text-generation-with-past", "trust_remote_code": True,
-                    "do_validation": False, "device": "cpu", "no_post_process": True}
-    if export_dtype:
-        kwargs["dtype"] = export_dtype
+                    "do_validation": False, "device": "cpu", "no_post_process": True,
+                    "dtype": export_dtype}
     main_export(**kwargs)
 
     onnx_dir = out_dir / "onnx"
@@ -209,7 +275,12 @@ def convert_one(src: str, sha: str, dst: str, token: str) -> None:
         if ref:
             clone_cmd += ["--branch", ref]
         run(clone_cmd + [os.environ.get("WOLOF_REPO_URL", "https://github.com/Josephrp/Wolof-LLM.git"), str(repo)])
-    size_key = "06b" if "0.6B" in src else "4b"
+    # Patch cloned publisher/evaluator when the branch lags this UV script
+    # (HF Jobs only uploads this file; clone is the source of publish_quant).
+    _patch_onnx_publish_tools(repo)
+    size_key = next((v for k, v in SIZE_KEYS.items() if f"-{k}-" in src), None)
+    if size_key is None:
+        raise SystemExit(f"unknown size for Tier-1 lookup: {src}")
     tier1_path = hf_hub_download("Tonic/Wolof-Qwen3-v2610-eval",
                                  f"orange_wolof_qwen3_{size_key}.json",
                                  repo_type="dataset", token=token)

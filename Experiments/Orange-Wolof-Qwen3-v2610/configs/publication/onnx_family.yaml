@@ -1,4 +1,4 @@
-# ONNX (Transformers.js / WebGPU) for Orange Wolof-Qwen3 v2610 — browser sizes only.
+# ONNX (Transformers.js / WebGPU) for Orange Wolof-Qwen3 v2610.
 # Pattern: Qwen3.5-Wolof-Family/configs/publication/onnx_family.yaml
 # NOTE: stock qwen3 is supported by upstream optimum — no Qwen3.5 optimum-onnx fork needed.
 schema_version: 1
@@ -25,4 +25,18 @@ models:
     hub_sha: 64314c62da
     base_repo: Orange/Wolof-Qwen3-4B-v2610
     onnx_repo_name: Wolof-Qwen3-4B-v2610-ONNX
-# Excluded: 8B/14B (browser download/RAM), 1.7B (no weights on Hub — first candidate when fixed).
+  - size: 8b
+    stage: Instruct
+    flavor: cpu-xl
+    hub_source: Orange/Wolof-Qwen3-8B-v2610
+    hub_sha: eacd4f3428
+    base_repo: Orange/Wolof-Qwen3-8B-v2610
+    onnx_repo_name: Wolof-Qwen3-8B-v2610-ONNX
+  - size: 14b
+    stage: Instruct
+    flavor: cpu-xl
+    hub_source: Orange/Wolof-Qwen3-14B-v2610
+    hub_sha: cc3d985809
+    base_repo: Orange/Wolof-Qwen3-14B-v2610
+    onnx_repo_name: Wolof-Qwen3-14B-v2610-ONNX
+# Excluded: 1.7B (no weights on Hub — first candidate when fixed).
