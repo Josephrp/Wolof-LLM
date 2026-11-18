@@ -171,7 +171,9 @@ def convert_one(src: str, sha: str, dst: str, token: str) -> None:
 
     from optimum.exporters.onnx import main_export
 
-    export_dtype = "fp16" if "-4B-" in src else None  # ORT/WebGPU reject bfloat16
+    # Export both browser sizes as fp16: ORT/WebGPU reject bfloat16, and the
+    # float32→fp16 post-convert hits protobuf EncodeError / broken Cast nodes.
+    export_dtype = "fp16" if any(x in src for x in ("-4B-", "-0.6B-")) else None
     print(f"exporting via main_export (dtype={export_dtype})...", flush=True)
     # no_post_process: Qwen3-4B hits google.protobuf.message.EncodeError during
     # optimum's ONNX post-process (model too large for a single protobuf message).
