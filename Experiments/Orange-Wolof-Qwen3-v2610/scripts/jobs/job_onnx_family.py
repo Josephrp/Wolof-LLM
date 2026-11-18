@@ -15,6 +15,8 @@
 #     "protobuf>=4.0.0",
 #     "numpy",
 #     "packaging",
+#     "pandas",
+#     "sacrebleu",
 #     "optimum[onnxruntime]>=1.24.0",
 # ]
 # [[tool.uv.index]]
@@ -83,7 +85,15 @@ def save_onnx_external(model, path: Path) -> None:
                     all_tensors_to_one_file=True, location=data_name, size_threshold=1024)
 
 
-def quantize(onnx_dir: Path) -> list[str]:
+def _copy_onnx_pair(src: Path, dst: Path) -> None:
+    """Copy an ONNX file and its sibling external-data file if present."""
+    shutil.copy2(src, dst)
+    data = Path(str(src) + "_data")
+    if data.is_file():
+        shutil.copy2(data, Path(str(dst) + "_data"))
+
+
+def quantize(onnx_dir: Path, *, export_already_fp16: bool = False) -> list[str]:
     import onnx
     from onnxruntime.quantization import QuantType, quantize_dynamic
 
@@ -101,14 +111,16 @@ def quantize(onnx_dir: Path) -> list[str]:
         raise FileNotFoundError(onnx_dir)
     base = next((p for p in bases if p.name == "model.onnx"), bases[0])
     if base.name != "model.onnx":
-        shutil.copy2(base, onnx_dir / "model.onnx")
-        data = Path(str(base) + "_data")
-        if data.is_file():
-            shutil.copy2(data, onnx_dir / "model.onnx_data")
+        _copy_onnx_pair(base, onnx_dir / "model.onnx")
         base = onnx_dir / "model.onnx"
     logs: list[str] = []
     model = onnx.load(str(base), load_external_data=True)
-    if onnx_float16 is not None:
+    # 4B is exported as fp16 via main_export(dtype=fp16); converting again
+    # hits protobuf EncodeError / "already float16". Treat the export as fp16.
+    if export_already_fp16:
+        _copy_onnx_pair(base, onnx_dir / "model_fp16.onnx")
+        logs.append("fp16:ok(copied-from-export)")
+    elif onnx_float16 is not None:
         try:
             save_onnx_external(onnx_float16.convert_float_to_float16(model, keep_io_types=True),
                                onnx_dir / "model_fp16.onnx")
@@ -129,10 +141,16 @@ def quantize(onnx_dir: Path) -> list[str]:
         q4_model = quantizer.model.model
         save_onnx_external(q4_model, onnx_dir / "model_q4.onnx")
         logs.append("q4:ok")
-        if onnx_float16 is not None:
+        if export_already_fp16:
+            # Weights already float16: q4 graph is the q4f16 artifact.
+            _copy_onnx_pair(onnx_dir / "model_q4.onnx", onnx_dir / "model_q4f16.onnx")
+            logs.append("q4f16:ok(copied-from-q4)")
+        elif onnx_float16 is not None:
             try:
-                save_onnx_external(onnx_float16.convert_float_to_float16(q4_model, keep_io_types=True),
-                                   onnx_dir / "model_q4f16.onnx")
+                save_onnx_external(
+                    onnx_float16.convert_float_to_float16(
+                        q4_model, keep_io_types=True, check_fp16_ready=False),
+                    onnx_dir / "model_q4f16.onnx")
                 logs.append("q4f16:ok")
             except Exception as exc:  # noqa: BLE001
                 logs.append(f"q4f16:{exc}")
@@ -175,7 +193,8 @@ def convert_one(src: str, sha: str, dst: str, token: str) -> None:
     for name in ("config.json", "generation_config.json"):
         if (export_tmp / name).is_file():
             shutil.copy2(export_tmp / name, out_dir / name)
-    logs = quantize(onnx_dir)
+    logs = quantize(onnx_dir, export_already_fp16=export_dtype == "fp16")
+    print(f"QUANT_LOGS {logs}", flush=True)
 
     # Per-dtype eval (CPU) + eval-gated private publish via publish_quant.py.
     from importlib.metadata import version as pkg_version
@@ -200,8 +219,13 @@ def convert_one(src: str, sha: str, dst: str, token: str) -> None:
         if not (onnx_dir / fname).is_file():
             print(f"EVAL_SKIP {dtype}: {fname} not produced ({logs})", flush=True)
             continue
-        run([sys.executable, str(evaluator), "--onnx-dir", str(out_dir), "--file", fname,
-             "--dtype", dtype, "--out", str(eval_dir / f"{dtype}_onnx_eval.json")])
+        cmd = [sys.executable, str(evaluator), "--onnx-dir", str(out_dir), "--file", fname,
+               "--dtype", dtype, "--out", str(eval_dir / f"{dtype}_onnx_eval.json")]
+        print("+", " ".join(cmd), flush=True)
+        # Soft-fail: a single dtype eval crash must not discard other passing
+        # dtypes; publish_quant.py still fails closed if nothing passes.
+        rc = subprocess.run(cmd, check=False).returncode
+        print(f"EVAL_RC {dtype}={rc}", flush=True)
     cfg_path = out_dir / "config.json"
     if cfg_path.is_file():
         cfg = json.loads(cfg_path.read_text())
